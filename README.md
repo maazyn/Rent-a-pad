@@ -1,8 +1,8 @@
-# `<name of application here>`
+# `Airbnb Backend`
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![db schema](<Screenshot 2024-04-13 at 4.01.33 PM.png>)
 
 ## API Documentation
 
@@ -83,7 +83,7 @@ Returns the information about the current user that is logged in.
     }
     ```
 
-### Log In a User   
+### Log In a User
 
 Logs in a current user with valid credentials and returns the current user's
 information.
@@ -1095,7 +1095,7 @@ Create and return a new booking from a spot specified by id.
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: POST
-  * URL: /api/:userId/spots/:spotId/bookings
+  * URL: /api/spots/:spotId/bookings
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1177,7 +1177,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL: /api/:userId/bookings/:bookingId
+  * URL: /api/bookings/:bookingId
   * Headers:
     * Content-Type: application/json
   * Body:
