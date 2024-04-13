@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![db schema](<Screenshot 2024-04-13 at 4.01.33 PM.png>)
+![db schema](<./images/schema.png>)
 
 ## API Documentation
 
