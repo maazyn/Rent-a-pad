@@ -1,4 +1,4 @@
-# `Airbnb Backend`
+# `Rent-a-pad Backend`
 
 ## Database Schema Design
 
