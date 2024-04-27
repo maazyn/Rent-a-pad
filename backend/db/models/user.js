@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     firstName: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
       validate: {
         isAlpha: true,
       }
     },
     lastName: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
       validate: {
         isAlpha: true
       }
@@ -41,7 +41,12 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         len: [3, 256],
-        isEmail: true
+        isEmail: true,
+        emailExists(value) {
+          if (value) {
+            throw new Error("Email already exists.");
+          }
+        }
       }
     },
     hashedPassword: {
@@ -54,11 +59,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
-    // defaultScope: {
-    //   attributes: {
-    //     exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
-    //   }
-    // }
+    defaultScope: {
+      attributes: {
+        exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+      }
+    }
   });
   return User;
 };
