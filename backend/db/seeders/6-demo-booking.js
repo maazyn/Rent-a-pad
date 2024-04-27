@@ -10,24 +10,24 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Review.bulkCreate([
+    await Booking.bulkCreate([
       {
         userId: 1,
         spotId: 1,
-        startDate: new Date('2023-12-25'),
-        endDate: new Date('2024-01-02'),
+        startDate: '2023-12-25',
+        endDate: '2024-01-02',
       },
       {
         userId: 2,
         spotId: 1,
-        startDate: new Date('2024-04-01'),
-        endDate: new Date('2024-04-14'),
+        startDate: '2024-04-01',
+        endDate: '2024-04-14',
       },
       {
         userId: 2,
         spotId: 3,
-        startDate: new Date('2024-04-19'),
-        endDate: new Date('2024-04-26'),
+        startDate: '2024-04-19',
+        endDate: '2024-04-26',
       },
     ], { validate: true })
   },

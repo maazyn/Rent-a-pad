@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model, Validator
-} = require('sequelize');
+const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     static associate(models) {
@@ -28,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        valiDate() {
-          if (!Validator.isBefore(this.endDate)) {
-            throw new Error ("Start date cannot be after end date");
-          };
+        valiDate(date) {
+          if (date >= this.endDate) {
+            throw new Error("Start date must come before start date.");
+          }
         }
       }
     },
@@ -39,10 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        valiDate() {
-          if (!Validator.isAfter(this.startDate)) {
-            throw new Error ("End date cannot come before start date");
-          };
+        valiDate(date) {
+          if (date <= this.startDate) {
+            throw new Error("End date must be after start date.");
+          }
         }
       }
     },

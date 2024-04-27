@@ -7,10 +7,10 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Spot, {
         foreignKey: "ownerId"
       })
-      User.hasMany(models.Booking, {
+      User.hasMany(models.Review, {
         foreignKey: "userId",
       });
-      User.hasMany(models.Review, {
+      User.hasMany(models.Booking, {
         foreignKey: "userId",
       });
     }
@@ -50,11 +50,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [3, 256],
         isEmail: true,
-        emailExists(value) {
-          if (value) {
-            throw new Error("Email already exists.");
-          }
-        }
       }
     },
     hashedPassword: {
