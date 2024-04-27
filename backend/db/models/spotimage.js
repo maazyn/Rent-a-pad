@@ -1,15 +1,12 @@
 'use strict';
-const {
-  Model, Validator
-} = require('sequelize');
+const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class SpotImage extends Model {
     static associate(models) {
-      SpotImages.belongsTo(models.Spot, {
+      SpotImage.belongsTo(models.Spot, {
         foreignKey: 'spotId',
         onDelete: 'CASCADE',
       });
-
     }
   }
   SpotImage.init({

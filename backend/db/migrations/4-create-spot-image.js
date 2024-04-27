@@ -30,7 +30,8 @@ module.exports = {
         type: Sequelize.STRING,
       },
       preview: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
@@ -43,9 +44,17 @@ module.exports = {
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       }
     }, options);
+
+    // await queryInterface.addConstraint('SpotImages', {
+    //   fields: ["spotId", "preview"],
+    //   type: "unique",
+    //   name: "one_preview_per_spot",
+    //   where: { preview: true },
+    // });
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "SpotImages"
+    // await queryInterface.removeConstraint("SpotImages", "one_preview_per_spot");
     await queryInterface.dropTable(options);
   }
 };

@@ -44,8 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isNumeric: true,
-        min: 1,
-        max: 5,
         starCheck(value) {
           if (value < 1 || value > 5) {
             throw new Error ("Rating must be between 1 and 5");
