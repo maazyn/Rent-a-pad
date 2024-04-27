@@ -30,10 +30,28 @@ module.exports = (sequelize, DataTypes) => {
     review: {
       type: DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        len: [2, 300],
+        minLength(value) {
+          if (value.length < 2) {
+            throw new Error("Review must be at least 2 characters long");
+          }
+        }
+      },
     },
     stars: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        min: 1,
+        max: 5,
+        starCheck(value) {
+          if (value < 1 || value > 5) {
+            throw new Error ("Rating must be between 1 and 5");
+          }
+        }
+      },
     },
   }, {
     sequelize,

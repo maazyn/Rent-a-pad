@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Validator
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class SpotImage extends Model {
@@ -23,14 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         urlCheck(value) {
           if (!Validator.isURL(value)) {
-            throw new Error ("Must be a URL")
+            throw new Error ("Must be a valid URL")
           }
         }
       }
     },
     preview: {
       type: DataTypes.BOOLEAN,
-
     },
   }, {
     sequelize,

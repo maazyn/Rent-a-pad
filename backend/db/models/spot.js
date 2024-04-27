@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [4, 80]
+        len: [4, 80],
       }
     },
     city: {
@@ -48,16 +48,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
-        min: -90,
-        max: 90
+        rangeCheck(value) {
+          if (isNaN(value) || value > 90 || value < -90)
+          throw new Error("Latitude must be a number between 90 and -90")
+        }
       },
     },
     lng: {
       type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
-        min: -180,
-        max: 180
+       rangeCheck(value) {
+          if (isNaN(value) || value > 180 || value < -180)
+          throw new Error("Longitude must be a number between 180 and -180")
+        }
       },
     },
     name: {
@@ -75,7 +79,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false,
       validate: {
-        min: 0,
+        isNumeric: true,
+        priceMin(value) {
+          if (value <= 0) {
+            throw new Error("Price must be greater than $0")
+          }
+        }
       }
     },
   }, {

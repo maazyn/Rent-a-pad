@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Validator
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class ReviewImage extends Model {
@@ -19,6 +19,13 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.STRING,
       allowNull:false,
+      validate: {
+        urlCheck(value) {
+          if (!Validator.isURL(value)) {
+            throw new Error('Must be a valid URL');
+          }
+        },
+      }
     },
   }, {
     sequelize,
