@@ -22,6 +22,7 @@ const getAvgRating = async () => {
 
 
 
+//Find all spots
 router.get('/', async (req, res) => {
     try {
       const avgRating = await getAvgRating();
@@ -68,6 +69,7 @@ router.get('/', async (req, res) => {
 
 
 
+//Find all spots of a logged in user
 router.get("/current", async (req, res) => {
   try {
     const { user } = req;
@@ -115,6 +117,7 @@ router.get("/current", async (req, res) => {
 });
 
 
+//Find a Spot with a specified Id
 router.get("/:spotId", async (req, res) => {
   try {
     const { spotId } = req.params;
@@ -148,6 +151,58 @@ router.get("/:spotId", async (req, res) => {
     return res.status(500).json({ message: 'An error occurred while fetching the spots.' });
   }
 })
+
+
+
+//Creates and returns a new spot.
+router.post("/", async (req, res) => {
+  try {
+    const { user } = req;
+    if (user) {
+      const { address, city, state, country, lat, lng, name, description, price } = req.body;
+      const newSpot = await Spot.create({
+        ownerId: user.id,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+      })
+      const theSpot = await Spot.findOne({
+        where: {
+          id: newSpot.id
+        },
+        attributes: [
+          "id",
+          "ownerId",
+          "address",
+          "city",
+          "state",
+          "country",
+          "lat",
+          "lng",
+          "name",
+          "description",
+          "price",
+          "createdAt",
+          "updatedAt",
+        ],
+      })
+      return res.status(201).json({ spot: theSpot });
+    } else {
+      return res.status(403).json({ message: "Unauthorized" });
+    };
+  } catch (error) {
+    console.error('Error fetching Owner"s spots:', error);
+    return res.status(500).json({ message: 'An error occurred while creating the spot.' });
+  }
+});
+
+
 
 
 
