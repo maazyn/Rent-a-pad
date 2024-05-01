@@ -1,5 +1,5 @@
 const express = require('express')
-const { Review, Spot, SpotImage } = require('../../db/models');
+const { Review, ReviewImage, Spot, User } = require('../../db/models');
 
 
 const { check } = require('express-validator');
@@ -19,51 +19,59 @@ const router = express.Router();
 
 
 
+
 //Returns all the reviews written by the current user.
 router.get("/current", async (req, res) => {
     try {
       const { user } = req;
       if (user) {
-        const ownerSpots = await Spot.findAll({
-          where: { ownerId: user.id },
+        const userReviews = await Review.findAll({
+          where: { userId: user.id },
           order: [["createdAt", "ASC"]],
           attributes: [
             "id",
-            "ownerId",
-            "address",
-            "city",
-            "state",
-            "country",
-            "lat",
-            "lng",
-            "name",
-            "description",
-            "price",
+            "userId",
+            "spotId",
+            "review",
+            "stars",
             "createdAt",
             "updatedAt",
           ],
           include: [
             {
-              model: SpotImage,
-              attributes: ["url"],
-              where: { preview: true },
+              model: User,
+              attributes: ["id", "firstName", "lastName"],
+              where: { id: userReviews.userId },
+            },
+          ],
+          include: [
+            {
+              model: Spot,
+              attributes: ["id", "ownerId", "address", "city", "state", "country", "lat", "lng", "name", "description", "price", "previewImage"],
+              where: { spotId: userReviews.spotId },
+            },
+          ],
+          include: [
+            {
+              model: ReviewImage,
+              attributes: ["id", "url"],
+              where: { reviewId: userReviews.id },
               required: false,
             },
           ],
         });
-        const spotsWithAvgRating = ownerSpots.map((spot) => {
-          spot.dataValues.avgRating = avgRating;
-          return spot;
-        });
-        return res.status(200).json({ spots: spotsWithAvgRating });
+        return res.status(200).json({ userReviews: userReviews });
       } else {
         return res.status(403).json({ message: "Unauthorized" });
       };
     } catch (error) {
       console.error('Error fetching Owner"s spots:', error);
-      return res.status(500).json({ message: "An error occurred while fetching the spots"});
+      return res.status(500).json({ message: "An error occurred while fetching the reviews"});
     }
-  });
+});
+
+
+
 
 
   module.exports = router;
