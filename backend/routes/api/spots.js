@@ -1,13 +1,40 @@
 const express = require('express')
-const { Op } = require('sequelize');
-const bcrypt = require('bcryptjs');
-
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Review, Spot, SpotImage } = require('../../db/models');
+const { Review, Spot, SpotImage } = require('../../db/models');
 
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const validateSpot = [
+  check('address')
+    .isString().notEmpty()
+    .withMessage("Street address is required"),
+  check('city')
+    .isString().notEmpty()
+    .withMessage("City is required"),
+  check('state')
+    .isString()
+    .withMessage("State is required"),
+  check('country')
+    .isString().notEmpty()
+    .withMessage("Country is required"),
+  check('lat')
+    .isFloat({ min: -90, max: 90 })
+    .withMessage("Latitude must be within -90 and 90"),
+  check('lng')
+    .isFloat({ min: -180, max: 180 })
+    .withMessage("Longitude must be within -180 and 180"),
+  check('name')
+    .isString().isLength({ max: 50 })
+    .withMessage("Name must be less than 50 characters"),
+  check('description')
+    .isString().notEmpty()
+    .withMessage("Description is required"),
+  check('price')
+    .isFloat({ min: 0 })
+    .withMessage("Price per day must be a positive number"),
+  handleValidationErrors
+];
+
 
 const router = express.Router();
 
@@ -62,7 +89,7 @@ router.get('/', async (req, res) => {
 
     } catch (error) {
       console.error('Error fetching spots:', error);
-      return res.status(500).json({ message: 'An error occurred while fetching the spots.' });
+      return res.status(500).json({ message: 'An error occurred while fetching the spots' });
     }
 });
 
@@ -112,7 +139,7 @@ router.get("/current", async (req, res) => {
     };
   } catch (error) {
     console.error('Error fetching Owner"s spots:', error);
-    return res.status(500).json({ message: 'An error occurred while fetching the spots.' });
+    return res.status(500).json({ message: 'An error occurred while fetching the spots' });
   }
 });
 
@@ -147,7 +174,7 @@ router.get("/:spotId", async (req, res) => {
       return res.status(404).json({ message: "Spot couldn't be found" });
     };
   } catch (error) {
-    console.error('Error fetching Owner"s spots:', error);
+    console.error('Error fetching spots:', error);
     return res.status(500).json({ message: 'An error occurred while fetching the spots.' });
   }
 })
@@ -155,27 +182,114 @@ router.get("/:spotId", async (req, res) => {
 
 
 //Creates and returns a new spot.
-router.post("/", async (req, res) => {
+router.post("/", validateSpot, async (req, res) => {
+  const { user } = req;
+  if (user) {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const newSpot = await Spot.create({
+      ownerId: user.id,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
+    })
+    const theSpot = await Spot.findOne({
+      where: {
+        id: newSpot.id
+      },
+      attributes: [
+        "id",
+        "ownerId",
+        "address",
+        "city",
+        "state",
+        "country",
+        "lat",
+        "lng",
+        "name",
+        "description",
+        "price",
+        "createdAt",
+        "updatedAt",
+      ],
+    })
+    return res.status(201).json({ spot: theSpot });
+  } else {
+    return res.status(403).json({ message: "Unauthorized" });
+  };
+
+});
+
+
+
+//Create and return a new image for a spot specified by id.
+router.post("/:spotId/images", async (req, res) => {
   try {
     const { user } = req;
+    const spotId = req.params.spotId;
     if (user) {
+      const spot = await Spot.findByPk(spotId);
+      if (spot) {
+        const { url, preview } = req.body;
+        const newSpotImage = await SpotImage.create({
+          spotId,
+          url,
+          preview
+        })
+        const theSpotImage = await SpotImage.findByPk(newSpotImage.id, {
+          attributes: [
+            "id",
+            "url",
+            "preview",
+          ],
+        })
+        return res.status(200).json({ spotImage: theSpotImage });
+      } else {
+        return res.status(404).json({ message: "Spot couldn't be found"})
+      }
+    } else {
+      return res.status(403).json({ message: "Unauthorized" });
+    };
+  } catch (error) {
+    console.error('Error fetching Owner"s spots:', error);
+    return res.status(500).json({ message: "An error occurred while creating the spot image" });
+  }
+});
+
+
+//Updates and returns an existing spot.
+router.put("/:spotId", validateSpot, async (req, res) => {
+  const { user } = req;
+  const spotId = req.params.spotId;
+  if (user) {
+    const spot = await Spot.findByPk(spotId);
+    if (spot) {
+      const theSpot = await Spot.findByPk(spotId);
       const { address, city, state, country, lat, lng, name, description, price } = req.body;
-      const newSpot = await Spot.create({
-        ownerId: user.id,
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price
-      })
-      const theSpot = await Spot.findOne({
-        where: {
-          id: newSpot.id
-        },
+
+      if (address) theSpot.address = address;
+      if (city) theSpot.city = city;
+      if (state) theSpot.state = state;
+      if (country) theSpot.country = country;
+      if (lat) theSpot.lat = lat;
+      if (lng) theSpot.lng = lng;
+      if (name) theSpot.name = name;
+      if (description) theSpot.description = description;
+      if (price) theSpot.price = price;
+
+      // for (const attribute in req.body) {
+      //   if (req.body[attribute] !== undefined) {
+      //     theSpot[attribute] = req.body[attribute];
+      //   }
+      // }
+      await theSpot.save()
+
+      const updatedSpot = await Spot.findByPk(theSpot.id, {
         attributes: [
           "id",
           "ownerId",
@@ -189,17 +303,37 @@ router.post("/", async (req, res) => {
           "description",
           "price",
           "createdAt",
-          "updatedAt",
+          "updatedAt"
         ],
       })
-      return res.status(201).json({ spot: theSpot });
+      return res.status(200).json({ updatedSpot: updatedSpot });
     } else {
-      return res.status(403).json({ message: "Unauthorized" });
-    };
-  } catch (error) {
-    console.error('Error fetching Owner"s spots:', error);
-    return res.status(500).json({ message: 'An error occurred while creating the spot.' });
-  }
+      return res.status(404).json({ message: "Spot couldn't be found"})
+    }
+  } else {
+    return res.status(403).json({ message: "Unauthorized" });
+  };
+});
+
+
+
+//Deletes an existing spot.
+router.delete("/:spotId", async (req, res) => {
+  const { user } = req;
+  const spotId = req.params.spotId;
+  if (user) {
+    const spot = await Spot.findByPk(spotId);
+    if (spot) {
+      const theSpot = await Spot.findByPk(spotId);
+      theSpot.destroy()
+
+      return res.status(200).json({ "message": "Successfully deleted" });
+    } else {
+      return res.status(404).json({ message: "Spot couldn't be found"})
+    }
+  } else {
+    return res.status(403).json({ message: "Unauthorized" });
+  };
 });
 
 
