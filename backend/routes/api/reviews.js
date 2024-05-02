@@ -1,4 +1,5 @@
 const express = require('express')
+const { restoreUser, requireAuth } = require('../../utils/auth');
 const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 
 
@@ -69,30 +70,79 @@ router.get("/current", async (req, res) => {
 });
 
 
+//authz works
 //Create and return a new image for a review specified by id.
-
-
-//Update and return an existing review.
-
-
-//Delete an existing review.
-router.delete("/:spotId", async (req, res) => {
+router.post("/:reviewId/images", validateReview, requireAuth, async (req, res) => {
+    const { reviewId } = req.params;
     const { user } = req;
-    const spotId = req.params.spotId;
-    if (user) {
-      const spot = await Spot.findByPk(spotId);
-      if (spot) {
-        const theSpot = await Spot.findByPk(spotId);
-        theSpot.destroy()
+    const review = await Review.findByPk(reviewId);
+    if (user && review.userId == user.id) {
+        if (review) {
+            const count = ReviewImage.count({
+                where: {reviewId}
+            })
+            if (count >= 10) {
+                return res.status(403).json({ message: "Maximum number of images for this resource was reached" })
+            } else {
+                const { url } = req.body;
+                const newImage = await ReviewImage.create({
+                    reviewId,
+                    url
+                })
+                return res.status(200).json({ newImage: newImage})
+            }
+        } else {
+            return res.json.status(404).json({ message: "Review couldn't be found" })
+        }
+    } else {
+        return res.status(403).json({ message: "Unauthorized" });
+    }
+})
 
+
+
+//authz works
+//Update and return an existing review.
+router.put("/:reviewId", validateReview, requireAuth, async (req, res) => {
+    const { user } = req;
+    const reviewId = req.params.reviewId;
+    const theReview = await Review.findByPk(reviewId);
+    if (!theReview) {
+      return res.status(404).json({ message: "Spot couldn't be found"})
+    }
+
+    if (user && theReview.userId == user.id) {
+        const { review, stars } = req.body;
+        if (review) theReview.review = review;
+        if (stars) theReview.stars = stars;
+
+        await theReview.save()
+
+        return res.status(200).json({ updatedReview: theReview });
+    } else {
+        return res.status(403).json({ message: "Forbidden" });
+    };
+  });
+
+
+
+//authz works
+//Delete an existing review.
+router.delete("/:reviewId", requireAuth, async (req, res) => {
+    const { user } = req;
+    const reviewId = req.params.reviewId;
+    const review = await Review.findByPk(reviewId);
+    if (user && review.userId == user.id) {
+      if (review) {
+        review.destroy()
         return res.status(200).json({ message: "Successfully deleted" });
       } else {
-        return res.status(404).json({ message: "Spot couldn't be found"})
+        return res.status(404).json({ message: "Review couldn't be found"})
       }
     } else {
       return res.status(403).json({ message: "Unauthorized" });
     };
-  });
+});
 
 
   module.exports = router;

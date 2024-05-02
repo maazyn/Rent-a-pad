@@ -73,5 +73,22 @@ const requireAuth = function (req, _res, next) {
     return next(err);
 }
 
+// If current user is not authorized, return an error
+// const requireAuthZ = function (req, _res, next) {
+//   const { token } = req.cookies;
+//   req.user = null;
+
+//   return jwt.verify(token, secret, null, async (err, jwtPayload) => {
+//     if (err) {
+//       return next();
+//     }
+
+//   const err = new Error('Authorization required');
+//   err.title = 'Authorization required';
+//   err.errors = { message: 'Authorization required' };
+//   err.status = 403;
+//   return next(err);
+// }
+
 
 module.exports = { setTokenCookie, restoreUser, requireAuth };

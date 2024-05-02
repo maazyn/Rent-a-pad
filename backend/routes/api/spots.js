@@ -1,6 +1,6 @@
 const express = require('express')
+const { restoreUser, requireAuth } = require('../../utils/auth');
 const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
-
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -143,7 +143,7 @@ router.get("/current", async (req, res) => {
       });
       return res.status(200).json({ spots: spotsWithAvgRating });
     } else {
-      return res.status(403).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Authentication required" });
     };
   } catch (error) {
     console.error('Error fetching Owner"s spots:', error);
@@ -206,62 +206,37 @@ router.post("/", validateSpot, async (req, res) => {
       description,
       price
     })
-    const theSpot = await Spot.findOne({
-      where: {
-        id: newSpot.id
-      },
-      attributes: [
-        "id",
-        "ownerId",
-        "address",
-        "city",
-        "state",
-        "country",
-        "lat",
-        "lng",
-        "name",
-        "description",
-        "price",
-        "createdAt",
-        "updatedAt",
-      ],
-    })
-    return res.status(201).json({ spot: theSpot });
+
+    return res.status(201).json({ spot: newSpot });
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Authentication required" });
   };
 
 });
 
 
-
+//authz works
 //Create and return a new image for a spot specified by id.
-router.post("/:spotId/images", async (req, res) => {
+router.post("/:spotId/images", requireAuth, async (req, res) => {
   try {
     const { user } = req;
     const spotId = req.params.spotId;
-    if (user) {
-      const spot = await Spot.findByPk(spotId);
-      if (spot) {
-        const { url, preview } = req.body;
-        const newSpotImage = await SpotImage.create({
-          spotId,
-          url,
-          preview
-        })
-        const theSpotImage = await SpotImage.findByPk(newSpotImage.id, {
-          attributes: [
-            "id",
-            "url",
-            "preview",
-          ],
-        })
-        return res.status(200).json({ spotImage: theSpotImage });
-      } else {
-        return res.status(404).json({ message: "Spot couldn't be found"})
-      }
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    if ( user && spot.ownerId == user.id) {
+      const { url, preview } = req.body;
+      const newSpotImage = await SpotImage.create({
+        spotId,
+        url,
+        preview
+      })
+
+      return res.status(200).json({ spotImage: newSpotImage });
     } else {
-      return res.status(403).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Forbidden" });
     };
   } catch (error) {
     console.error('Error fetching Owner"s spots:', error);
@@ -270,12 +245,13 @@ router.post("/:spotId/images", async (req, res) => {
 });
 
 
+//authz works
 //Updates and returns an existing spot.
-router.put("/:spotId", validateSpot, async (req, res) => {
+router.put("/:spotId", validateSpot, requireAuth, async (req, res) => {
   const { user } = req;
   const spotId = req.params.spotId;
-  if (user) {
-    const spot = await Spot.findByPk(spotId);
+  const spot = await Spot.findByPk(spotId);
+  if (user && spot.ownerId == user.id) {
     if (spot) {
       const theSpot = await Spot.findByPk(spotId);
       const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -297,40 +273,23 @@ router.put("/:spotId", validateSpot, async (req, res) => {
       // }
       await theSpot.save()
 
-      const updatedSpot = await Spot.findByPk(theSpot.id, {
-        attributes: [
-          "id",
-          "ownerId",
-          "address",
-          "city",
-          "state",
-          "country",
-          "lat",
-          "lng",
-          "name",
-          "description",
-          "price",
-          "createdAt",
-          "updatedAt"
-        ],
-      })
-      return res.status(200).json({ updatedSpot: updatedSpot });
+      return res.status(200).json({ updatedSpot: theSpot });
     } else {
       return res.status(404).json({ message: "Spot couldn't be found"})
     }
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(403).json({ message: "Forbidden" });
   };
 });
 
 
-
+//authz works
 //Deletes an existing spot.
-router.delete("/:spotId", async (req, res) => {
+router.delete("/:spotId", requireAuth, async (req, res) => {
   const { user } = req;
   const spotId = req.params.spotId;
-  if (user) {
-    const spot = await Spot.findByPk(spotId);
+  const spot = await Spot.findByPk(spotId);
+  if (user && spot.ownerId == user.id) {
     if (spot) {
       const theSpot = await Spot.findByPk(spotId);
       theSpot.destroy()
@@ -340,7 +299,7 @@ router.delete("/:spotId", async (req, res) => {
       return res.status(404).json({ message: "Spot couldn't be found"})
     }
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(403).json({ message: "Forbidden" });
   };
 });
 
@@ -377,46 +336,32 @@ router.get("/:spotId/reviews", async (req, res) => {
 //Create and return a new review for a spot specified by id.
 router.post("/:spotId/reviews", validateReview, async (req, res) => {
   const { user } = req;
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId , {
+    include: [{model: Review}]
+  });
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
   if (user) {
-    const spotId = req.params.spotId;
-    const spot = await Spot.findByPk(spotId, {
-      include: [{model: Review}]
+    const checkReview = await Review.findOne({
+      where: {spotId}
     });
-    if (spot) {
-      const checkReview = await Review.findOne({
-        where: {spotId}
+    if (!checkReview) {
+      const { review, stars } = req.body;
+      const newReview = await Review.create({
+        userId: user.id,
+        spotId,
+        review,
+        stars,
       });
-      if (!checkReview) {
-        const { review, stars } = req.body;
-        const newReview = await Review.create({
-          userId: user.id,
-          spotId,
-          review,
-          stars,
-        });
-        const createdReview = await Review.findOne({
-          where: {
-            id: newReview.id
-          },
-          attributes: [
-            "id",
-            "userId",
-            "spotId",
-            "review",
-            "stars",
-            "createdAt",
-            "updatedAt",
-          ],
-        })
-        return res.status(201).json({ createdReview: createdReview });
-      } else {
-        return res.status(500).json({ message: "User already has a review for this spot" });
-      }
+      return res.status(201).json({ createdReview: newReview });
     } else {
-      return res.status(404).json({ message: "Spot couldn't be found" });
+      return res.status(500).json({ message: "User already has a review for this spot" });
     }
   } else {
-    return res.status(403).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Authentication required" });
   }
 });
 
