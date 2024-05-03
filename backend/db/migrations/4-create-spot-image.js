@@ -45,15 +45,15 @@ module.exports = {
       }
     }, options);
 
-    await queryInterface.addConstraint('SpotImages', {
-      fields: ["spotId", "preview"],
-      type: "unique",
-      name: "one_preview_per_spot",
-      where: { preview: true },
-    });
+    // await queryInterface.addConstraint('SpotImages', {
+    //   fields: ["spotId", "preview"],
+    //   type: "unique",
+    //   name: "one_preview_per_spot",
+    //   where: { preview: true },
+    // });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeConstraint("SpotImages", "one_preview_per_spot");
+    // await queryInterface.removeConstraint("SpotImages", "one_preview_per_spot");
     options.tableName = "SpotImages"
     await queryInterface.dropTable(options);
   }
