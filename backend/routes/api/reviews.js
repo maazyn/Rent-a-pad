@@ -77,7 +77,7 @@ router.post("/:reviewId/images", validateReview, requireAuth, async (req, res) =
     const { reviewId } = req.params;
     const { user } = req;
     const review = await Review.findByPk(reviewId);
-    if (user && review.userId == user.id) {
+    if (user && review.userId === user.id) {
         if (review) {
             const count = ReviewImage.count({
                 where: {reviewId}
@@ -112,7 +112,7 @@ router.put("/:reviewId", validateReview, requireAuth, async (req, res) => {
       return res.status(404).json({ message: "Spot couldn't be found"})
     }
 
-    if (user && theReview.userId == user.id) {
+    if (user && theReview.userId === user.id) {
         const { review, stars } = req.body;
         if (review) theReview.review = review;
         if (stars) theReview.stars = stars;
@@ -133,7 +133,7 @@ router.delete("/:reviewId", requireAuth, async (req, res) => {
     const { user } = req;
     const reviewId = req.params.reviewId;
     const review = await Review.findByPk(reviewId);
-    if (user && review.userId == user.id) {
+    if (user && review.userId === user.id) {
       if (review) {
         review.destroy()
         return res.status(200).json({ message: "Successfully deleted" });

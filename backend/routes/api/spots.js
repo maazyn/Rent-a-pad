@@ -226,7 +226,7 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
       return res.status(404).json({ message: "Spot couldn't be found" });
     }
 
-    if ( user && spot.ownerId == user.id) {
+    if ( user && spot.ownerId === user.id) {
       const { url, preview } = req.body;
       const newSpotImage = await SpotImage.create({
         spotId,
@@ -251,7 +251,7 @@ router.put("/:spotId", validateSpot, requireAuth, async (req, res) => {
   const { user } = req;
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
-  if (user && spot.ownerId == user.id) {
+  if (user && spot.ownerId === user.id) {
     if (spot) {
       const theSpot = await Spot.findByPk(spotId);
       const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -289,7 +289,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
   const { user } = req;
   const spotId = req.params.spotId;
   const spot = await Spot.findByPk(spotId);
-  if (user && spot.ownerId == user.id) {
+  if (user && spot.ownerId === user.id) {
     if (spot) {
       const theSpot = await Spot.findByPk(spotId);
       theSpot.destroy()
