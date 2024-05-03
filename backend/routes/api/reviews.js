@@ -12,6 +12,7 @@ const validateReview = [
   check('stars')
     .isNumeric({ min: 1, max: 5 }).notEmpty()
     .withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
 ];
 
 
@@ -61,7 +62,7 @@ router.get("/current", async (req, res) => {
         });
         return res.status(200).json({ userReviews: userReviews });
       } else {
-        return res.status(403).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: "Authentication required" });
       };
     } catch (error) {
       console.error('Error fetching Owner"s spots:', error);
