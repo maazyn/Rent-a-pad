@@ -7,12 +7,14 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const validateReview = [
   check('review')
-    .isString().isLength({ min: 2 })
+    .isString()
+    .isLength({ min: 2 })
     .withMessage("Review text is required"),
   check('stars')
-    .isNumeric({ min: 1, max: 5 }).notEmpty()
+    .isNumeric({ min: 1, max: 5 })
+    .notEmpty()
     .withMessage("Stars must be an integer from 1 to 5"),
-    handleValidationErrors
+  handleValidationErrors
 ];
 
 
@@ -106,16 +108,17 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
 
 
 //authz works
+//error handling not perfect
 //Update and return an existing review.
 router.put("/:reviewId", validateReview, requireAuth, async (req, res) => {
     const { user } = req;
     const reviewId = req.params.reviewId;
     const theReview = await Review.findByPk(reviewId);
     if (!theReview) {
-      return res.status(404).json({ message: "Spot couldn't be found"})
+      return res.status(404).json({ message: "Review couldn't be found"})
     }
 
-    if (user && theReview.userId === user.id) {
+    if (theReview.userId === user.id) {
         const { review, stars } = req.body;
         if (review) theReview.review = review;
         if (stars) theReview.stars = stars;
@@ -126,26 +129,25 @@ router.put("/:reviewId", validateReview, requireAuth, async (req, res) => {
     } else {
         return res.status(403).json({ message: "Forbidden" });
     };
-  });
+});
 
 
 
 //authz works
 //Delete an existing review.
 router.delete("/:reviewId", requireAuth, async (req, res) => {
-    const { user } = req;
-    const reviewId = req.params.reviewId;
-    const review = await Review.findByPk(reviewId);
-    if (user && review.userId === user.id) {
-      if (review) {
-        review.destroy()
-        return res.status(200).json({ message: "Successfully deleted" });
-      } else {
-        return res.status(404).json({ message: "Review couldn't be found"})
-      }
-    } else {
-      return res.status(403).json({ message: "Unauthorized" });
-    };
+  const { user } = req;
+  const reviewId = req.params.reviewId;
+  const review = await Review.findByPk(reviewId);
+  if (!review) {
+    return res.status(404).json({ message: "Review couldn't be found"})
+  }
+  if ( review.userId === user.id ) {
+    review.destroy()
+    return res.status(200).json({ message: "Successfully deleted" });
+  } else {
+    return res.status(403).json({ message: "Forbidden" });
+  };
 });
 
 
