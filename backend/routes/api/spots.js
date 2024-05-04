@@ -1,6 +1,6 @@
 const express = require('express')
 const { requireAuth } = require('../../utils/auth');
-const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
+const { Booking, Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -42,6 +42,15 @@ const validateReview = [
   check('stars')
     .isFloat({ min: 1, max: 5 }).notEmpty()
     .withMessage("Stars must be an integer from 1 to 5"),
+];
+
+const validateBooking = [
+  check('startDate')
+    .isDate().notEmpty()
+    .withMessage("startDate cannot be in the past"),
+  check('endDate')
+    .isDate().notEmpty()
+    .withMessage("endDate cannot be on or before startDate"),
 ];
 
 const router = express.Router();
@@ -304,7 +313,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 });
 
 
-
+///////////Reviews
 //Returns all the reviews that belong to a spot specified by id.
 router.get("/:spotId/reviews", async (req, res) => {
   const spotId = req.params.spotId;
@@ -364,6 +373,83 @@ router.post("/:spotId/reviews", validateReview, async (req, res) => {
     return res.status(401).json({ message: "Authentication required" });
   }
 });
+
+
+///////////Bookings
+//Return all the bookings for a spot specified by id.
+router.get("/:spotId/bookings", requireAuth, async (req, res) => {
+  const { user } = req;
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId, {
+    include: [{model: Booking}]
+  });
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+  if ( user && spot.ownerId !== user.id) {
+    const clientBookings = await Booking.findAll({
+      where: {spotId},
+      order: [["startDate", "ASC"]],
+      attributes: [
+        "spotId",
+        "startDate",
+        "endDate",
+      ]
+    });
+    return res.status(200).json({ message: clientBookings });
+
+  } else if (spot.ownerId === user.id) {
+    const ownerBookings = await Booking.findAll({
+      where: {spotId},
+      include: [
+        {
+          model: User,
+          attributes: ["id", "firstName", "lastName"]
+        }
+      ],
+      order: [["startDate", "ASC"]],
+      attributes: [
+        "id",
+        "spotId",
+        "startDate",
+        "endDate",
+        "createdAt",
+        "updatedAt"
+      ]
+    });
+    return res.status(200).json({ message: ownerBookings });
+  } else {
+    return res.status(401).json({ message: "Authentication required" });
+  }
+});
+
+
+
+//authz
+//Add date and booking conflict error handling
+//Create and return a new booking from a spot specified by id.
+router.post("/:spotId/bookings", validateBooking, requireAuth, async (req, res) => {
+  const { user } = req;
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  if ( spot.ownerId !== user.id) {
+    const { startDate, endDate } = req.body;
+    const newBooking = await Booking.create({
+      spotId,
+      startDate,
+      endDate
+    })
+    return res.status(200).json({ newBooking: newBooking });
+  } else {
+    return res.status(403).json({ message: "Forbidden" });
+  };
+
+});
+
 
 
 
