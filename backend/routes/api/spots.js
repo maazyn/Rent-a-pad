@@ -48,11 +48,15 @@ const router = express.Router();
 
 
 
-//avgRating func
-const getAvgRating = async () => {
-  const starCount = await Review.count();
-  const starSum = await Review.sum("stars");
-  return starSum / starCount;
+//avgRating and previewImage funcs
+const getAvgRating = async (spotId) => {
+  const starCount = await Review.count({
+    where: {spotId}
+  });
+  const starSum = await Review.sum("stars", {
+    where: {spotId}
+  });
+  return starCount === 0? 0: starSum / starCount;
 };
 
 
@@ -60,8 +64,6 @@ const getAvgRating = async () => {
 //Find all spots
 router.get('/', async (req, res) => {
     try {
-      const avgRating = await getAvgRating();
-
       const spots = await Spot.findAll({
         order: [["createdAt", "ASC"]],
         attributes: [
@@ -79,21 +81,18 @@ router.get('/', async (req, res) => {
           "createdAt",
           "updatedAt",
         ],
-        include: [
-          {
-            model: SpotImage,
-            attributes: ["url"],
-            where: { preview: true },
-          },
-        ],
+        // include: [
+        //   {
+        //     model: SpotImage,
+        //     where: { preview: true },
+        //     attributes: ["url"],
+        //     required: false
+        //   },
+        // ],
       });
 
-      const spotsWithAvgRating = spots.map((spot) => {
-        spot.dataValues.avgRating = avgRating;
-        return spot;
-      });
 
-      return res.status(200).json({ Spots : spotsWithAvgRating });
+      return res.status(200).json({ Spots : spotsWithDetails });
 
     } catch (error) {
       console.error('Error fetching spots:', error);
