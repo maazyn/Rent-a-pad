@@ -439,7 +439,8 @@ router.post("/:spotId/bookings", validateBooking, requireAuth, async (req, res) 
   if ( spot.ownerId !== user.id) {
     const { startDate, endDate } = req.body;
     const newBooking = await Booking.create({
-      spotId,
+      spotId: spot.id,
+      userId: user.id,
       startDate,
       endDate
     })

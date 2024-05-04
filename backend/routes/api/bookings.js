@@ -12,6 +12,7 @@ const validateBooking = [
     check('endDate')
       .isDate().notEmpty()
       .withMessage("endDate cannot be on or before startDate"),
+    handleValidationErrors
   ];
 
 const router = express.Router();
@@ -27,13 +28,13 @@ router.get("/current", async (req, res) => {
         where: {userId: user.id},
         order: [["createdAt", "ASC"]],
         attributes: [
-        "id",
-        "spotId",
-        "userId",
-        "startDate",
-        "endDate",
-        "createdAt",
-        "updatedAt",
+            "id",
+            "spotId",
+            "userId",
+            "startDate",
+            "endDate",
+            "createdAt",
+            "updatedAt",
         ],
         include: [
         {
@@ -45,7 +46,8 @@ router.get("/current", async (req, res) => {
                 attributes: ["url"]
             }]
         },
-        ]
+        ],
+
     });
     return res.status(200).json({userBookings: userBookings})
 })
