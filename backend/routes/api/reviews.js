@@ -7,7 +7,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const validateReview = [
   check('review')
-    .isString().notEmpty()
+    .isString().isLength({ min: 2 })
     .withMessage("Review text is required"),
   check('stars')
     .isNumeric({ min: 1, max: 5 }).notEmpty()
@@ -17,8 +17,6 @@ const validateReview = [
 
 
 const router = express.Router();
-
-
 
 
 
@@ -73,28 +71,33 @@ router.get("/current", async (req, res) => {
 
 //authz works
 //Create and return a new image for a review specified by id.
-router.post("/:reviewId/images", validateReview, requireAuth, async (req, res) => {
+router.post("/:reviewId/images", requireAuth, async (req, res) => {
     const { reviewId } = req.params;
     const { user } = req;
     const review = await Review.findByPk(reviewId);
-    if (user && review.userId === user.id) {
-        if (review) {
-            const count = ReviewImage.count({
-                where: {reviewId}
-            })
-            if (count >= 10) {
-                return res.status(403).json({ message: "Maximum number of images for this resource was reached" })
-            } else {
-                const { url } = req.body;
-                const newImage = await ReviewImage.create({
-                    reviewId,
-                    url
-                })
-                return res.status(200).json({ newImage: newImage})
-            }
-        } else {
-            return res.json.status(404).json({ message: "Review couldn't be found" })
-        }
+    if (!review) {
+      return res.json.status(404).json({ message: "Review couldn't be found" })
+    }
+    if (review.userId === user.id) {
+      const count = await ReviewImage.count({
+          where: {reviewId}
+      })
+      if (count >= 10) {
+          return res.status(403).json({ message: "Maximum number of images for this resource was reached" })
+      } else {
+        const { url } = req.body;
+        const newImage = await ReviewImage.create({
+          reviewId,
+          url
+        })
+        const theImage = await ReviewImage.findByPk(newImage.id, {
+          attributes: [
+            "id",
+            "url"
+          ]
+        })
+        return res.status(200).json({ newImage: theImage})
+      };
     } else {
         return res.status(403).json({ message: "Unauthorized" });
     }
