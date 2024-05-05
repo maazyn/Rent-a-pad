@@ -1,5 +1,7 @@
 const express = require('express')
 const { requireAuth } = require('../../utils/auth');
+const { Op } = require('sequelize');
+
 const { Booking, Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 
 const { check } = require('express-validator');
@@ -45,13 +47,54 @@ const validateReview = [
     handleValidationErrors
 ];
 
+
+//Booking conflict checker func for startdate
+const startDateConflictChecker = async (startDate, {req}) => {
+  const spotId = req.params.spotId;
+  const conflicts = await Booking.findAll({
+      where: {
+          spotId,
+          [Op.and]: [
+              { startDate: {[Op.lte]: startDate } },
+              { endDate: {[Op.gte]: startDate} },
+          ],
+      },
+  });
+  if (conflicts.length > 0) {
+      throw new Error ("Sorry, this spot is already booked for the specified dates")
+  }
+};
+//Booking conflict checker func for enddate
+const endDateConflictChecker = async (endDate, {req}) => {
+  const spotId = req.params.spotId;
+  const conflicts = await Booking.findAll({
+      where: {
+          spotId,
+          [Op.and]: [
+              { startDate: {[Op.lte]: endDate} },
+              { endDate: {[Op.gte]: endDate} },
+          ],
+      },
+  });
+  if (conflicts.length > 0) {
+      throw new Error ("Sorry, this spot is already booked for the specified dates")
+  }
+};
+
 const validateBooking = [
   check('startDate')
     .isDate().notEmpty()
     .withMessage("startDate cannot be in the past"),
+  check('startDate')
+    .custom(startDateConflictChecker)
+    .withMessage("Start date conflicts with an existing booking"),
   check('endDate')
     .isDate().notEmpty()
     .withMessage("endDate cannot be on or before startDate"),
+  check('endDate')
+    .custom(endDateConflictChecker)
+    .withMessage("End date conflicts with an existing booking"),
+  handleValidationErrors
 ];
 
 const router = express.Router();
@@ -308,7 +351,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
     return res.status(404).json({ message: "Spot couldn't be found" });
   }
   if (theSpot.ownerId === user.id) {
-    theSpot.destroy()
+    await theSpot.destroy()
     return res.status(200).json({ message: "Successfully deleted" });
   } else {
     return res.status(403).json({ message: "Forbidden" });
@@ -389,7 +432,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   if (!spot) {
     return res.status(404).json({ message: "Spot couldn't be found" });
   }
-  if ( user && spot.ownerId !== user.id) {
+  if ( spot.ownerId !== user.id) {
     const clientBookings = await Booking.findAll({
       where: {spotId},
       order: [["startDate", "ASC"]],
@@ -399,7 +442,7 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
         "endDate",
       ]
     });
-    return res.status(200).json({ message: clientBookings });
+    return res.status(200).json({ clientBookings: clientBookings });
 
   } else if (spot.ownerId === user.id) {
     const ownerBookings = await Booking.findAll({
@@ -410,7 +453,6 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
           attributes: ["id", "firstName", "lastName"]
         }
       ],
-      order: [["startDate", "ASC"]],
       attributes: [
         "id",
         "spotId",
@@ -418,9 +460,21 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
         "endDate",
         "createdAt",
         "updatedAt"
-      ]
+      ],
+      order: [["startDate", "ASC"]],
     });
-    return res.status(200).json({ message: ownerBookings });
+    const orderedOwnerBookings = ownerBookings.map((booking) => {
+      return {
+        User: booking.User,
+        id: booking.id,
+        spotId: booking.spotId,
+        startDate: booking.startDate,
+        endDate: booking.endDate,
+        createdAt: booking.createdAt,
+        updatedAt: booking.updatedAt,
+      };
+    });
+    return res.status(200).json({ ownerBookings: orderedOwnerBookings });
   } else {
     return res.status(401).json({ message: "Authentication required" });
   }
