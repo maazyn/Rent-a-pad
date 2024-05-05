@@ -1,5 +1,5 @@
 const express = require('express')
-const { restoreUser, requireAuth } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 
 
