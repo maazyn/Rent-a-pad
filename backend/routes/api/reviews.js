@@ -11,8 +11,7 @@ const validateReview = [
     .isLength({ min: 2 })
     .withMessage("Review text is required"),
   check('stars')
-    .isNumeric({ min: 1, max: 5 })
-    .notEmpty()
+    .isInt({ min: 1, max: 5 })
     .withMessage("Stars must be an integer from 1 to 5"),
   handleValidationErrors
 ];
