@@ -97,6 +97,24 @@ const validateBooking = [
   handleValidationErrors
 ];
 
+const validateQueryParams = [
+  check('page').isInt({min: 1}).optional().withMessage("Page must be greater than or equal to 1"),
+  check('size').isInt({min: 1, max: 20}).optional().withMessage("Size must be between 1 and 20"),
+  check('maxLat').isFloat().optional().withMessage("Maximum latitude is invalid"),
+  check('minLat').isFloat().optional().withMessage("Minimum latitude is invalid"),
+  check('minLng').isFloat().optional().withMessage("Minimum longitude is invalid"), //api doc error lol
+  check('maxLng').isFloat().optional().withMessage("Maximum longitude is invalid"),
+  check('minPrice').isInt({min: 0}).optional().withMessage("Minimum price must be greater than or equal to 0"),
+  check('maxPrice').isInt({min: 0}).optional().withMessage("Maximum price must be greater than or equal to 0"),
+  handleValidationErrors
+];
+
+
+
+
+
+
+
 const router = express.Router();
 
 
@@ -124,9 +142,15 @@ const getPreviewImage = async (spotId) => {
 
 
 //Find all spots
-router.get('/', async (req, res) => {
+router.get('/', validateQueryParams, async (req, res) => {
     try {
+      const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+      const limit = parseInt(size);
+      const offset = (page - 1) * limit;
+
       const spots = await Spot.findAll({
+        limit,
+        offset,
         order: [["createdAt", "ASC"]],
         attributes: [
           "id",
@@ -158,7 +182,7 @@ router.get('/', async (req, res) => {
         })
       );
 
-      return res.status(200).json({ Spots : spotsWithDetails });
+      return res.status(200).json({ Spots : spotsWithDetails, page, size });
 
     } catch (error) {
       console.error('Error fetching spots:', error);
@@ -507,6 +531,8 @@ router.post("/:spotId/bookings", validateBooking, requireAuth, async (req, res) 
   };
 
 });
+
+
 
 
 
