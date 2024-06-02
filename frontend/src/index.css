@@ -1,5 +1,5 @@
 /* TODO: Add sitewide styles */
-/*
+
 @import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Italiana&family=Pirata+One&display=swap');
 
 html, body, input, textarea, button, select, a {
@@ -9,15 +9,27 @@ html, body, input, textarea, button, select, a {
   font-style: normal;
 }
 
-main {
+/* main {
   bottom: 0;
   display: flex;
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
+} */
+
+form {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  overflow: hidden;
 }
 
+/*
 button {
   border: 0;
   background: none;

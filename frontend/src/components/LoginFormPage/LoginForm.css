@@ -22,7 +22,7 @@ h1 {
 }
 
 
-.form-container {
+.form-parent-container {
     padding: 10px;
     margin-top: 100px;
     box-shadow: 0px 0px  15px rgb(11, 0, 0);
@@ -34,7 +34,7 @@ h1 {
     align-content: center;
 }
 
-.login-form {
+form {
   padding-top: 20px;
   padding-bottom: 20px;
   margin: auto;

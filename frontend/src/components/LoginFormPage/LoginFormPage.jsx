@@ -28,7 +28,7 @@ const LoginFormPage = () => {
     return (
         <>
         <h1>Log In</h1>
-        <div className="form-container">
+        <div className="form-parent-container">
             <form className="login-form" onSubmit={handleSubmit}>
                 <input
                     type="text"
