@@ -5,6 +5,7 @@ import { csrfFetch } from "../store/csrf"
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const RESTORE_USER = 'session/restoreUser';
 
 //*ACTIONS
 const setUser = (user) => ({
@@ -15,6 +16,10 @@ const setUser = (user) => ({
 const removeUser = () => ({
   type: REMOVE_USER,
 });
+
+// const restoreUser = () => ({
+//   type: RESTORE_USER,
+// });
 
 
 
@@ -28,7 +33,13 @@ export const login = ({credential, password}) =>  async (dispatch) => {
       password,
     })
   });
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+};
 
+export const restoreUser = () =>  async (dispatch) => {
+  const response = await csrfFetch('/api/session');
   const data = await response.json();
   dispatch(setUser(data.user));
   return response;
