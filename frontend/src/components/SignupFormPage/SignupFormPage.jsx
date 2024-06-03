@@ -7,9 +7,9 @@ import "./SignupForm.css"
 
 const SignupFormPage = () => {
     const dispatch = useDispatch();
-    let newUser = useSelector((state) => state.session.user);
+    let sessionUser = useSelector((state) => state.session.user);
     const [username, setUsername] = useState("");
-    const [firstName, setfirstName] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -44,17 +44,49 @@ const SignupFormPage = () => {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    checked
                     required
                 />
+                {errors.email && <p>{errors.email}</p>}
                 <input
-                    type="errors.email && <p>{errors.email}</p>"
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
+                {errors.username && <p>{errors.username}</p>}
+                <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                />
+                {errors.firstName && <p>{errors.firstName}</p>}
+                <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                />
+                {errors.lastName && <p>{errors.lastName}</p>}
+                <input
+                    type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                {errors.credential && <p>{errors.credential}</p>}
+                {errors.password && <p>{errors.password}</p>}
+                <input
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+                {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
                 <button type="submit">Enter</button>
             </form>
         </div>
