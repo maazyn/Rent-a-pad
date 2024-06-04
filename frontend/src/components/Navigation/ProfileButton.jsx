@@ -1,6 +1,10 @@
 import { RiAccountBoxFill } from "react-icons/ri";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
+import LoginFormModal from "../LoginFormModal/LoginFormModal";
+import SignupFormModal from "../SignupFormModal/SignupFormModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+
 import * as sessionActions from '../../store/session';
 
 const ProfileButton = ({ user }) => {
@@ -10,11 +14,6 @@ const ProfileButton = ({ user }) => {
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
-  };
-
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
   };
 
   useEffect(() => {
@@ -28,6 +27,10 @@ const ProfileButton = ({ user }) => {
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.logout());
+  };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : "-hidden");
 
@@ -37,12 +40,31 @@ const ProfileButton = ({ user }) => {
         <RiAccountBoxFill />
       </button>
       <ul className={ulClassName} ref={ulRef}>
-        <li>{user.username}</li>
-        <li>{user.firstName} {user.lastName}</li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={logout}>Log Out</button>
-        </li>
+        {user ? (
+          <div className="account-menu">
+            <li>{user.username}</li>
+            <li>{user.firstName} {user.lastName}</li>
+            <li>{user.email}</li>
+            <li>
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </ div>
+        ) : (
+          <div className="session-buttons">
+            <li>
+              <OpenModalButton
+                buttonText="Log In"
+                modalComponent={<LoginFormModal/>}
+              />
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Sign Up"
+                modalComponent={<SignupFormModal/>}
+              />
+            </li>
+          </div>
+        )}
     </ul>
     </>
   );
