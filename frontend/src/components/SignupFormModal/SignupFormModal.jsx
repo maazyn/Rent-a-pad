@@ -14,7 +14,7 @@ const SignupFormModal = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
-    const { closeModal, setCloseModal } = useModal();
+    const { closeModal } = useModal();
 
     const handleSubmit = (e) => {
         e.preventDefault();
