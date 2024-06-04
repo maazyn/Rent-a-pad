@@ -56,14 +56,14 @@ body {
 
 
 #profile-button {
-    position: relative;
+    position: absolute;
     align-items: center;
     color: rgb(201, 22, 22);
     border-radius: 5px;
     margin: 0px;
     padding: 0;
     height: 24px;
-    font-size: 23px;
+    font-size: 25px;
     display: flex;
     margin-left: auto;
     margin-right: 10px;
@@ -73,16 +73,16 @@ body {
 
 #profile-button:hover {
     background: none;
-    box-shadow: 2px 2px 5px rgb(226, 64, 64), -2px 2px 5px rgb(67, 95, 235), 2px -2px 5px rgb(67, 95, 235), -2px -2px 8px rgb(241, 39, 39) ;
-
+    /* box-shadow: 2px 2px 5px rgb(226, 64, 64), -2px 2px 5px rgb(67, 95, 235), 2px -2px 5px rgb(67, 95, 235), -2px -2px 8px rgb(241, 39, 39) ; */
+    box-shadow: 0 0 5px red;
 }
 
 
 .profile-dropdown, .profile-dropdown-hidden {
-    position: absolute;
+    position: relative;
     right: auto;
-    top: 8%;
-    padding: 8px 0 5px;
+    top: 210%;
+    padding: 5px 0 5px;
     width: 130px;
     height: 90px;
     z-index: 2;
@@ -103,16 +103,7 @@ body {
     display: none;
 }
 
-.profile-dropdown li {
-    width: 100%;
-    font-size: 14px;
-    justify-content: center;
-    text-align: center;
-    letter-spacing: 0.5px;
-    list-style: none;
 
-
-}
 
 .profile-dropdown button {
     font-size: 16px ;
@@ -124,9 +115,15 @@ body {
     color: red;
 }
 
-.session-buttons button {
+.session-menu li{
     color: black;
     padding: 7px;
     margin: 0;
     width: 90px;
+    cursor:pointer;
+    padding-bottom: 10px;
 };
+
+/* .session-menu li:hover {
+    color: red;
+} */

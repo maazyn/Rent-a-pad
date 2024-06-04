@@ -3,8 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
-
+// import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import OpenModalMenuItem from "../OpenModalMenuItem";
 import * as sessionActions from '../../store/session';
 
 const ProfileButton = ({ user }) => {
@@ -26,6 +26,8 @@ const ProfileButton = ({ user }) => {
     document.addEventListener('click', closeMenu);
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
+
+  const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
     e.preventDefault();
@@ -50,19 +52,17 @@ const ProfileButton = ({ user }) => {
             </li>
           </ div>
         ) : (
-          <div className="session-buttons">
-            <li>
-              <OpenModalButton
-                buttonText="Log In"
+          <div className="session-menu">
+              <OpenModalMenuItem
+                itemText="Log In"
+                onItemClick={closeMenu}
                 modalComponent={<LoginFormModal/>}
               />
-            </li>
-            <li>
-              <OpenModalButton
-                buttonText="Sign Up"
+              <OpenModalMenuItem
+                itemText="Sign Up"
+                onItemClick={closeMenu}
                 modalComponent={<SignupFormModal/>}
               />
-            </li>
           </div>
         )}
     </ul>

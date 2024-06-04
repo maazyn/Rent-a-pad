@@ -9,20 +9,27 @@ html, body, input, textarea, button, select, a {
   font-style: normal;
 }
 
+
 html {
   display: flex;
   justify-content: center;
 }
 
-/* main {
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  left: auto;
-  position: absolute;
-  right: auto;
-  top: 0;
-} */
+
+/* body {
+  position: relative;
+  background-image: url("../images/y2k.jpg");
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+*/
+
+
+
 
 #modal-content {
   display: flex;
@@ -31,7 +38,7 @@ html {
   padding: 20px;
   padding-bottom: 30px;
   border-radius: 10px;
-  width: 60%;
+  width: 50%;
   border: 0.5px solid rgb(255, 255, 255);
   box-shadow: 0px 0px  50px rgb(11, 0, 0);
 }
@@ -51,8 +58,17 @@ p {
 }
 
 li {
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  font-size: 14px;
+  justify-content: center;
+  text-align: center;
+  list-style: none;
 }
+
+/* li:hover {
+  color: red;
+
+} */
 
 a:hover {
   color: red;
