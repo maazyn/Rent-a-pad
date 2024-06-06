@@ -28,7 +28,9 @@ html {
 }
 */
 
-
+a {
+  text-decoration: none;
+}
 
 
 #modal-content {
