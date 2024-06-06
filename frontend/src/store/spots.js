@@ -1,6 +1,6 @@
 const LOAD = 'spots/LOAD';
 const LOAD_SPOT = 'spots/LOAD_ONE';
-const ADD_SPOT = 'spots/ADD_SPOT';
+// const ADD_SPOT = 'spots/ADD_SPOT';
 // const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 // const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 
@@ -16,10 +16,10 @@ const loadOne = (spotId) => ({
   payload: spotId,
 });
 
-const addOne = (spot) => ({
-  type: ADD_SPOT,
-  payload: spot,
-});
+// const addOne = (spot) => ({
+//   type: ADD_SPOT,
+//   payload: spot,
+// });
 
 // const updateOne = (spot) => ({
 //   type: UPDATE_SPOT,
@@ -52,6 +52,7 @@ export const getAllSpots = () => async (dispatch) => {
 };
 
 export const getSpot = (spotId) => async (dispatch) => {
+  // const {id, ownerId, address, city, state, country, lat, lng, name, description, price, avgStarRating, spotImages, Owner} = spot;
     const response = await fetch(`/api/spots/${spotId}`);
     if (response.ok) {
       const spot = await response.json();
@@ -99,8 +100,8 @@ export const getSpot = (spotId) => async (dispatch) => {
 
 const initialState = {
     list: [],
-    spot: null
-    // spotId: null,
+    spot: null,
+    spotId: null,
 };
 
 
@@ -116,14 +117,14 @@ const spotsReducer = (state = initialState, action) =>{
     }
     case LOAD_SPOT: {
       // console.log(spotId)
-      return {...state, spotId: action.payload.id};
+      return {...state, spot: action.payload};
     }
-    case ADD_SPOT: {
-      return {
-        ...state,
-        list: [...state.list, action.payload]
-      }
-    }
+    // case ADD_SPOT: {
+    //   return {
+    //     ...state,
+    //     list: [...state.list, action.payload]
+    //   }
+    // }
     // case REMOVE_Spot:
     //   return {
     //     ...state,

@@ -10,11 +10,10 @@ import "./Spots.css"
 const SpotsBrowser = () => {
   const dispatch = useDispatch();
   const allSpots = useSelector((state) => state.spots.list);
-
   useEffect(() => {
     dispatch(getAllSpots());
   }, [dispatch]);
-  // console.log("FLAG:", allSpots)
+  // console.log("FLAG:", allSpots);
 
   return (
     <main>
