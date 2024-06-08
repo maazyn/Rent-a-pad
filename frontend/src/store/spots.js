@@ -11,9 +11,9 @@ const load = (list) => ({
 
 });
 
-const loadOne = (spotId) => ({
+const loadOne = (spot) => ({
   type: LOAD_SPOT,
-  payload: spotId,
+  payload: spot,
 });
 
 // const addOne = (spot) => ({
@@ -56,7 +56,7 @@ export const getSpot = (spotId) => async (dispatch) => {
     const response = await fetch(`/api/spots/${spotId}`);
     if (response.ok) {
       const spot = await response.json();
-      dispatch(loadOne(spot));
+      dispatch(loadOne(spot.Spot));
       return spot;
     }
 };

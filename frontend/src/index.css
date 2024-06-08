@@ -10,11 +10,21 @@ html, body, input, textarea, button, select, a {
 }
 
 
-html {
+html, body, #root {
+  width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
+/* #root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
 
 /* body {
   position: relative;
