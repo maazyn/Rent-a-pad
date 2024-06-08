@@ -88,22 +88,34 @@
   max-width: 1000px;
   align-self: center;
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* overflow: hidden; */
 }
 
 
 #details-images {
+  display: grid;
+  grid-template:
+  m r;
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
   background-color: #fff;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+#details-default-main-image {
+    grid-area: m;
+    size: cover;
+    left: 0;
+}
+
+#details-rest-images {
+    grid-area: r;
+    right: 0;
 }
 
 #details-upper {
@@ -120,11 +132,10 @@
   flex-direction: row;
   width: 100%;
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border-bottom: 1px solid #ddd;
+  /* border-radius: 8px; */
   /* overflow: hidden; */
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #details-left {
@@ -147,32 +158,37 @@
     justify-items: center;
     display: grid;
     grid-template:
-    "p p r rv"
+    "p . r rv"
     "b b b b";
     width: 35%;
     height: 130px;
     background-color: #fff;
-    padding: 0 5px 0 5px;
+    /* padding: 0 5px 0 5px; */
     margin-top: 10px;
     margin-right: 10px;
     overflow: hidden;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }
 #details-right-price {
     grid-area: p;
-    border: 1px solid red;
+    padding-top: 10px;
+    /* border: 1px solid red; */
+    margin-left: 10px;
+
 }
 
 #details-right-rating {
     grid-area: r;
-    border: 1px solid red;
+    padding-top: 10px;
+    /* border: 1px solid red; */
 }
 
 #details-right-review-number {
     grid-area: rv;
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    padding-top: 10px;
     margin-right: 10px;
 
 }
@@ -186,11 +202,15 @@
     background-color: rgb(247, 85, 52);
     color: white;
     width: 85%;
-    height: 40px;
-    margin: 5px;
+    height: 30px;
     padding: 5px 0 5px 0;
+    margin-bottom: 10px;
     justify-self: center;
-    transition: transform 0.2s;
+    align-content: center;
+    /* transition: transform 3s; */
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
 }
 
 #details-right-reserve-button:active {

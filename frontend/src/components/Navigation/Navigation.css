@@ -8,18 +8,19 @@ body {
     justify-content: flex-end;
     align-items: center;
     width: 100%;
+    /* border: 0.5px solid black; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+    border-radius: 20px;
+    border-bottom: 1.5px solid #f8381a;
     height: 35px;
-    margin-top: 10px;
-    border: 0.5px solid black;
-    border-radius: 5px;
+    margin: 5px 10px 0 10px;
     margin-bottom: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-bar-home  {
     font-style: normal;
     list-style: none;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: auto;
 }
 
@@ -66,7 +67,7 @@ body {
     font-size: 25px;
     display: flex;
     margin-left: auto;
-    margin-right: 10px;
+    margin-right: 20px;
     list-style: none;
     transition: transform 2s, color 1s, background-color 1s, box-shadow 2s;
 }
@@ -80,11 +81,11 @@ body {
 
 .profile-dropdown, .profile-dropdown-hidden {
     position: relative;
-    right: auto;
-    top: 210%;
+    right: 22px;
+    top: 255%;
     padding: 5px 0 5px;
     width: 130px;
-    height: 90px;
+    height: 120px;
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -92,7 +93,7 @@ body {
     justify-content:center;
     border: solid 0.5px black;
     border-radius: 6px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.4);
     list-style: none;
     overflow-x: scroll;
 
