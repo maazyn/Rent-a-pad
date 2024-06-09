@@ -12,7 +12,13 @@ const Navigation = ({ isLoaded }) => {
             <li className="nav-bar-home">
                 <NavLink to="/">Home</NavLink>
             </li>
+            <li className="create-listing">
+                {isLoaded && (
+                    <NavLink to="/spots">Create a listing</NavLink>
+                )}
+            </li>
             {isLoaded && (
+                <h2>Hello</h2>,
                 <ProfileButton user={sessionUser}/>
             )}
         </nav>

@@ -149,8 +149,9 @@
     padding: 5px 0 5px 10px;
 }
 
-#details-left text {
+#details-left-desc {
     font-size: 14px;
+    color: black;
 }
 
 #details-right {
@@ -223,10 +224,19 @@
     left: 0px;
     width: 70%;
     background-color: #fff;
-
     overflow: hidden;
 }
 
 #details-lower-ratings-reviews {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#details-lower {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
 }
