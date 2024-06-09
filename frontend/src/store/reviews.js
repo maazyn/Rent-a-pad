@@ -46,12 +46,10 @@ export const getAllReviews = (spotId) => async (dispatch) => {
           ReviewImages,
         }))
 
-        dispatch(load(list));
-        return list;
-        } else {
-            console.error("Reviews not found in the response:", data);
-        }
+      dispatch(load(list));
+      return list;
     }
+  };
 };
 
 export const updateReview = (reviewId, payload) => async (dispatch) => {

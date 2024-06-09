@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { createSpot } from '../../store/spots';
-import "./Spots.css"
+import "./Forms.css"
 
 
 const SpotForm = () => {
@@ -54,13 +54,11 @@ const SpotForm = () => {
     let createdSpot = await dispatch(createSpot(payload));
     if (createdSpot) {
         navigate(`/spots/${createdSpot.id}`);
-        // hideForm();
     }
   }
 
   const handleCancelClick = (e) => {
     e.preventDefault();
-    // hideFor();
   };
 
   // console.log("FLAG:", allSpots);
@@ -71,15 +69,67 @@ const SpotForm = () => {
         <h1>Create a new listing</h1>
         <h2>Where's your place located?</h2>
         <p>Guests will only get your exact address once they booked a reservation</p>
-        <label>Country</label>
+        <label>Country
         <input
-            type=""
-            // placeholder="Country"
-            min="1"
+            type="text"
             required
             value={country}
             onChange={updateCountry}
         />
+        </label>
+        <label>Street Address
+        <input
+            type="text"
+            required
+            value={address}
+            onChange={updateAddress}
+        />
+        </label>
+        <label>City
+        <input
+            type="text"
+            required
+            value={city}
+            onChange={updateCity}
+        />
+        </label>
+        <label>State
+        <input
+            type="text"
+            required
+            value={state}
+            onChange={updateState}
+        />
+        </label>
+        <label>Latitude
+        <input
+            type="number"
+            required
+            value={lat}
+            onChange={updateLat}
+        />
+        </label>
+        <label>Longitude
+        <input
+            type="number"
+            required
+            value={lng}
+            onChange={updateLng}
+        />
+        </label>
+
+        <h2>Describe your place to guests</h2>
+        <label>Mention the best features of your space,
+            any special amenities lke fast wifi or parking,
+            and what you love about the neighborhood</label>
+        <input
+            type="text"
+            required
+            value={description}
+            onChange={updateDescription}
+        />
+
+
         <button type="submit">Submit</button>
         <button type="button" onClick={handleCancelClick}>
             Cancel

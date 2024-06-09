@@ -1,3 +1,5 @@
+import { csrfFetch } from "../store/csrf"
+
 const LOAD = 'spots/LOAD';
 const LOAD_SPOT = 'spots/LOAD_ONE';
 const ADD_SPOT = 'spots/ADD_SPOT';
@@ -62,30 +64,26 @@ export const getSpot = (spotId) => async (dispatch) => {
 };
 
 
-export const createSpot = (spot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spot;
-    const response = await fetch(`/api/spots`, {
+export const createSpot = (payload) => async (dispatch) => {
+    const check = await csrfFetch('/api/session');
+    const checkRes = await check.json();
+    console.log(checkRes.user);
+    if (checkRes.user.id && checkRes.user.id !== null) {
+      const response = await fetch(`/api/spots`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          address,
-          city,
-          state,
-          country,
-          lat,
-          lng,
-          name,
-          description,
-          price,
-        })
-    });
+        body: JSON.stringify(payload)
+      });
 
-    if (response.ok) {
-      const newSpot = await response.json();
-      dispatch(addOne(newSpot));
-      return response;
+      if (response.ok) {
+        const newSpot = await response.json();
+        dispatch(addOne(newSpot));
+        return response;
+      }
+    } else {
+      console.error("User must be logged in");
     }
 };
 
