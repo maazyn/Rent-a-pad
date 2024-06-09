@@ -1,6 +1,6 @@
 const LOAD = 'spots/LOAD';
 const LOAD_SPOT = 'spots/LOAD_ONE';
-// const ADD_SPOT = 'spots/ADD_SPOT';
+const ADD_SPOT = 'spots/ADD_SPOT';
 // const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 // const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 
@@ -16,10 +16,10 @@ const loadOne = (spot) => ({
   payload: spot,
 });
 
-// const addOne = (spot) => ({
-//   type: ADD_SPOT,
-//   payload: spot,
-// });
+const addOne = (spot) => ({
+  type: ADD_SPOT,
+  payload: spot,
+});
 
 // const updateOne = (spot) => ({
 //   type: UPDATE_SPOT,
@@ -62,33 +62,32 @@ export const getSpot = (spotId) => async (dispatch) => {
 };
 
 
-// export const createSpot = (spot) => async (dispatch) => {
-//     const { country, address, city, state, lat, lng, description, name, price, previewImage } = spot;
-//     const response = await fetch(`/api/spots`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             country,
-//             address,
-//             city,
-//             state,
-//             lat,
-//             lng,
-//             description,
-//             name,
-//             price,
-//             previewImage,
-//         })
-//     });
+export const createSpot = (spot) => async (dispatch) => {
+    const { address, city, state, country, lat, lng, name, description, price } = spot;
+    const response = await fetch(`/api/spots`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          address,
+          city,
+          state,
+          country,
+          lat,
+          lng,
+          name,
+          description,
+          price,
+        })
+    });
 
-//     if (response.ok) {
-//       const newSpot = await response.json();
-//       dispatch(addOne(newSpot));
-//       return response;
-//     }
-// };
+    if (response.ok) {
+      const newSpot = await response.json();
+      dispatch(addOne(newSpot));
+      return response;
+    }
+};
 
 // const sortList = (list) => {
 //     return list
@@ -101,7 +100,7 @@ export const getSpot = (spotId) => async (dispatch) => {
 const initialState = {
     list: [],
     spot: null,
-    spotId: null,
+    // spotId: null,
 };
 
 
@@ -119,12 +118,12 @@ const spotsReducer = (state = initialState, action) =>{
       // console.log(spotId)
       return {...state, spot: action.payload};
     }
-    // case ADD_SPOT: {
-    //   return {
-    //     ...state,
-    //     list: [...state.list, action.payload]
-    //   }
-    // }
+    case ADD_SPOT: {
+      return {
+        ...state,
+        list: [...state.list, action.payload]
+      }
+    }
     // case REMOVE_Spot:
     //   return {
     //     ...state,

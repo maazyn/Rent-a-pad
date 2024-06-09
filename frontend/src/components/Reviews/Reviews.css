@@ -1,0 +1,29 @@
+.reviews-card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    z-index: 1;
+}
+
+.review-container {
+    left: 0;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+#review-owner, #review-date, #review-owner, #review-text {
+    left: 0;
+    text-align: left;
+}
+
+#review-text, #review-date {
+    font-size: smaller;
+}
+
+#review-text p {
+    color: green;
+}
+
+#review-date {
+    color: rgb(168, 165, 165);
+}
