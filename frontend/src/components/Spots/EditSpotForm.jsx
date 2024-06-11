@@ -2,16 +2,15 @@ import { useEffect, useState } from 'react';
 // import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { createSpot } from '../../store/spots';
+import { editSpot } from '../../store/spots';
 import "./Forms.css"
 import { FaDollarSign } from "react-icons/fa";
 
 
 
-const SpotForm = () => {
+const EditSpotForm = () => {
   const dispatch = useDispatch();
-  const newSpot = useSelector((state) => state.spots.list);
-  // console.log(newSpot);
+  const updatedSpot = useSelector((state) => state.spots.list);
 
   const navigate = useNavigate();
   const [address, setAddress] = useState("");
@@ -40,7 +39,7 @@ const SpotForm = () => {
 
 
   useEffect(() => {
-    dispatch(createSpot());
+    dispatch(editSpot());
   }, [dispatch]);
 
   const submitHandler = async (e) => {
@@ -66,7 +65,7 @@ const SpotForm = () => {
 			}
     );
     if (createdSpot) {
-        navigate(`/spots/${createdSpot.id}`);
+        navigate(`/spots/${updatedSpot.id}`);
     }
   }
 
@@ -79,7 +78,7 @@ const SpotForm = () => {
   return (
     <main>
       <form className="form-container" onSubmit={submitHandler}>
-        <h1>Create a new listing</h1>
+        <h1>Update your listing</h1>
         <h2>Where's your place located?</h2>
         <label>Guests will only get your exact address once they booked a reservation</label>
 
@@ -212,10 +211,10 @@ const SpotForm = () => {
           />
         </section>
         {/* {errors.credential && <p>{errors.credential}</p>} */}
-        <button className="create-button" type="submit">Create Listing</button>
+        <button className="create-button" type="submit">Update Listing</button>
       </form>
     </main>
   )
 }
 
-export default SpotForm;
+export default EditSpotForm;

@@ -3,8 +3,8 @@ import { csrfFetch } from "../store/csrf"
 const LOAD = 'spots/LOAD';
 const LOAD_SPOT = 'spots/LOAD_ONE';
 const ADD_SPOT = 'spots/ADD_SPOT';
-// const UPDATE_SPOT = 'spots/UPDATE_SPOT';
-// const REMOVE_SPOT = 'spots/REMOVE_SPOT';
+const UPDATE_SPOT = 'spots/UPDATE_SPOT';
+const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 
 //*ACTIONS
 const load = (list) => ({
@@ -23,15 +23,15 @@ const addOne = (spot) => ({
   payload: spot,
 });
 
-// const updateOne = (spot) => ({
-//   type: UPDATE_SPOT,
-//   spot,
-// });
+const updateOne = (spot) => ({
+  type: UPDATE_SPOT,
+  payload: spot,
+});
 
-// const removeOne = (spot) => ({
-//   type: REMOVE_SPOT
-//   spot,
-// });
+const removeOne = (spot) => ({
+  type: REMOVE_SPOT,
+  payload: spot,
+});
 
 
 //*THUNKS
@@ -65,27 +65,61 @@ export const getSpot = (spotId) => async (dispatch) => {
 
 
 export const createSpot = (payload) => async (dispatch) => {
-    const check = await csrfFetch('/api/session');
-    const checkRes = await check.json();
-    console.log(checkRes.user);
-    if (checkRes.user.id && checkRes.user.id !== null) {
-      const response = await fetch(`/api/spots`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload)
-      });
+    // const check = await csrfFetch('/api/session');
+    // const checkRes = await check.json();
+    // const user = checkRes.user;
+    // console.log(user);
 
-      if (response.ok) {
-        const newSpot = await response.json();
-        dispatch(addOne(newSpot));
-        return response;
-      }
-    } else {
-      console.error("User must be logged in");
-    }
+
+    // if (user && user.id !== null) {
+  const response = await csrfFetch(`/api/spots`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (response.ok) {
+    const newSpot = await response.json();
+    dispatch(addOne(newSpot));
+    return response;
+  }
+  // } else {
+  //   console.error("User must be logged in");
+  // }
 };
+
+
+export const editSpot = (spotId, payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (response.ok) {
+    const updatedSpot = await response.json();
+    // console.log(updatedSpot);
+    dispatch(updateOne(updatedSpot));
+    return response;
+  } else {
+    console.error("Error") ;
+  }
+
+};
+
+
+export const deleteSpot = () => async (dispatch) => {
+	const response = await csrfFetch("/api/spots/current", {
+		method: "DELETE",
+	});
+	dispatch(removeOne());
+	return response;
+};
+
 
 // const sortList = (list) => {
 //     return list
@@ -103,7 +137,7 @@ const initialState = {
 
 
 const spotsReducer = (state = initialState, action) =>{
-  // console.log("Reducer action received:", action);
+  // console.log("Action received:", action);
   switch(action.type) {
     case LOAD: {
       const spots = {};
@@ -122,16 +156,23 @@ const spotsReducer = (state = initialState, action) =>{
         list: [...state.list, action.payload]
       }
     }
-    // case REMOVE_Spot:
-    //   return {
-    //     ...state,
-    //     [action.spotId]: {
-    //       ...state[action.spotId],
-    //       items: state[action.spotId].items.filter(
-    //         (spotId) => spotId !== action.spotId
-    //       ),
-    //     },
-    //   };
+    case UPDATE_SPOT: {
+      return {
+        ...state,
+        list: state.list.map((spot) =>
+          spot.id === action.payload.id ? action.payload : spot
+      )}
+    }
+    case REMOVE_SPOT:
+      return {
+        ...state,
+        [action.spotId]: {
+          ...state[action.spotId],
+          items: state[action.spotId].items.filter(
+            (spotId) => spotId !== action.spotId
+          ),
+        },
+      };
     default:
       return state;
   }

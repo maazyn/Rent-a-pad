@@ -1,0 +1,153 @@
+
+.form-container  {
+    /* margin: 40px auto auto auto; */
+    /* border: 0.5px solid red; */
+    width: 100%;
+    /* max-width: 1000px; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+}
+
+/* section, section div {
+    width: 50%;
+} */
+
+section h2, div h2 {
+    align-self: start;
+    margin-top: 30px;
+}
+
+section div {
+    width: 400px;
+    display: grid;
+}
+
+section div input{
+    width: 380px;
+    justify-self: end;
+    /* align-items: end; */
+}
+
+label {
+    /* width: 550px; */
+    /* display: inline-flex; */
+    width: 400px;
+    justify-self: center;
+    align-self: center;
+    margin-bottom: 20px;
+    /* right: 0px; */
+    /* width: auto; */
+    /* margin-right: 10px; */
+
+}
+
+form input {
+    width: 400px;
+    display: flex;
+    border-radius: 3px;
+    background-color: rgb(221, 230, 250);
+    right: 0px;
+    justify-content: center;
+    align-content: center;
+
+    border: 0;
+    border-bottom: 2px solid #CCC;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .25em .5em;
+    flex-grow: 1;
+}
+
+
+
+.form-part-one {
+    display: inline-block;
+    /* flex-direction: column; */
+    justify-items: center;
+    align-items: center;
+    border-bottom: 0.5px solid black;
+    border-radius: 3px;
+    padding-bottom: 30px;
+    /* margin: 0 auto; */
+
+}
+
+.form-part-two {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    /* margin: 0 auto; */
+    border-bottom: 0.5px solid black;
+    border-radius: 3px;
+    padding-bottom: 30px;
+
+}
+
+.form-part-two input {
+    height: 150px;
+
+}
+
+.form-part-three {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    /* margin: 0 auto; */
+    border-bottom: 0.5px solid black;
+    border-radius: 3px;
+    padding-bottom: 30px;
+
+}
+
+.form-part-four {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    /* margin: 0 auto; */
+    border-bottom: 0.5px solid black;
+    border-radius: 3px;
+    padding-bottom: 30px;
+
+}
+
+.form-part-five {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    /* margin: 0 auto; */
+    border-bottom: 0.5px solid black;
+    border-radius: 3px;
+    padding-bottom: 30px;
+}
+
+
+input:focus {
+  border-bottom-color: red;
+}
+
+
+.create-button {
+    margin-top: 20px;
+    font-size: 16px;
+
+    border: 1px solid black;
+    border-radius: 0px;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
+    background-color: rgb(247, 85, 52);
+    color: white;
+    width: 30%;
+    height: 30px;
+    padding: 5px 0 5px 0;
+    margin-bottom: 10px;
+    justify-self: center;
+    align-content: center;
+    /* transition: transform 3s; */
+    text-align: center;
+    cursor: pointer;
+}
