@@ -53,9 +53,29 @@ export const getAllSpots = () => async (dispatch) => {
   }
 };
 
+
+export const getOwnerSpots = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/current`);
+  if (response.ok) {
+    const data = await response.json();
+    const list = data.spots.map(({ id, previewImage, avgRating, city, state, price }) => ({
+      id,
+      previewImage,
+      avgRating,
+      city,
+      state,
+      price,
+    }))
+
+    dispatch(load(list));
+    return list;
+  }
+};
+
+
 export const getSpot = (spotId) => async (dispatch) => {
-  // const {id, ownerId, address, city, state, country, lat, lng, name, description, price, avgStarRating, spotImages, Owner} = spot;
     const response = await fetch(`/api/spots/${spotId}`);
+
     if (response.ok) {
       const spot = await response.json();
       dispatch(loadOne(spot.Spot));
@@ -69,7 +89,6 @@ export const createSpot = (payload) => async (dispatch) => {
     // const checkRes = await check.json();
     // const user = checkRes.user;
     // console.log(user);
-
 
     // if (user && user.id !== null) {
   const response = await csrfFetch(`/api/spots`, {

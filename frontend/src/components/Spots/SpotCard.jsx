@@ -14,7 +14,7 @@ const SpotCard = ({ id, previewImage, city, state, avgRating, price, }) => {
                     <p className="sc-price">${price} per night</p>
                 </div>
                 <div className="sc-rating">
-                    <p className="spot-rating"> <FaStar/> {avgRating}</p>
+                    <p className="spot-rating"> <FaStar/> {avgRating.toFixed(1)}</p>
                 </div>
             </div>
         </NavLink>

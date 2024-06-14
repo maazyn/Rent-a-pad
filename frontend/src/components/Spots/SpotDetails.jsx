@@ -1,32 +1,35 @@
-import { useEffect } from 'react';
-// import * as sessionActions from '../../store/session';
+import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import ReviewCard from '../Reviews/ReviewCard';
 import { getSpot } from '../../store/spots';
 import { getAllReviews } from '../../store/reviews';
-import { useParams } from 'react-router-dom';
+import ReviewButton from "../Navigation/ReviewButton";
+
 import { FaStar } from "react-icons/fa6";
 import "./Spots.css"
-
+// import "./Reviews.css"
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
     const {spotId} = useParams();
-    // spotId = parseInt(spotId);
+
     const theSpot = useSelector((state) => state.spots.spot);
     const allReviews = useSelector((state) => state.reviews.list);
-    console.log(theSpot);
+    // const sessionUser = useSelector((state) => state.session.user);
+
+    // console.log(allReviews);
     // console.log(allReviews[0]);
 
 
     useEffect(() => {
-        dispatch(getSpot(parseInt(spotId)));
+        dispatch(getSpot(spotId));
+        dispatch(getAllReviews(spotId));
     }, [dispatch, spotId])
 
-    useEffect(() => {
-        dispatch(getAllReviews(parseInt(spotId)));
-    }, [dispatch, spotId])
+    // useEffect(() => {
+    // }, [dispatch, spotId])
+
 
     if (!theSpot) {
         return <div>Loading...</div>;
@@ -62,21 +65,27 @@ const SpotDetails = () => {
                 </div>
                 <div id="details-right">
                     <p id="details-right-price">${theSpot.price} night</p>
-                    <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating}</p>
+                    <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating.toFixed(1)}</p>
                     <p id="details-right-review-number">{theSpot.numReviews} reviews</p>
                     {/* <button id="details-right-reserve-button">Reserve</button> */}
                     <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink>
-
                 </div>
             </div>
             <div id="details-lower">
-                <h2 id="details-lower-ratings-reviews">
-                    <FaStar/> {theSpot.avgStarRating} • {theSpot.numReviews} reviews
-                </h2>
+                <div className="details-lower-ratings-reviews-container">
+                    <h2 id="details-lower-ratings-reviews">
+                        <FaStar/> {theSpot.avgStarRating.toFixed(1)} • {theSpot.numReviews} reviews
+                    </h2>
+                    <div>
+                        {(
+                            <ReviewButton reviews={allReviews}/>
+                        )}
+                    </div>
+                </div>
                 <div className="reviews-card">
                     {allReviews.map((review) => (
-                        <div className="review-container">
-                            <ReviewCard key={review.id} {...review}/>
+                        <div className="review-container" key={review.id}>
+                            <ReviewCard {...review} />
                         </div>
                     ))}
                 </div>
@@ -84,5 +93,4 @@ const SpotDetails = () => {
         </div>
     )
 }
-
 export default SpotDetails;

@@ -212,7 +212,7 @@ const SpotForm = () => {
           />
         </section>
         {/* {errors.credential && <p>{errors.credential}</p>} */}
-        <button className="create-button" type="submit">Create Listing</button>
+        <button className="create-button-1" type="submit">Create Listing</button>
       </form>
     </main>
   )

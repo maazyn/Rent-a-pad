@@ -2,8 +2,9 @@
 import "./Reviews.css"
 
 
-const ReviewCard = ({id, review, User, createdAt }) => {
+const ReviewCard = ({review, User, createdAt }) => {
     // console.log("FLAG:", User.firstName)
+
 
    return (
     <>

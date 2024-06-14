@@ -1,6 +1,8 @@
+import { csrfFetch } from "./csrf";
+
 const LOAD = 'reviews/LOAD';
 // const LOAD_REVIEW = 'reviews/LOAD_ONE';
-// const ADD_REVIEW = 'reviews/ADD_REVIEW';
+const ADD_REVIEW = 'reviews/ADD_REVIEW';
 const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
 // const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
 
@@ -16,10 +18,10 @@ const load = (list) => ({
 //   payload: review,
 // });
 
-// const addOne = (review) => ({
-//   type: ADD_REVIEW,
-//   payload: review,
-// });
+const addOne = (review) => ({
+  type: ADD_REVIEW,
+  payload: review,
+});
 
 const updateOne = (review) => ({
   type: UPDATE_REVIEW,
@@ -36,66 +38,73 @@ export const getAllReviews = (spotId) => async (dispatch) => {
   const response = await fetch(`/api/spots/${spotId}/reviews`);
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
     if (data.reviews) {
-        const list = data.reviews.map(({ id, review, User, createdAt, ReviewImages }) => ({
-          id,
-          review,
-          User,
-          createdAt,
-          ReviewImages,
-        }))
+      const list = data.reviews.map(({ id, review, User, createdAt, ReviewImages }) => ({
+        id,
+        review,
+        User,
+        createdAt,
+        ReviewImages,
+      }))
 
       dispatch(load(list));
       return list;
     }
-  };
+  }
 };
+
+
+export const createReview = (spotId, payload) => async (dispatch) => {
+  const { review, stars} = payload;
+  // console.log(spotId)
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      review,
+      stars
+    }),
+  })
+  // console.log("Response:", response)
+  if (response.ok) {
+    const data = await response.json();
+    // console.log("Data:", data.reviews)
+    dispatch(addOne(spotId, data));
+    return data;
+  } else {
+    console.error("Something went wrong")
+  }
+}
+
+
+
 
 export const updateReview = (reviewId, payload) => async (dispatch) => {
     const response = await fetch(`/api/reviews/${reviewId}`, {
         method: "PUT",
-        header: {
+        headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
     });
     if (response.ok) {
-      const review = await response.json();
-      dispatch(updateOne(review.Review));
-      return review;
+      const updatedReview = await response.json();
+      dispatch(updateOne(updatedReview.review));
+      return updatedReview.review;
     }
     return response;
 };
 
-
-// export const createSpot = (spot) => async (dispatch) => {
-//     const { country, address, city, state, lat, lng, description, name, price, previewImage } = spot;
-//     const response = await fetch(`/api/spots`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             country,
-//             address,
-//             city,
-//             state,
-//             lat,
-//             lng,
-//             description,
-//             name,
-//             price,
-//             previewImage,
-//         })
-//     });
-
-//     if (response.ok) {
-//       const newSpot = await response.json();
-//       dispatch(addOne(newSpot));
-//       return response;
-//     }
+// export const deleteReview = (spotId) => async (dispatch) => {
+// 	const response = await csrfFetch(`/api/spots/${spotId}`, {
+// 		method: "DELETE",
+// 	});
+// 	dispatch(removeOne());
+// 	return response;
 // };
+
 
 // const sortList = (list) => {
 //     return list
@@ -121,6 +130,13 @@ const reviewsReducer = (state = initialState, action) =>{
       })
       return { ...state, list: action.payload };
     }
+    case ADD_REVIEW: {
+      return {
+        ...state,
+        list: [...state.list, action.payload]
+      }
+    }
+
     // case UPDATE_REVIEW: {
       // console.log(spotId)
     //   if (!state[action.pokemon.id]) {

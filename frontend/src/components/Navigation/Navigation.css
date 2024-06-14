@@ -37,12 +37,21 @@ body {
 
 .create-listing a {
     display: flex;
-    /* position:sticky; */
-    margin-right: 70px;
-    font-size: 13px;
+    position: absolute;
+    right: 70px;
+    top: 24px;
+    /* margin-right: 70px; */
+    font-size: 14px;
     font-weight:500;
-    z-index: 1;
+    font-style: normal;
+    list-style: none;
+    margin-left: auto;
+    /* margin-right: 50px; */
+    /* z-index: 1; */
+}
 
+.create-listing a:hover {
+    color: #fa441f;
 }
 
 /* .nav-bar-profile-session {
@@ -91,13 +100,14 @@ body {
 
 
 .profile-dropdown, .profile-dropdown-hidden {
+    /* gap: 20px; */
     position: relative;
     right: 22px;
-    top: 255%;
+    top: 295%;
     padding: 5px 0 5px;
-    width: 130px;
-    height: 120px;
-    z-index: 2;
+    width: 150px;
+    height: 150px;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -119,22 +129,58 @@ body {
 
 
 .profile-dropdown button {
-    font-size: 16px ;
+    font-size: 15px ;
+    font-weight:bolder;
+    border-radius: 20px;
+    background-color: #F75534;
+    width: 75px;
+    height: 30px;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
+    padding-top: 3px;
+
 }
+
+
+.profile-dropdown button:active {
+    box-shadow: none;
+}
+
+.manage-container {
+
+    margin-bottom: 5px;
+    margin-top: 5px;
+
+
+}
+
+.manage-button {
+    border-top: 0.2px solid grey;
+    border-bottom: 0.2px solid grey;
+    color: black;
+    cursor:pointer;
+    margin-bottom: 7px;
+    font-size: 14px;
+    display: block;
+    height: 25px;
+    line-height: 25px;
+}
+
+.manage-button:hover {
+    color: #fa441f
+}
+
 
 .account-menu button {
     margin-top: 7px;
     padding-bottom: 3px;
-    color: red;
+    color: white;
 }
 
 .session-menu li{
     color: black;
-    padding: 7px;
     margin: 0;
-    width: 90px;
-    cursor:pointer;
-    padding-bottom: 10px;
+    cursor: pointer;
+    padding-bottom: 12px;
 }
 
 /* .session-menu li:hover {

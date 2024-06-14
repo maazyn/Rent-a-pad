@@ -5,9 +5,10 @@ import LoginFormModal from "../LoginFormModal/LoginFormModal";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 // import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import OpenModalMenuItem from "../OpenModalMenuItem";
+import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 
-const ProfileButton = ({ user }) => {
+const ProfileButton = ({ user, isLoaded }) => {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -47,6 +48,16 @@ const ProfileButton = ({ user }) => {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
+            <li className="manage-container">
+              {isLoaded && (
+                <button to="/spots/current">Manage Listings</button>
+              )}
+            </li>
+            <li className="manage-container">
+              {(
+                <NavLink className="manage-button" to="/spots/current">Manage Listings</NavLink>
+              )}
+            </li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>

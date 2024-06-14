@@ -17,6 +17,9 @@ html, body, #root {
   align-items: center;
   flex-direction: column;
 }
+#root {
+  height: 100%;
+}
 
 /* #root {
   width: 100%;
@@ -46,7 +49,7 @@ a {
 #modal-content {
   display: flex;
   flex-direction: column;
-  background-color: rgb(67, 1, 1, 0.65); /* Transparent white background */
+  background-color: rgb(67, 1, 1, 0.65);
   padding: 20px;
   padding-bottom: 30px;
   border-radius: 10px;
@@ -108,15 +111,11 @@ button {
   border: 10px;
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
-  /* text-shadow: 0px 0px  15px rgb(148, 0, 0); */
-  /* padding: 5px 5px 0px 5px; */
   font-weight: 1000;
   border-radius: 3px;
-  /* text-transform: uppercase; */
   transition: background-color .25s, color .25s;
   cursor: pointer;
   margin: 0 auto;
-  /* margin-top: 20px ; */
 }
 
 button:disabled {

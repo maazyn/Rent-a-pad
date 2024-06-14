@@ -1,0 +1,84 @@
+
+
+.rating-container {
+    height: 50px;
+}
+
+.review-button-container button {
+    padding-bottom: 1px;
+    margin-top: 20px;
+    background: none;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 0px;
+    font-size: 18px;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
+    background-color: rgb(255, 210, 63);
+    color: rgb(0, 0, 0);
+    width: 30%;
+    min-width: 130px;
+    max-width: 200px;
+    height: 30px;
+    padding: 5px 0 5px 0;
+    margin-bottom: 10px;
+    justify-self: center;
+    align-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.review-button-container button:active {
+    box-shadow: none;
+}
+
+.submit-button {
+    cursor: pointer;
+    padding-bottom: 1px;
+    margin-top: 20px;
+    background: none;
+    font-size: 16px;
+
+    border-radius: 0px;
+    font-size: 18px;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
+    background-color: white;
+    color: black;
+    width: 40%;
+    min-width: 180px;
+    height: 30px;
+    padding: 5px 0 5px 0;
+    margin-bottom: 10px;
+    justify-self: center;
+    align-content: center;
+}
+
+.submit-button:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  font-weight: bolder;
+}
+
+
+.submit-button:active {
+    box-shadow: none;
+}
+
+.rating-star {
+    cursor: pointer;
+    margin: 0 5px;
+    position: relative;
+    color: white;
+    transition: color 0.2s;
+}
+
+.rating-star input:checked {
+    color: orange;
+}
+
+.rating-star:hover {
+    color: orange;
+}
+
+.rating-input {
+    display: none;
+}
