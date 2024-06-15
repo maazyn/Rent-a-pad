@@ -65,15 +65,16 @@ const SpotForm = () => {
         price,
     };
 
-    const createdSpot = await dispatch(createSpot(payload)).catch(
+    let createdSpot = await dispatch(createSpot(payload)).catch(
 			async (res) => {
 				const data = await res.json();
 				if (data?.errors) setErrors(data.errors);
 			}
     );
-    if (createdSpot) {
-      await navigate(`/spots/${createdSpot.id}`);
-    }
+    // if (createdSpot) {
+    //   console.log(createdSpot)
+    // }
+    navigate(`/spots/${createdSpot.id}`);
   }
 
 
