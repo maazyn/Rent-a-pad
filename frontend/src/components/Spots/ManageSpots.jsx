@@ -12,18 +12,23 @@ const ManageSpots = () => {
   const ownerSpots = useSelector((state) => state.spots.list);
   const user = useSelector((state) => state.session.user);
 
+
   useEffect(() => {
     if (user) {
       dispatch(getOwnerSpots());
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+  }, [ownerSpots]);
   // console.log("FLAG:", allSpots);
+
   return (
     user? (
       <main className="manage-card">
         <div className="manage-upper">
           <h2>Manage Your Spots</h2>
-          <Link className="create-button-2" to="/spots">Create a listing
+          <Link className="create-button-2" to="/spots" >Create a listing
           </Link>
         </div>
         <div className="manage-spots-container">

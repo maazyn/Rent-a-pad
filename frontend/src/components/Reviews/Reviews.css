@@ -27,3 +27,22 @@
 #review-date {
     color: rgb(168, 165, 165);
 }
+
+
+.delete-review-button-container button {
+    background-color: red;
+
+    border: 1px solid red;
+    border-radius: 0px;
+    font-size: 14px;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
+    background-color: rgb(247, 85, 52);
+    color: white;
+    width: 50px;
+    height: 26px;
+    padding: 5px 0 5px 0;
+    /* margin-bottom: 10px; */
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+}

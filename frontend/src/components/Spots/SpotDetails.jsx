@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import {Alert} from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
@@ -14,26 +14,26 @@ import "./Spots.css"
 const SpotDetails = () => {
     const dispatch = useDispatch();
     const {spotId} = useParams();
-
     const theSpot = useSelector((state) => state.spots.spot);
     const allReviews = useSelector((state) => state.reviews.list);
-    // const sessionUser = useSelector((state) => state.session.user);
+    const sessionUser = useSelector((state) => state.session.user);
+    const [showButton, setShowButton] = useState(false);
 
-    // console.log(theSpot.Owner );
-    // console.log(allReviews[0]);
 
     function handleUploadImage() {
         alert("Feature coming soon!")
     }
+    useEffect(() => {
+    }, [allReviews]);
 
     useEffect(() => {
         dispatch(getSpot(spotId));
         dispatch(getAllReviews(spotId));
-    }, [dispatch, spotId])
+    }, [dispatch, spotId]) //having allReviews here caused endless loop
 
-    // useEffect(() => {
-    // }, [dispatch, spotId])
 
+
+    // console.log(theSpot);
 
     if (!theSpot) {
         return <div>Loading...</div>;
@@ -82,7 +82,7 @@ const SpotDetails = () => {
                     </h2>
                     <div>
                         {(
-                            <ReviewButton reviews={allReviews}/>
+                            <ReviewButton theSpot={theSpot}reviews={allReviews}/>
                         )}
                     </div>
                 </div>

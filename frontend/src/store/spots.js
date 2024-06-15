@@ -83,6 +83,15 @@ export const getSpot = (spotId) => async (dispatch) => {
     }
 };
 
+export const getSpotImages = (spotId) => async (dispatch) => {
+  const response = await fetch(`/api/spots/${spotId}/images`);
+
+  if (response.ok) {
+    const spot = await response.json();
+    dispatch(loadOne(spot.Spot));
+    return spot;
+  }
+};
 
 export const createSpot = (payload) => async (dispatch) => {
   const { address, city, state, country, lat, lng, name, description, price } = payload;
@@ -114,23 +123,24 @@ export const createSpot = (payload) => async (dispatch) => {
 
 
 export const editSpot = (spotId, payload) => async (dispatch) => {
+  // const { address, city, state, country, lat, lng, name, description, price} = payload;
+  // const reqBody = {
+  //   address: address,
+  //   city: city,
+  //   state: state,
+  //   country: country,
+  //   lat: lat,
+  //   lng: lng,
+  //   name: name,
+  //   description: description,
+  //   price: price
+  // }
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload)
-    // {
-    //   address: address,
-    //   city: city,
-    //   state: state,
-    //   country: country,
-    //   lat: lat,
-    //   lng: lng,
-    //   name: name,
-    //   description: description,
-    //   price: price
-    // })
   });
 
   if (response.ok) {
@@ -138,10 +148,7 @@ export const editSpot = (spotId, payload) => async (dispatch) => {
     // console.log(updatedSpot);
     dispatch(updateOne(spotId, updatedSpot));
     return response;
-  } else {
-    console.error("Error") ;
   }
-
 };
 
 

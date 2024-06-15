@@ -123,9 +123,10 @@ button:disabled {
 }
 
 
-button:hover {
-  background-color: rgb(21, 18, 18);
-  color: rgb(255, 255, 255);
+button:active {
+  box-shadow: none;
+  /* background-color: rgb(21, 18, 18);
+  color: rgb(255, 255, 255); */
 }
 
 label {

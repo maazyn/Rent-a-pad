@@ -4,7 +4,7 @@ const LOAD = 'reviews/LOAD';
 // const LOAD_REVIEW = 'reviews/LOAD_ONE';
 const ADD_REVIEW = 'reviews/ADD_REVIEW';
 const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW';
-// const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
+const REMOVE_REVIEW = 'reviews/REMOVE_REVIEW';
 
 //*ACTIONS
 const load = (list) => ({
@@ -28,9 +28,9 @@ const updateOne = (review) => ({
   payload: review,
 });
 
-// const removeOne = (spot) => ({
-//   type: REMOVE_REVIEW
-// });
+const removeOne = (review) => ({
+  type: REMOVE_REVIEW
+});
 
 
 //*THUNKS
@@ -97,21 +97,25 @@ export const updateReview = (reviewId, payload) => async (dispatch) => {
     return response;
 };
 
-// export const deleteReview = (spotId) => async (dispatch) => {
-// 	const response = await csrfFetch(`/api/spots/${spotId}`, {
-// 		method: "DELETE",
-// 	});
-// 	dispatch(removeOne());
-// 	return response;
-// };
+
+
+export const deleteReview = (reviewId) => async (dispatch) => {
+	const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+		method: "DELETE",
+	});
+  if (response.ok) {
+    dispatch(removeOne(reviewId));
+  }
+	return response;
+};
 
 
 // const sortList = (list) => {
 //     return list
-//       .sort((spotA, spotB) => {
-//         return spotA.id - spotB.id;
+//       .sort((revA, revB) => {
+//         return revA.createdAt - revB.createdAt;
 //       })
-//       .map((spot) => spot.id);
+//       .map((review) => review.id);
 // };
 
 const initialState = {
@@ -128,7 +132,7 @@ const reviewsReducer = (state = initialState, action) =>{
       action.payload.forEach((review) => {
         reviews[review.id] = review;
       })
-      return { ...state, list: action.payload };
+      return { ...state, list: action.payload};
     }
     case ADD_REVIEW: {
       return {
@@ -136,7 +140,13 @@ const reviewsReducer = (state = initialState, action) =>{
         list: [...state.list, action.payload]
       }
     }
-
+    case REMOVE_REVIEW:
+      return {
+        ...state,
+        list: state.list.filter((review) =>
+          review !== action.payload
+        )
+      }
     // case UPDATE_REVIEW: {
       // console.log(spotId)
     //   if (!state[action.pokemon.id]) {

@@ -5,22 +5,24 @@ import { useParams } from 'react-router-dom';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal/ReviewFormModal"
 
-const ReviewButton = () => {
+const ReviewButton = ({theSpot, reviews}) => {
   const sessionUser = useSelector((state) => state.session.user);
-  // console.log("FLAG:", sessionUser)
+  const { spotId } = useParams();
   const [showButton, setShowButton] = useState(false);
   const ulRef = useRef();
-  // const toggleMenu = (e) => {
-  //   e.stopPropagation();
-  //   setShowMenu(!showMenu);
-  // };
-  const { spotId } = useParams();
+  const checkExisting = reviews.filter((review) => review.User.id === sessionUser.id);
+  const checkSpotOwner = theSpot.ownerId === sessionUser.id? true: false;
+
+  console.log(theSpot);
+  console.log("FLAG:", sessionUser);
+
+
 
 
   useEffect(() => {
     if (!showButton) return;
     const hideButton = (e) => {
-        if (ulRef.current && !ulRef.current.contains(e.target)) {
+        if (ulRef.current && !ulRef.current.contains(e.target) ) {
             setShowButton(false);
         }
     };
@@ -35,7 +37,7 @@ const ReviewButton = () => {
 
   return (
     <div className="review-button-container" ref={ulRef}>
-      {sessionUser && (
+      {checkExisting.length < 1 && !checkSpotOwner && (
         <OpenModalButton
           buttonText="Post A Review"
           modalComponent={<ReviewFormModal spotId={spotId}/>}

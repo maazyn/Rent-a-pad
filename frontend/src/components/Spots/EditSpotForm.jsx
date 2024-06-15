@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 // import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
-import { editSpot } from '../../store/spots';
+import { editSpot, getSpot } from '../../store/spots';
 import "./Forms.css"
 import { FaDollarSign } from "react-icons/fa";
 
@@ -10,8 +10,9 @@ import { FaDollarSign } from "react-icons/fa";
 
 const EditSpotForm = () => {
   const dispatch = useDispatch();
-  // const updatedSpot = useSelector((state) => state.spots.list);
   const {spotId } = useParams();
+  const [currentSpot, setCurrentSpot] = useState();
+
   const navigate = useNavigate();
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -37,25 +38,30 @@ const EditSpotForm = () => {
 
   const [errors, setErrors] = useState({});
 
+  useEffect(() => {
+    const gettingTheSpot = async () => {
+      const theSpot = await dispatch(getSpot(spotId));
+      setCurrentSpot(theSpot?.Spot);
+    }
+    gettingTheSpot();
+  }, [dispatch, spotId]);
 
-  // useEffect(() => {
-  //   dispatch(editSpot());
-  // }, [dispatch]);
+  // console.log(currentSpot);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 		setErrors({});
 
     const payload = {
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price,
+        address: address || currentSpot.address,
+        city: city || currentSpot.city,
+        state: state || currentSpot.state,
+        country: country || currentSpot.country,
+        lat: lat || currentSpot.lat,
+        lng: lng || currentSpot.lng,
+        name: name || currentSpot.name,
+        description: description || currentSpot.description,
+        price: price || currentSpot.price,
     };
 
     let updatedSpot = await dispatch(editSpot(spotId, payload)).catch(
@@ -65,7 +71,7 @@ const EditSpotForm = () => {
 			}
     );
     if (updatedSpot) {
-        navigate(`/spots/${updatedSpot.id}`);
+        navigate(`/spots/${spotId}`);
     }
   }
 
@@ -82,8 +88,8 @@ const EditSpotForm = () => {
           <input
               type="text"
               required
-              value={country}
-              placeholder='Country'
+              value={country || currentSpot?.country}
+              placeholder="Country"
               onChange={updateCountry}
           />
           <label>Street Address
@@ -91,7 +97,7 @@ const EditSpotForm = () => {
           <input
               type="text"
               required
-              value={address}
+              value={address || currentSpot?.address}
               placeholder='Address'
               onChange={updateAddress}
           />
@@ -100,7 +106,7 @@ const EditSpotForm = () => {
           <input
               type="text"
               required
-              value={city}
+              value={city || currentSpot?.city}
               placeholder='City'
               onChange={updateCity}
           />
@@ -109,7 +115,7 @@ const EditSpotForm = () => {
           <input
               type="text"
               required
-              value={state}
+              value={state || currentSpot?.state}
               placeholder='STATE'
               onChange={updateState}
           />
@@ -118,7 +124,7 @@ const EditSpotForm = () => {
           <input
               type="number"
               required
-              value={lat}
+              value={lat || currentSpot?.lat}
               placeholder='Latitude'
               onChange={updateLat}
           />
@@ -127,7 +133,7 @@ const EditSpotForm = () => {
          <input
               type="number"
               required
-              value={lng}
+              value={lng || currentSpot?.lng}
               placeholder='Longitude'
               onChange={updateLng}
           />
@@ -142,7 +148,7 @@ const EditSpotForm = () => {
           <input
               type="text"
               required
-              value={description}
+              value={description || currentSpot?.description}
               placeholder='Please write at least 30 characters'
               onChange={updateDescription}
           />
@@ -156,7 +162,7 @@ const EditSpotForm = () => {
           <input
               type="text"
               required
-              value={name}
+              value={name || currentSpot?.name}
               placeholder='Name of your spot'
               onChange={updateName}
           />
@@ -172,7 +178,7 @@ const EditSpotForm = () => {
             <input
               type="number"
               required
-              value={price}
+              value={price || currentSpot?.price}
               placeholder='Price per night'
               onChange={updatePrice}
             />
@@ -204,8 +210,7 @@ const EditSpotForm = () => {
               onChange={setImageUrl}
           />
         </section> */}
-        {/* {errors.credential && <p>{errors.credential}</p>} */}
-        <button className="create-button" type="submit">Update Listing</button>
+        <button className="create-button-1" type="submit">Update Listing</button>
       </form>
     </main>
   )

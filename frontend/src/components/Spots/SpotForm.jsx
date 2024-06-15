@@ -23,7 +23,8 @@ const SpotForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [imageUrl, setImageUrl] = useState("");
+  // const [previewImageUrl, setPreviewImageUrl] = useState("");
+  // const [imageUrl, setImageUrl] = useState("");
 
   const updateAddress = (e) => setAddress(e.target.value);
   const updateCity = (e) => setCity(e.target.value);
@@ -34,14 +35,19 @@ const SpotForm = () => {
   const updateName = (e) => setName(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
   const updatePrice = (e) => setPrice(e.target.value);
-	const updateImageUrl = (e) => setImageUrl(e.target.value);
+	// const updatePreviewImageUrl = (e) => setPreviewImageUrl(e.target.value);
+	// const updateImageUrl = (e) => setImageUrl(e.target.value);
 
   const [errors, setErrors] = useState({});
 
-
   // useEffect(() => {
-  //   dispatch(createSpot(newSpot));
-  // }, [dispatch]);
+  //   const gettingTheImages = async () => {
+  //     const images = await dispatch(getSpotImages(spotId));
+  //     setCurrentImages(images);
+  //   }
+  //   gettingTheSpot();
+  // }, [dispatch, images]);
+
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -219,8 +225,8 @@ const SpotForm = () => {
               placeholder='Image URL'
               onChange={setImageUrl}
           />
-        </section> */}
-        {/* {errors.credential && <p>{errors.credential}</p>} */}
+        </section>
+         {errors.credential && <p>{errors.credential}</p>} */}
         <button className="create-button-1" type="submit">Create Spot</button>
       </form>
     </main>
