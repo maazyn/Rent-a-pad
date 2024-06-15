@@ -6,7 +6,7 @@ const { Spot } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  
+  options.schema = process.env.SCHEMA;
 }
 
 module.exports = {
@@ -48,6 +48,7 @@ module.exports = {
         description: 'A cozy cabin in the mountains of Denver.',
         price: 120.00,
       },
+      
     ], {});
   },
 

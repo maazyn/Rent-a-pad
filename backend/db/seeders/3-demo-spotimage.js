@@ -12,23 +12,43 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mansionglobal.com%2Farticles%2Fa-high-rise-miami-apartment-with-endless-ocean-views-129450&psig=AOvVaw1-nwyqh8CzBDf67vV73chE&ust=1714333286976000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKi",
+        url: "https://as2.ftcdn.net/v2/jpg/05/55/95/33/1000_F_555953348_h2WODHOuUyTzt7a0Z5VnB3LI8BulBabn.jpg",
         preview: true,
       },
       {
         spotId: 1,
-        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thepinnaclelist.',
+        url: 'https://as1.ftcdn.net/v2/jpg/05/61/12/26/1000_F_561122679_hpojQnUSbk0I9gHpeItb2yRwcTqjtUA5.jpg',
+        preview: false,
+      },
+      {
+        spotId: 1,
+        url: 'https://img.freepik.com/premium-photo/cyberpunk-high-rise-apartment-room_237803-1981.jpg',
         preview: false,
       },
       {
         spotId: 2,
-        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mountainliving.com%2Fa-colorado-getaway%2F&psig=AOvVaw3WUwx_vDmmCOzjK9sxgi_h&ust=1714333534209000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMCo5J2U44UDFQAAAAAdAAAAABAJ',
-        preview: false,
-      },
-      {
-        spotId: 2,
-        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thespruce.com%2Flog-cabin-interiors-7564421&psig=AOvVaw1_6CyrxzVMkUMGLZceoIEr&ust=1714333571117000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNCfyLCU44UDFQAAAAAdAAAAABAO',
+        url: 'https://m.media-amazon.com/images/I/41P-VERdoxL._UXNaN_FMjpg_QL85_.jpg',
         preview: true,
+      },
+      {
+        spotId: 2,
+        url: 'https://images.nightcafe.studio/jobs/7oz2P8xaC9WGJ03CRXVe/7oz2P8xaC9WGJ03CRXVe--1--zpez3.jpg?tr=w-1600,c-at_max',
+        preview: false,
+      },
+      {
+        spotId: 2,
+        url: 'https://i.ytimg.com/vi/910ZDdzb4OY/maxresdefault.jpg',
+        preview: false,
+      },
+      {
+        spotId: 3,
+        url: 'https://i.ytimg.com/vi/8vSGD6y-piQ/mqdefault.jpg',
+        preview: true,
+      },
+      {
+        spotId: 3,
+        url: 'https://image.lexica.art/full_webp/863c254d-de14-4336-887f-63d7efbfed47',
+        preview: false,
       },
     ], { validate: true })
 
@@ -38,10 +58,15 @@ module.exports = {
     options.tableName = "SpotImages";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      url: { [Op.in]: ["https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mansionglobal.com%2Farticles%2Fa-high-rise-miami-apartment-with-endless-ocean-views-129450&psig=AOvVaw1-nwyqh8CzBDf67vV73chE&ust=1714333286976000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKi",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thepinnaclelist.",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mountainliving.com%2Fa-colorado-getaway%2F&psig=AOvVaw3WUwx_vDmmCOzjK9sxgi_h&ust=1714333534209000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMCo5J2U44UDFQAAAAAdAAAAABAJ",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thespruce.com%2Flog-cabin-interiors-7564421&psig=AOvVaw1_6CyrxzVMkUMGLZceoIEr&ust=1714333571117000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNCfyLCU44UDFQAAAAAdAAAAABAO"]},
+      url: { [Op.in]: ["https://as2.ftcdn.net/v2/jpg/05/55/95/33/1000_F_555953348_h2WODHOuUyTzt7a0Z5VnB3LI8BulBabn.jpg",
+        "https://as1.ftcdn.net/v2/jpg/05/61/12/26/1000_F_561122679_hpojQnUSbk0I9gHpeItb2yRwcTqjtUA5.jpg",
+        "https://img.freepik.com/premium-photo/cyberpunk-high-rise-apartment-room_237803-1981.jpg",
+        "https://m.media-amazon.com/images/I/41P-VERdoxL._UXNaN_FMjpg_QL85_.jpg",
+        "https://images.nightcafe.studio/jobs/7oz2P8xaC9WGJ03CRXVe/7oz2P8xaC9WGJ03CRXVe--1--zpez3.jpg?tr=w-1600,c-at_max",
+        "https://i.ytimg.com/vi/910ZDdzb4OY/maxresdefault.jpg",
+        "https://i.ytimg.com/vi/8vSGD6y-piQ/mqdefault.jpg",
+        "https://image.lexica.art/full_webp/863c254d-de14-4336-887f-63d7efbfed47"
+      ]},
     }, {})
   }
 };

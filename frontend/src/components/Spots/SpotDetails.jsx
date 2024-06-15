@@ -50,21 +50,21 @@ const SpotDetails = () => {
                 {theSpot.SpotImages.map((image, i) => {
                     if (image.preview === true) {
                         // {console.log(image.url)}
-                        <img key={i} src={image.url} />
+                        return <img key={i} src={image.url} />
                     } else return null
                 })}
                 </ul>
                 <ul id="details-rest-images">
                     {theSpot.SpotImages.map((image, id) => {
                         if (image.preview === false) {
-                            <img key={id} src={image.url} />
+                            return <img key={id} src={image.url} />
                         }
                     })}
                 </ul>
             </li>
             <div className="details">
                 <div id="details-left">
-                    <p id="">Hosted by {theSpot.ownerId}</p>
+                    <p id="">Hosted by {theSpot.User.firstName}</p>
                     <p id="details-left-desc">{theSpot.description}</p>
                 </div>
                 <div id="details-right">

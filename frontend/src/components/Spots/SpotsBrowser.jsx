@@ -17,7 +17,7 @@ const SpotsBrowser = () => {
 
   return (
     <main>
-      <div className="spots-container">
+      <div className="spots-container" >
           {allSpots.map(spot => (
             // console.log(spot),
             <SpotCard key={spot.id} {...spot} />

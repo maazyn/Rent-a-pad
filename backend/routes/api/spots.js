@@ -257,6 +257,10 @@ router.get("/:spotId", async (req, res) => {
         attributes: ["id", "url", "preview"],
         required: false,
       },
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
     ],
   })
   if (specificSpot) {

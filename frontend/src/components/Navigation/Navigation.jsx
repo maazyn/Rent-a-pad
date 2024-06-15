@@ -11,7 +11,7 @@ const Navigation = ({ isLoaded }) => {
         <nav className="nav-bar">
             <li className="nav-bar-home">
                 <NavLink to="/">
-                    <img className="nav-logo" src="../../../images/logo-aa-proj.png" alt="Logo" />
+                    <img className="nav-logo" src="../../../public/logo-aa-proj.png" alt="Logo" />
                 </NavLink>
             </li>
             <li className="create-listing">

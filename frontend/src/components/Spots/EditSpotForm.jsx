@@ -210,7 +210,7 @@ const EditSpotForm = () => {
               onChange={setImageUrl}
           />
         </section> */}
-        <button className="create-button-1" type="submit">Update Listing</button>
+        <button className="create-button-1" type="submit">Update Spot</button>
       </form>
     </main>
   )

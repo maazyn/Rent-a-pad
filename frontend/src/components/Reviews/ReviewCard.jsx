@@ -15,7 +15,9 @@ const ReviewCard = ({id, review, User, createdAt }) => {
     useEffect(() => {
         user.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
     }, [user.id, User.id, id])
+    console.log(createdAt)
 
+    // const date = new Date(createdAt);
 
    return (
     <>
@@ -23,7 +25,7 @@ const ReviewCard = ({id, review, User, createdAt }) => {
             <h3>{User.firstName}</h3>
         </div>
         <div id="review-date">
-            <h3>{createdAt}</h3>
+            <h3>{new Date(createdAt).toDateString()}</h3>
         </div>
         <div id="review-text">
             <p>{review}</p>

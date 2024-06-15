@@ -5,6 +5,7 @@ const LOAD_SPOT = 'spots/LOAD_ONE';
 const ADD_SPOT = 'spots/ADD_SPOT';
 const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 const REMOVE_SPOT = 'spots/REMOVE_SPOT';
+// const ADD_SPOTIMAGE = 'spots/ADD_SPOTIMAGE'
 
 //*ACTIONS
 const load = (list) => ({

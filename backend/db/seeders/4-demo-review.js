@@ -20,14 +20,26 @@ module.exports = {
       {
         userId: 2,
         spotId: 1,
-        review: "Elevator was out of order so I had to take 16 flights of stairs everytime I ordered doordash. Will not return",
+        review: "Elevator was out of order so I had to take 16 flights of stairs everytime I ordered doordash.",
         stars: 1,
       },
       {
-        userId: 2,
-        spotId: 3,
-        review: "Could be better",
+        userId: 3,
+        spotId: 2,
+        review: "Do not recommend, not enough lighting in the apartment",
         stars: 3,
+      },
+      {
+        userId: 2,
+        spotId: 2,
+        review: "Fantastic, I will definitely book again",
+        stars: 5,
+      },
+      {
+        userId: 1,
+        spotId: 2,
+        review: "I found the apartment clean and stylish, and the host was great!",
+        stars: 5,
       },
     ], { validate: true })
   },
@@ -36,8 +48,8 @@ module.exports = {
     options.tableName = "Reviews";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [1,2]},
-      spotId: { [Op.in]: [1,3]},
+      userId: { [Op.in]: [1, 2, 3]},
+      spotId: { [Op.in]: [1, 2]},
     }, {})
   }
 };

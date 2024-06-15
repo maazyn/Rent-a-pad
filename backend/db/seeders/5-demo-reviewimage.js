@@ -12,12 +12,12 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await ReviewImage.bulkCreate([
         {
-          reviewId: 2,
-          url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.businessinsider.com%2Funderrated-things-to-do-in-miami-2018-5&psig=AOvVaw1mEe4xWEyqvOb0t-RvUT69&ust=1714333690454000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJCRhOuU44UDFQAAAAAdAAAAABAJ",
+          reviewId: 3,
+          url: "https://img.freepik.com/premium-photo/room-with-desk-computer-it_860952-541.jpg",
         },
         {
-          reviewId: 3,
-          url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnaturalhistory.si.edu%2Feducation%2Fteaching-resources%2Fearth-science%2Fwhen-volcanoes-erupt&psig=AOvVaw3xkJTU_3aO8uVjn4a4dx20&ust=1714333805988000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPj",
+          reviewId: 4,
+          url: "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs3/262693459/original/eb262517cd75cfc8f305dd2bb4b20537b23b5852/create-anime-style-background-for-game-visual-novel-and-interior-design.jpg",
         },
 
     ], { validate: true })
@@ -28,8 +28,8 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       url: { [Op.in]: [
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.businessinsider.com%2Funderrated-things-to-do-in-miami-2018-5&psig=AOvVaw1mEe4xWEyqvOb0t-RvUT69&ust=1714333690454000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJCRhOuU44UDFQAAAAAdAAAAABAJ",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnaturalhistory.si.edu%2Feducation%2Fteaching-resources%2Fearth-science%2Fwhen-volcanoes-erupt&psig=AOvVaw3xkJTU_3aO8uVjn4a4dx20&ust=1714333805988000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPj"
+        "https://img.freepik.com/premium-photo/room-with-desk-computer-it_860952-541.jpg",
+        "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs3/262693459/original/eb262517cd75cfc8f305dd2bb4b20537b23b5852/create-anime-style-background-for-game-visual-novel-and-interior-design.jpg"
       ]},
     }, {})
   }
