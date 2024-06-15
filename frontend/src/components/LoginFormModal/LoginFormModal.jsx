@@ -25,6 +25,22 @@ const LoginFormModal = () => {
         });
     };
 
+    const demoLogin = (e) => {
+        e.preventDefault();
+        const demoUser = setCredential("Demo-lition");
+        const demoPass = setPassword("password");
+        return dispatch(sessionActions.login({ credential: demoUser, password: demoPass }))
+          .then(closeModal)
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
+        });
+    };
+
+
+
     // const handleSubmit = (e) => {
     //     e.preventDefault();
     //     setErrors({});
@@ -56,7 +72,8 @@ const LoginFormModal = () => {
                     required
                     />
                 {errors.credential && <p>{errors.credential}</p>}
-                <button className="enter-button" type="submit">Enter</button>
+                <button disabled={credential.length < 4 || password.length < 6} className="enter-button" type="submit">Enter</button>
+                <button className="enter-button" onClick={demoLogin} type="submit">Demo-User</button>
             </form>
         </div>
         </>

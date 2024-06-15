@@ -3,7 +3,7 @@ import "./Reviews.css"
 
 
 const ReviewCard = ({review, User, createdAt }) => {
-    // console.log("FLAG:", User.firstName)
+    console.log("FLAG:", User)
 
 
    return (

@@ -85,18 +85,24 @@ export const getSpot = (spotId) => async (dispatch) => {
 
 
 export const createSpot = (payload) => async (dispatch) => {
-    // const check = await csrfFetch('/api/session');
-    // const checkRes = await check.json();
-    // const user = checkRes.user;
-    // console.log(user);
-
+  const { address, city, state, country, lat, lng, name, description, price } = payload;
     // if (user && user.id !== null) {
   const response = await csrfFetch(`/api/spots`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
+    })
   });
 
   if (response.ok) {
@@ -104,9 +110,6 @@ export const createSpot = (payload) => async (dispatch) => {
     dispatch(addOne(newSpot));
     return response;
   }
-  // } else {
-  //   console.error("User must be logged in");
-  // }
 };
 
 
@@ -117,12 +120,23 @@ export const editSpot = (spotId, payload) => async (dispatch) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload)
+    // {
+    //   address: address,
+    //   city: city,
+    //   state: state,
+    //   country: country,
+    //   lat: lat,
+    //   lng: lng,
+    //   name: name,
+    //   description: description,
+    //   price: price
+    // })
   });
 
   if (response.ok) {
     const updatedSpot = await response.json();
     // console.log(updatedSpot);
-    dispatch(updateOne(updatedSpot));
+    dispatch(updateOne(spotId, updatedSpot));
     return response;
   } else {
     console.error("Error") ;
@@ -131,11 +145,15 @@ export const editSpot = (spotId, payload) => async (dispatch) => {
 };
 
 
-export const deleteSpot = () => async (dispatch) => {
-	const response = await csrfFetch("/api/spots/current", {
+export const deleteSpot = (spotId) => async (dispatch) => {
+	const response = await csrfFetch(`/api/spots/${spotId}`, {
 		method: "DELETE",
 	});
-	dispatch(removeOne());
+  if (response.ok) {
+    dispatch(removeOne(spotId));
+  } else {
+    console.error("Failed to delete")
+  }
 	return response;
 };
 
@@ -185,12 +203,19 @@ const spotsReducer = (state = initialState, action) =>{
     case REMOVE_SPOT:
       return {
         ...state,
-        [action.spotId]: {
-          ...state[action.spotId],
-          items: state[action.spotId].items.filter(
-            (spotId) => spotId !== action.spotId
-          ),
-        },
+        list: [state.list.filter((spotId) =>
+          spotId !== action.payload.id
+        )]
+        // const newState = { ...state };
+        // delete newState[action.itemId];
+        // return newState;
+        // ...state,
+        // [action.spotId]: {
+        //   ...state[action.spotId],
+        //   list: state[action.spotId].list.filter(
+        //     (spotId) => spotId !== action.spotId
+          // ),
+        // },
       };
     default:
       return state;

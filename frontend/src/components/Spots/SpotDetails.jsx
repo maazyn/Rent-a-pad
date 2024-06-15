@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+// import {Alert} from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import ReviewCard from '../Reviews/ReviewCard';
@@ -18,9 +19,12 @@ const SpotDetails = () => {
     const allReviews = useSelector((state) => state.reviews.list);
     // const sessionUser = useSelector((state) => state.session.user);
 
-    // console.log(allReviews);
+    // console.log(theSpot.Owner );
     // console.log(allReviews[0]);
 
+    function handleUploadImage() {
+        alert("Feature coming soon!")
+    }
 
     useEffect(() => {
         dispatch(getSpot(spotId));
@@ -65,16 +69,16 @@ const SpotDetails = () => {
                 </div>
                 <div id="details-right">
                     <p id="details-right-price">${theSpot.price} night</p>
-                    <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating.toFixed(1)}</p>
-                    <p id="details-right-review-number">{theSpot.numReviews} reviews</p>
-                    {/* <button id="details-right-reserve-button">Reserve</button> */}
-                    <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink>
+                    <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)}</p>
+                    <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : `${theSpot.numReviews} reviews`}</p>
+                    <button id="details-right-reserve-button" onClick={handleUploadImage}>Reserve</button>
+                    {/* <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink> */}
                 </div>
             </div>
             <div id="details-lower">
                 <div className="details-lower-ratings-reviews-container">
                     <h2 id="details-lower-ratings-reviews">
-                        <FaStar/> {theSpot.avgStarRating.toFixed(1)} • {theSpot.numReviews} reviews
+                        <FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)} {theSpot.numReviews === 0? "New" : theSpot.numReviews === 1? `• ${theSpot.numReviews} review`: `• ${theSpot.numReviews} reviews`}
                     </h2>
                     <div>
                         {(

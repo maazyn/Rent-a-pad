@@ -18,27 +18,29 @@ const ManageSpots = () => {
     }
   }, [dispatch, user]);
   // console.log("FLAG:", allSpots);
-
   return (
-    <main className="manage-card">
-      <div className="manage-upper">
-        <h2>Manage Your Spots</h2>
-        <Link className="create-button-2" to="/spots">Create a listing
-        </Link>
-      </div>
-      <div className="manage-spots-container">
-          {ownerSpots.map(spot => (
-            // console.log(spot),
-            <SpotCard key={spot.id} {...spot} />
-          ))}
-          <div className="manage-buttons-container">
-            <Link className="manage-button-update" to="/spots">Update
-            </Link>
-            <Link className="manage-button-delete" to="/spots">Delete
-            </Link>
-          </div>
-      </div>
-    </main>
+    user? (
+      <main className="manage-card">
+        <div className="manage-upper">
+          <h2>Manage Your Spots</h2>
+          <Link className="create-button-2" to="/spots">Create a listing
+          </Link>
+        </div>
+        <div className="manage-spots-container">
+            {ownerSpots.map(spot => (
+              // console.log(spot),
+              <SpotCard key={spot.id} {...spot} showManageButtons={true} />
+            ))}
+        </div>
+      </main>
+
+    ): (
+      <main className="manage-card">
+        <Link className="create-button-2" to="/spots">Create a New Spot</Link>
+
+      </main>
+
+    )
   )
 }
 

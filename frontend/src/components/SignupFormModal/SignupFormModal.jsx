@@ -85,7 +85,7 @@ const SignupFormModal = () => {
                     required
                 />
                 {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-                <button className="enter-button" type="submit">Enter</button>
+                <button className="enter-button" type="submit" disabled={username.length < 4 || password.length < 6}>Enter</button>
             </form>
         </div>
         </>

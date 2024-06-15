@@ -10,7 +10,9 @@ const Navigation = ({ isLoaded }) => {
     return (
         <nav className="nav-bar">
             <li className="nav-bar-home">
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/">
+                    <img className="nav-logo" src="../../../images/logo-aa-proj.png" alt="Logo" />
+                </NavLink>
             </li>
             <li className="create-listing">
                 {isLoaded && (
