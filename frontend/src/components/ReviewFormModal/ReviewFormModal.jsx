@@ -65,7 +65,7 @@ const ReviewFormModal = ({ spotId }) => {
                     ))}
                     {errors.stars && <p>{errors.stars}</p>}
                 </div>
-                <button className="submit-button" type="submit">Submit Your Review</button>
+                <button className="submit-button" type="submit" disabled={review.length < 10 || stars === 0}>Submit Your Review</button>
             </form>
         </div>
         </>

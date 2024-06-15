@@ -10,7 +10,7 @@ import { FaDollarSign } from "react-icons/fa";
 
 const SpotForm = () => {
   const dispatch = useDispatch();
-  const newSpot = useSelector((state) => state.spots.list);
+  // const newSpot = useSelector((state) => state.spots.spot);
   // console.log(newSpot);
 
   const navigate = useNavigate();
@@ -39,9 +39,9 @@ const SpotForm = () => {
   const [errors, setErrors] = useState({});
 
 
-  useEffect(() => {
-    dispatch(createSpot());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(createSpot(newSpot));
+  // }, [dispatch]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -59,22 +59,17 @@ const SpotForm = () => {
         price,
     };
 
-    let createdSpot = await dispatch(createSpot(payload)).catch(
+    const createdSpot = await dispatch(createSpot(payload)).catch(
 			async (res) => {
 				const data = await res.json();
 				if (data?.errors) setErrors(data.errors);
 			}
     );
     if (createdSpot) {
-        navigate(`/spots/${createdSpot.id}`);
+      await navigate(`/spots/${createdSpot.id}`);
     }
   }
 
-  // const handleCancelClick = (e) => {
-  //   e.preventDefault();
-  // };
-
-  // console.log("FLAG:", allSpots);
 
   return (
     <main>
@@ -93,6 +88,8 @@ const SpotForm = () => {
               placeholder='Country'
               onChange={updateCountry}
           />
+          {errors.country && <p>{errors.country}</p>}
+
           <label>Street Address
           </label>
           <input
@@ -102,6 +99,8 @@ const SpotForm = () => {
               placeholder='Address'
               onChange={updateAddress}
           />
+          {errors.address && <p>{errors.address}</p>}
+
           <label>City
           </label>
           <input
@@ -111,6 +110,8 @@ const SpotForm = () => {
               placeholder='City'
               onChange={updateCity}
           />
+          {errors.city && <p>{errors.city}</p>}
+
           <label>State
           </label>
           <input
@@ -120,6 +121,8 @@ const SpotForm = () => {
               placeholder='STATE'
               onChange={updateState}
           />
+          {errors.state && <p>{errors.state}</p>}
+
           <label>Latitude
           </label>
           <input
@@ -129,6 +132,8 @@ const SpotForm = () => {
               placeholder='Latitude'
               onChange={updateLat}
           />
+          {errors.lat && <p>{errors.lat}</p>}
+
           <label>Longitude
           </label>
          <input
@@ -138,6 +143,7 @@ const SpotForm = () => {
               placeholder='Longitude'
               onChange={updateLng}
           />
+          {errors.lng && <p>{errors.lng}</p>}
         </section>
 
         <section className="form-part-two">
@@ -153,6 +159,7 @@ const SpotForm = () => {
               placeholder='Please write at least 30 characters'
               onChange={updateDescription}
           />
+          {errors.description && <p>{errors.description}</p>}
         </section>
 
         <section className="form-part-three">
@@ -167,6 +174,7 @@ const SpotForm = () => {
               placeholder='Name of your spot'
               onChange={updateName}
           />
+          {errors.name && <p>{errors.name}</p>}
         </section>
 
         <section className="form-part-four">
@@ -183,26 +191,21 @@ const SpotForm = () => {
               placeholder='Price per night'
               onChange={updatePrice}
             />
+          {errors.price && <p>{errors.price}</p>}
           </div>
         </section>
 
-        <section className="form-part-five">
+        {/* <section className="form-part-five">
           <h2>Liven up your spot with photos</h2>
           <label>Submit a link to at least one photo to publish your spot
           </label>
-          {/* <input
+          <input
               type="url"
               required
               value={previewImage}
               placeholder='Preview Image URL'
               onChange={setImageUrl}
               checked
-          /> */}
-           <input
-              type="url"
-              value={imageUrl}
-              placeholder='Image URL'
-              onChange={setImageUrl}
           />
            <input
               type="url"
@@ -210,9 +213,15 @@ const SpotForm = () => {
               placeholder='Image URL'
               onChange={setImageUrl}
           />
-        </section>
+           <input
+              type="url"
+              value={imageUrl}
+              placeholder='Image URL'
+              onChange={setImageUrl}
+          />
+        </section> */}
         {/* {errors.credential && <p>{errors.credential}</p>} */}
-        <button className="create-button-1" type="submit">Create Listing</button>
+        <button className="create-button-1" type="submit">Create Spot</button>
       </form>
     </main>
   )

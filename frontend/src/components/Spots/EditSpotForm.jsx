@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 // import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { editSpot } from '../../store/spots';
 import "./Forms.css"
 import { FaDollarSign } from "react-icons/fa";
@@ -10,8 +10,8 @@ import { FaDollarSign } from "react-icons/fa";
 
 const EditSpotForm = () => {
   const dispatch = useDispatch();
-  const updatedSpot = useSelector((state) => state.spots.list);
-
+  // const updatedSpot = useSelector((state) => state.spots.list);
+  const {spotId } = useParams();
   const navigate = useNavigate();
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -38,9 +38,9 @@ const EditSpotForm = () => {
   const [errors, setErrors] = useState({});
 
 
-  useEffect(() => {
-    dispatch(editSpot());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(editSpot());
+  // }, [dispatch]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -58,22 +58,16 @@ const EditSpotForm = () => {
         price,
     };
 
-    let createdSpot = await dispatch(createSpot(payload)).catch(
+    let updatedSpot = await dispatch(editSpot(spotId, payload)).catch(
 			async (res) => {
 				const data = await res.json();
 				if (data?.errors) setErrors(data.errors);
 			}
     );
-    if (createdSpot) {
+    if (updatedSpot) {
         navigate(`/spots/${updatedSpot.id}`);
     }
   }
-
-  // const handleCancelClick = (e) => {
-  //   e.preventDefault();
-  // };
-
-  // console.log("FLAG:", allSpots);
 
   return (
     <main>
@@ -185,23 +179,17 @@ const EditSpotForm = () => {
           </div>
         </section>
 
-        <section className="form-part-five">
+        {/* <section className="form-part-five">
           <h2>Liven up your spot with photos</h2>
           <label>Submit a link to at least one photo to publish your spot
           </label>
-          {/* <input
+          <input
               type="url"
               required
               value={previewImage}
               placeholder='Preview Image URL'
               onChange={setImageUrl}
               checked
-          /> */}
-           <input
-              type="url"
-              value={imageUrl}
-              placeholder='Image URL'
-              onChange={setImageUrl}
           />
            <input
               type="url"
@@ -209,7 +197,13 @@ const EditSpotForm = () => {
               placeholder='Image URL'
               onChange={setImageUrl}
           />
-        </section>
+           <input
+              type="url"
+              value={imageUrl}
+              placeholder='Image URL'
+              onChange={setImageUrl}
+          />
+        </section> */}
         {/* {errors.credential && <p>{errors.credential}</p>} */}
         <button className="create-button" type="submit">Update Listing</button>
       </form>

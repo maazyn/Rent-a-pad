@@ -7,12 +7,12 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
+    width: 85%;
     /* border: 0.5px solid black; */
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
-    border-radius: 20px;
-    border-bottom: 1.5px solid #f8381a;
-    height: 35px;
+    /* border-radius: 20px; */
+    border-bottom: 1px solid black;
+    height: 45px;
     margin: 5px 10px 0 10px;
     margin-bottom: 30px;
 }
@@ -38,21 +38,30 @@ body {
 .create-listing a {
     display: flex;
     position: absolute;
-    right: 70px;
-    top: 24px;
+    right: 170px;
+    top: 31px;
     /* margin-right: 70px; */
     font-size: 14px;
     font-weight:500;
     font-style: normal;
     list-style: none;
     margin-left: auto;
-    /* margin-right: 50px; */
+    margin-right: auto;
     /* z-index: 1; */
 }
 
 .create-listing a:hover {
     color: #fa441f;
 }
+
+.nav-logo {
+    height: 37px;
+    margin-bottom: 1px;
+    margin-left: 20px;
+}
+
+
+
 
 /* .nav-bar-profile-session {
     display: flex;
@@ -78,8 +87,9 @@ body {
 
 #profile-button {
     position: absolute;
-    align-items: center;
-    color: rgb(201, 22, 22);
+    top: 26px;
+    align-items: start;
+    color: black;
     border-radius: 5px;
     margin: 0px;
     padding: 0;
@@ -87,15 +97,16 @@ body {
     font-size: 25px;
     display: flex;
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: 38px;
     list-style: none;
-    transition: transform 2s, color 1s, background-color 1s, box-shadow 2s;
+    /* transition: transform 2s, color 1s, background-color 1s, box-shadow 2s; */
 }
 
 #profile-button:hover {
     background: none;
+    color: rgb(201, 22, 22);
     /* box-shadow: 2px 2px 5px rgb(226, 64, 64), -2px 2px 5px rgb(67, 95, 235), 2px -2px 5px rgb(67, 95, 235), -2px -2px 8px rgb(241, 39, 39) ; */
-    box-shadow: 0 0 5px red;
+    /* box-shadow: 0 0 5px red; */
 }
 
 
@@ -103,7 +114,7 @@ body {
     /* gap: 20px; */
     position: relative;
     right: 22px;
-    top: 295%;
+    top: 245%;
     padding: 5px 0 5px;
     width: 150px;
     height: 150px;
