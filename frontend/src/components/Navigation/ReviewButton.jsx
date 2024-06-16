@@ -10,8 +10,9 @@ const ReviewButton = ({theSpot, reviews}) => {
   const { spotId } = useParams();
   const [showButton, setShowButton] = useState(false);
   const ulRef = useRef();
-  const checkExisting = reviews.filter((review) => review.User.id === sessionUser.id);
-  const checkSpotOwner = theSpot.ownerId === sessionUser.id? true: false;
+  const checkExisting = sessionUser? reviews.filter((review) => review.User.id === sessionUser.id): [];
+  const checkSpotOwner = sessionUser ? (theSpot.ownerId === sessionUser.id) : false;
+
 
   // console.log(theSpot);
   // console.log("FLAG:", sessionUser);
@@ -37,7 +38,7 @@ const ReviewButton = ({theSpot, reviews}) => {
 
   return (
     <div className="review-button-container" ref={ulRef}>
-      {checkExisting.length < 1 && !checkSpotOwner && (
+      {sessionUser && checkExisting.length < 1 && !checkSpotOwner && (
         <OpenModalButton
           buttonText="Post A Review"
           modalComponent={<ReviewFormModal spotId={spotId}/>}

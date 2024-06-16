@@ -7,14 +7,14 @@ import "./Reviews.css"
 
 
 const ReviewCard = ({id, review, User, createdAt }) => {
-    const user = useSelector((state) => state.session.user);
+    const sessionUser = useSelector((state) => state.session.user);
     const reviews = useSelector((state) => state.reviews.list);
-    const theReview = reviews.filter((rev) => rev.id === id);
+    // const theReview = reviews.filter((rev) => rev.id === id);
     const [showDeleteButton, setShowDeleteButton] = useState(false);
 
     useEffect(() => {
-        user.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
-    }, [user.id, User.id, id])
+        sessionUser && sessionUser.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
+    }, [sessionUser, User])
     // console.log(createdAt)
 
     // const date = new Date(createdAt);
