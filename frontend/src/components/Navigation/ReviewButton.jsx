@@ -10,14 +10,15 @@ const ReviewButton = ({theSpot, reviews}) => {
   const { spotId } = useParams();
   const [showButton, setShowButton] = useState(false);
   const ulRef = useRef();
-  const checkExisting = sessionUser? reviews.filter((review) => review.User.id === sessionUser.id): [];
+  const checkExisting = sessionUser && reviews? reviews.filter((review) => review.User.id === sessionUser.id): [];
   const checkSpotOwner = sessionUser ? (theSpot.ownerId === sessionUser.id) : false;
 
 
   // console.log(theSpot);
   // console.log("FLAG:", sessionUser);
 
-
+  // useEffect(() => {
+  // }, [reviews])
 
 
   useEffect(() => {

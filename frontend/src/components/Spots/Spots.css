@@ -67,6 +67,7 @@
   /* overflow: hidden; */
   flex-direction: column;
   justify-content: space-between;
+  /* align-content: center; */
   align-content: right;
   grid-area: rating;
 

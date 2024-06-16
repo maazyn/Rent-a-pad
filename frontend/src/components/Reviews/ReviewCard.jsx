@@ -1,4 +1,3 @@
-// import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
@@ -9,20 +8,25 @@ import "./Reviews.css"
 const ReviewCard = ({id, review, User, createdAt }) => {
     const sessionUser = useSelector((state) => state.session.user);
     const reviews = useSelector((state) => state.reviews.list);
-    // const theReview = reviews.filter((rev) => rev.id === id);
     const [showDeleteButton, setShowDeleteButton] = useState(false);
 
-    useEffect(() => {
-        sessionUser && sessionUser.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
-    }, [sessionUser, User])
-    // console.log(createdAt)
+    console.log("FIRST:", id, review, User, createdAt );
 
-    // const date = new Date(createdAt);
+    useEffect(() => {
+        sessionUser && sessionUser.id === User?.id ? setShowDeleteButton(true) : setShowDeleteButton(false);
+    }, [sessionUser, User]);
+
+    useEffect(() => {
+    }, [id, reviews])
+
+    // useEffect(() => {
+        //     sessionUser && sessionUser.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
+        // }, [User])
 
    return (
     <>
         <div id="review-owner">
-            <h3>{User.firstName}</h3>
+            <h3>{User?.firstName}</h3>
         </div>
         <div id="review-date">
             <h3>{new Date(createdAt).toDateString()}</h3>

@@ -65,7 +65,7 @@ const SpotForm = () => {
         price,
     };
 
-    let createdSpot = await dispatch(createSpot(payload)).catch(
+    const createdSpot = await dispatch(createSpot(payload)).catch(
 			async (res) => {
 				const data = await res.json();
 				if (data?.errors) setErrors(data.errors);
@@ -74,7 +74,7 @@ const SpotForm = () => {
     // if (createdSpot) {
     //   console.log(createdSpot)
     // }
-    navigate(`/spots/${createdSpot.id}`);
+    navigate(`/spots/${createdSpot?.id}`);
   }
 
 
@@ -134,7 +134,6 @@ const SpotForm = () => {
           </label>
           <input
               type="number"
-              required
               value={lat}
               placeholder='Latitude'
               onChange={updateLat}
@@ -145,7 +144,6 @@ const SpotForm = () => {
           </label>
          <input
               type="number"
-              required
               value={lng}
               placeholder='Longitude'
               onChange={updateLng}

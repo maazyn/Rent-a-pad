@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-// import {Alert} from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReviewCard from '../Reviews/ReviewCard';
 import { getSpot } from '../../store/spots';
 import { getAllReviews } from '../../store/reviews';
@@ -9,28 +8,26 @@ import ReviewButton from "../Navigation/ReviewButton";
 
 import { FaStar } from "react-icons/fa6";
 import "./Spots.css"
-// import "./Reviews.css"
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
     const {spotId} = useParams();
     const theSpot = useSelector((state) => state.spots.spot);
     const allReviews = useSelector((state) => state.reviews.list);
-    const sessionUser = useSelector((state) => state.session.user);
-    const [showButton, setShowButton] = useState(false);
 
 
-    function handleUploadImage() {
-        alert("Feature coming soon!")
-    }
     useEffect(() => {
-    }, [allReviews]);
+    }, [allReviews, spotId]);
 
     useEffect(() => {
         dispatch(getSpot(spotId));
         dispatch(getAllReviews(spotId));
     }, [dispatch, spotId]) //having allReviews here caused endless loop
 
+
+    function handleUploadImage() {
+        alert("Feature coming soon!")
+    }
 
 
     // console.log(theSpot);
@@ -82,14 +79,14 @@ const SpotDetails = () => {
                     </h2>
                     <div>
                         {(
-                            <ReviewButton theSpot={theSpot}reviews={allReviews}/>
+                            <ReviewButton theSpot={theSpot} reviews={allReviews}/>
                         )}
                     </div>
                 </div>
                 <div className="reviews-card">
                     {allReviews.map((review) => (
                         <div className="review-container" key={review.id}>
-                            <ReviewCard {...review} />
+                            <ReviewCard {...review}  />
                         </div>
                     ))}
                 </div>

@@ -1,22 +1,16 @@
-import { useState } from 'react';
-// import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { deleteReview } from '../../store/reviews';
-import { useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { FaStar } from "react-icons/fa6";
 
 
 const DeleteReviewModal = ({reviewId}) => {
     const dispatch = useDispatch();
-    // const user = useSelector((state) => state.session.user);
     const { closeModal } = useModal();
     // console.log(reviewId);
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        dispatch(deleteReview(reviewId))
-        closeModal();
+        return dispatch(deleteReview(reviewId)).then(closeModal());
     };
 
 

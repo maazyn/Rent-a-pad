@@ -42,9 +42,9 @@ form input {
   width: 50%;
 } */
 
-.enter-button {
+.enter-button, .enter-demo-button {
     padding-bottom: 1px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     background: none;
     font-size: 16px;
 
@@ -63,6 +63,14 @@ form input {
     text-align: center;
     cursor: pointer;
 }
+
+.enter-button {
+  margin-top: 25px;
+
+}
+
+
+
 
 .enter-button:active {
   box-shadow: none;

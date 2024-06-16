@@ -11,11 +11,11 @@ const Navigation = ({ isLoaded }) => {
         <nav className="nav-bar">
             <li className="nav-bar-home">
                 <NavLink to="/">
-                    <img className="nav-logo" src="/logo-aa-proj.png" alt="Logo" />
+                    <img className="nav-logo" src="/images/logo-aa-proj.PNG" alt="Logo" />
                 </NavLink>
             </li>
             <li className="create-listing">
-                {isLoaded && (
+                {sessionUser && (
                     <NavLink to="/spots">Create a listing</NavLink>
                 )}
             </li>

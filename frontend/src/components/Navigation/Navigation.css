@@ -191,6 +191,7 @@ body {
 .session-menu li{
     color: black;
     margin: 0;
+    font-size: 16px;
     cursor: pointer;
     padding-bottom: 12px;
 }

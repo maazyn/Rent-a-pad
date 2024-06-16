@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import * as sessionActions from '../../store/session';
 import * as reviewActions from '../../store/reviews';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
@@ -14,7 +13,6 @@ const ReviewFormModal = ({ spotId }) => {
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
 
-    const reviewData = { review, stars };
     // console.log("Flag:", spotId, reviewData)
     const starValues = [1, 2, 3, 4, 5];
 
@@ -22,23 +20,23 @@ const ReviewFormModal = ({ spotId }) => {
         e.preventDefault();
         setErrors({});
         // console.log(reviewData);
-        return dispatch(reviewActions.createReview(spotId, reviewData))
+        return dispatch(reviewActions.createReview(spotId, { review, stars }))
           .then(closeModal)
-        //   .catch(async (res) => {
-        //     const data = await res.json();
-        //     if (data && data.errors) {
-        //       setErrors(data.errors);
-        //     }
-        // });
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
+        });
     };
 
 
     return (
         <>
         <h1 className="form-heading">How was your stay?</h1>
-        <div className="form-parent-container">
+        <div className="review-parent-container">
             <form onSubmit={handleSubmit}>
-                <input
+                <input id="review-input"
                     type="text"
                     placeholder="Leave your review here..."
                     value={review}
