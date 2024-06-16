@@ -11,7 +11,7 @@ const DeleteReviewModal = ({reviewId}) => {
     const dispatch = useDispatch();
     // const user = useSelector((state) => state.session.user);
     const { closeModal } = useModal();
-    console.log(reviewId);
+    // console.log(reviewId);
 
     const handleDelete = async (e) => {
         e.preventDefault();

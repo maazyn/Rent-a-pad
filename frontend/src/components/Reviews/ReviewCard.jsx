@@ -15,7 +15,7 @@ const ReviewCard = ({id, review, User, createdAt }) => {
     useEffect(() => {
         user.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
     }, [user.id, User.id, id])
-    console.log(createdAt)
+    // console.log(createdAt)
 
     // const date = new Date(createdAt);
 

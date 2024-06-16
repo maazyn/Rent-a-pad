@@ -13,8 +13,8 @@ const ReviewButton = ({theSpot, reviews}) => {
   const checkExisting = reviews.filter((review) => review.User.id === sessionUser.id);
   const checkSpotOwner = theSpot.ownerId === sessionUser.id? true: false;
 
-  console.log(theSpot);
-  console.log("FLAG:", sessionUser);
+  // console.log(theSpot);
+  // console.log("FLAG:", sessionUser);
 
 
 

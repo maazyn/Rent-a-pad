@@ -395,7 +395,7 @@ router.get("/:spotId/reviews", async (req, res) => {
   if (spot) {
     const reviews = await Review.findAll({
       where: { spotId },
-      order: [["createdAt", "ASC"]],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,

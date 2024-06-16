@@ -15,7 +15,7 @@ const ReviewFormModal = ({ spotId }) => {
     const { closeModal } = useModal();
 
     const reviewData = { review, stars };
-    console.log("Flag:", spotId, reviewData)
+    // console.log("Flag:", spotId, reviewData)
     const starValues = [1, 2, 3, 4, 5];
 
     const handleSubmit = async (e) => {
