@@ -82,7 +82,7 @@ export const createReview = (spotId, payload) => async (dispatch) => {
 
 
 export const updateReview = (reviewId, payload) => async (dispatch) => {
-    const response = await fetch(`/api/reviews/${reviewId}`, {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { createSpot } from '../../store/spots';
+import { createSpotImage } from '../../store/spots';
 import "./Forms.css"
 import { FaDollarSign } from "react-icons/fa";
 
@@ -10,8 +11,6 @@ import { FaDollarSign } from "react-icons/fa";
 
 const SpotForm = () => {
   const dispatch = useDispatch();
-  // const newSpot = useSelector((state) => state.spots.spot);
-  // console.log(newSpot);
 
   const navigate = useNavigate();
   const [address, setAddress] = useState("");
@@ -23,8 +22,6 @@ const SpotForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  // const [previewImageUrl, setPreviewImageUrl] = useState("");
-  // const [imageUrl, setImageUrl] = useState("");
 
   const updateAddress = (e) => setAddress(e.target.value);
   const updateCity = (e) => setCity(e.target.value);
@@ -35,8 +32,20 @@ const SpotForm = () => {
   const updateName = (e) => setName(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
   const updatePrice = (e) => setPrice(e.target.value);
-	// const updatePreviewImageUrl = (e) => setPreviewImageUrl(e.target.value);
-	// const updateImageUrl = (e) => setImageUrl(e.target.value);
+
+
+  const [imageUrl0, setImageUrl0] = useState("");
+  const [imageUrl1, setImageUrl1] = useState("");
+  const [imageUrl2, setImageUrl2] = useState("");
+  const [imageUrl3, setImageUrl3] = useState("");
+  const [imageUrl4, setImageUrl4] = useState("");
+  const updateImageUrl0 = (e) => setImageUrl0(e.target.value);
+  const updateImageUrl1 = (e) => setImageUrl1(e.target.value);
+  const updateImageUrl2 = (e) => setImageUrl2(e.target.value);
+  const updateImageUrl3 = (e) => setImageUrl3(e.target.value);
+  const updateImageUrl4 = (e) => setImageUrl4(e.target.value);
+
+  const imageUrls = [imageUrl0, imageUrl1, imageUrl2, imageUrl3, imageUrl4];
 
   const [errors, setErrors] = useState({});
 
@@ -65,16 +74,23 @@ const SpotForm = () => {
         price,
     };
 
-    const createdSpot = await dispatch(createSpot(payload)).catch(
-			async (res) => {
-				const data = await res.json();
-				if (data?.errors) setErrors(data.errors);
-			}
-    );
-    // if (createdSpot) {
-    //   console.log(createdSpot)
-    // }
-    navigate(`/spots/${createdSpot?.id}`);
+    try {
+      const newSpot = await dispatch(createSpot(payload));
+      if (newSpot) {
+        await Promise.all(
+          imageUrls.map((url, i) =>
+            dispatch(createSpotImage(newSpot.id, {
+              url,
+              preview: i === 0? true: false,
+            }))
+          )
+        );
+        navigate(`/spots/${newSpot.id}`);
+      }
+    } catch (res) {
+      const data = await res.json();
+      if (data?.errors) setErrors(data.errors);
+    }
   }
 
 
@@ -200,32 +216,48 @@ const SpotForm = () => {
           </div>
         </section>
 
-        {/* <section className="form-part-five">
+        <section className="form-part-five">
           <h2>Liven up your spot with photos</h2>
           <label>Submit a link to at least one photo to publish your spot
           </label>
           <input
               type="url"
               required
-              value={previewImage}
+              value={imageUrl0}
               placeholder='Preview Image URL'
-              onChange={setImageUrl}
-              checked
+              onChange={updateImageUrl0}
+          />
+          {errors.imageUrl0 && <p>{errors.imageUrl0}</p>}
+           <input
+              type="url"
+              value={imageUrl1}
+              placeholder='Image URL'
+              onChange={updateImageUrl1}
+          />
+          <input
+              type="url"
+              value={imageUrl2}
+              placeholder='Image URL'
+              onChange={updateImageUrl2}
           />
            <input
               type="url"
-              value={imageUrl}
+              value={imageUrl3}
               placeholder='Image URL'
-              onChange={setImageUrl}
+              onChange={updateImageUrl3}
           />
            <input
               type="url"
-              value={imageUrl}
+              value={imageUrl4}
               placeholder='Image URL'
-              onChange={setImageUrl}
+              onChange={updateImageUrl4}
           />
+          {/* {imageUrls.map((url, index) => (
+            <input key={index} type="url" required value={url} placeholder={`Image URL ${index + 1}`} onChange={handleImageChange(index)} />
+          ))}
+          <button type="button" onClick={addImageField}>Add Another Image</button> */}
         </section>
-         {errors.credential && <p>{errors.credential}</p>} */}
+         {errors.credential && <p>{errors.credential}</p>}
         <button className="create-button-1" type="submit">Create Spot</button>
       </form>
     </main>

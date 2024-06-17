@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 // import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
-import { editSpot, getSpot } from '../../store/spots';
+import { editSpot, getSpot, createSpotImage } from '../../store/spots';
 import "./Forms.css"
 import { FaDollarSign } from "react-icons/fa";
 
@@ -23,7 +23,6 @@ const EditSpotForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [imageUrl, setImageUrl] = useState("");
 
   const updateAddress = (e) => setAddress(e.target.value);
   const updateCity = (e) => setCity(e.target.value);
@@ -34,7 +33,20 @@ const EditSpotForm = () => {
   const updateName = (e) => setName(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
   const updatePrice = (e) => setPrice(e.target.value);
-	const updateImageUrl = (e) => setImageUrl(e.target.value);
+
+  const [imageUrl0, setImageUrl0] = useState("");
+  const [imageUrl1, setImageUrl1] = useState("");
+  const [imageUrl2, setImageUrl2] = useState("");
+  const [imageUrl3, setImageUrl3] = useState("");
+  const [imageUrl4, setImageUrl4] = useState("");
+  const updateImageUrl0 = (e) => setImageUrl0(e.target.value);
+  const updateImageUrl1 = (e) => setImageUrl1(e.target.value);
+  const updateImageUrl2 = (e) => setImageUrl2(e.target.value);
+  const updateImageUrl3 = (e) => setImageUrl3(e.target.value);
+  const updateImageUrl4 = (e) => setImageUrl4(e.target.value);
+
+  const imageUrls = [imageUrl0, imageUrl1, imageUrl2, imageUrl3, imageUrl4];
+
 
   const [errors, setErrors] = useState({});
 
@@ -63,17 +75,24 @@ const EditSpotForm = () => {
         description: description || currentSpot.description,
         price: price || currentSpot.price,
     };
-
-    let updatedSpot = await dispatch(editSpot(spotId, payload)).catch(
-			async (res) => {
-				const data = await res.json();
-				if (data?.errors) setErrors(data.errors);
-			}
-    );
+    let updatedSpot = await dispatch(editSpot(currentSpot.id, payload))
     if (updatedSpot) {
-        navigate(`/spots/${spotId}`);
+      await Promise.all(
+        imageUrls.map((url, i) =>
+          dispatch(createSpotImage(currentSpot.id, {
+            url: url || currentSpot.SpotImages?.url,
+            preview: i === 0
+          }))
+        )
+      );
+    };
+    if (updatedSpot) {
+      navigate(`/spots/${spotId}`);
     }
+
   }
+
+  // console.log(currentSpot)
 
   return (
     <main>
@@ -185,31 +204,43 @@ const EditSpotForm = () => {
           </div>
         </section>
 
-        {/* <section className="form-part-five">
+        <section className="form-part-five">
           <h2>Liven up your spot with photos</h2>
           <label>Submit a link to at least one photo to publish your spot
           </label>
           <input
               type="url"
               required
-              value={previewImage}
+              value={imageUrl0 || currentSpot?.SpotImages[0]?.url}
               placeholder='Preview Image URL'
-              onChange={setImageUrl}
+              onChange={updateImageUrl0}
               checked
           />
            <input
               type="url"
-              value={imageUrl}
+              value={imageUrl1 || currentSpot?.SpotImages[1]?.url}
               placeholder='Image URL'
-              onChange={setImageUrl}
+              onChange={updateImageUrl1}
           />
            <input
               type="url"
-              value={imageUrl}
+              value={imageUrl2 || currentSpot?.SpotImages[2]?.url}
               placeholder='Image URL'
-              onChange={setImageUrl}
+              onChange={updateImageUrl2}
           />
-        </section> */}
+          <input
+              type="url"
+              value={imageUrl3 || currentSpot?.SpotImages[3]?.url}
+              placeholder='Image URL'
+              onChange={updateImageUrl3}
+          />
+          <input
+              type="url"
+              value={imageUrl4 || currentSpot?.SpotImages[4]?.url}
+              placeholder='Image URL'
+              onChange={updateImageUrl4}
+          />
+        </section>
         <button className="create-button-1" type="submit">Update Spot</button>
       </form>
     </main>

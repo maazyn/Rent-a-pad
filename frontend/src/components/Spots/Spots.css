@@ -4,8 +4,17 @@
   width: 100%;
   gap: 10px;
   justify-content: center;
+  padding-top: 30px;
 }
 
+/* .tooltip-text {
+  visibility: visible;
+}
+#spots-tooltip:hover {
+
+  color: red;
+  background-color: red;
+} */
 
 .spot-card {
   width: 300px;

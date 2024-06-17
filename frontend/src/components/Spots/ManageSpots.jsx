@@ -14,13 +14,14 @@ const ManageSpots = () => {
 
 
   useEffect(() => {
+  }, [ownerSpots]);
+
+  useEffect(() => {
     if (user) {
       dispatch(getOwnerSpots());
     }
   }, [dispatch, user]);
 
-  useEffect(() => {
-  }, [ownerSpots]);
   // console.log("FLAG:", allSpots);
 
   return (

@@ -83,7 +83,7 @@ form input {
 
 .form-part-two input {
     height: 150px;
-
+    padding-bottom: 100px;
 }
 
 .form-part-three {
@@ -143,5 +143,5 @@ input:focus {
     text-align: center;
     cursor: pointer;
 
-    
+
 }

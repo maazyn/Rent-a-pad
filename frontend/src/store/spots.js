@@ -5,6 +5,7 @@ const LOAD_SPOT = 'spots/LOAD_ONE';
 const ADD_SPOT = 'spots/ADD_SPOT';
 const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 const REMOVE_SPOT = 'spots/REMOVE_SPOT';
+const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
 // const ADD_SPOTIMAGE = 'spots/ADD_SPOTIMAGE'
 
 //*ACTIONS
@@ -24,6 +25,11 @@ const addOne = (spot) => ({
   payload: spot,
 });
 
+const addOneImage = (spotImage) => ({
+  type: ADD_SPOT_IMAGE,
+  payload: spotImage,
+});
+
 const updateOne = (spot) => ({
   type: UPDATE_SPOT,
   payload: spot,
@@ -40,8 +46,9 @@ export const getAllSpots = () => async (dispatch) => {
   const response = await fetch(`/api/spots`);
   if (response.ok) {
     const data = await response.json();
-    const list = data.Spots.map(({ id, previewImage, avgRating, city, state, price }) => ({
+    const list = data.Spots.map(({ id, name, previewImage, avgRating, city, state, price }) => ({
       id,
+      name,
       previewImage,
       avgRating,
       city,
@@ -95,47 +102,46 @@ export const getSpotImages = (spotId) => async (dispatch) => {
 };
 
 export const createSpot = (payload) => async (dispatch) => {
-  const { address, city, state, country, lat, lng, name, description, price } = payload;
-    // if (user && user.id !== null) {
+  // const { address, city, state, country, lat, lng, name, description, price } = payload;
+
   const response = await csrfFetch(`/api/spots`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      address,
-      city,
-      state,
-      country,
-      lat,
-      lng,
-      name,
-      description,
-      price
-    })
+    body: JSON.stringify(payload)
   });
 
   if (response.ok) {
     const newSpot = await response.json();
     dispatch(addOne(newSpot));
-    return response;
+    return newSpot;
   }
 };
 
 
+export const createSpotImage = (spotId, payload) => async (dispatch) => {
+
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (response.ok) {
+    const newSpotImage = await response.json();
+    dispatch(addOneImage(spotId, newSpotImage));
+    return response;
+  };
+};
+
+
+
+
 export const editSpot = (spotId, payload) => async (dispatch) => {
-  // const { address, city, state, country, lat, lng, name, description, price} = payload;
-  // const reqBody = {
-  //   address: address,
-  //   city: city,
-  //   state: state,
-  //   country: country,
-  //   lat: lat,
-  //   lng: lng,
-  //   name: name,
-  //   description: description,
-  //   price: price
-  // }
+
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
     headers: {
@@ -148,7 +154,7 @@ export const editSpot = (spotId, payload) => async (dispatch) => {
     const updatedSpot = await response.json();
     // console.log(updatedSpot);
     dispatch(updateOne(spotId, updatedSpot));
-    return response;
+    return updatedSpot;
   }
 };
 
@@ -200,6 +206,15 @@ const spotsReducer = (state = initialState, action) =>{
         ...state,
         list: [...state.list, action.payload]
       }
+    }
+    case ADD_SPOT_IMAGE: {
+      return {
+        ...state,
+        spot: {
+          ...state.spot,
+          SpotImages: [...state.spot.SpotImages, image],
+        },
+      };
     }
     case UPDATE_SPOT: {
       return {

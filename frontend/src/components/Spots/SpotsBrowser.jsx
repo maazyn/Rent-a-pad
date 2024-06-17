@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
-// import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-// import {SpotDetails} from "./SpotDetails";
 import { getAllSpots } from '../../store/spots';
 import SpotCard from './SpotCard';
 import "./Spots.css"
@@ -19,9 +17,9 @@ const SpotsBrowser = () => {
     <main>
       <div className="spots-container" >
           {allSpots.map(spot => (
-            // console.log(spot),
             <SpotCard key={spot.id} {...spot} />
           ))}
+
       </div>
     </main>
   )

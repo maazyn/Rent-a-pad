@@ -16,30 +16,23 @@ const LoginFormModal = () => {
         e.preventDefault();
         setErrors({});
         return dispatch(sessionActions.login({ credential, password }))
-          .then(closeModal)
-          .catch(async (res) => {
+            .then(closeModal).catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
               setErrors(data.errors);
-            }
-        });
+            }});
     };
 
     const demoLogin = async (e) => {
         e.preventDefault();
         setCredential("Demo-lition");
         setPassword("password");
-        return await dispatch(sessionActions.login(
-            {
-                credential,
-                password
-            }
-        )).then(closeModal).catch(async (res) => {
+        return await dispatch(sessionActions.login({ credential, password }))
+            .then(closeModal).catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
               setErrors(data.errors);
-            }
-        });
+            }});
     };
 
 
