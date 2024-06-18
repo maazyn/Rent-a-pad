@@ -25,12 +25,12 @@ const ManageSpots = () => {
   // console.log("FLAG:", allSpots);
 
   return (
-    user? (
+    user && ownerSpots.length !== 0? (
       <main className="manage-card">
         <div className="manage-upper">
           <h2>Manage Your Spots</h2>
-          <Link className="create-button-2" to="/spots" >Create a listing
-          </Link>
+          {/* <Link className="create-button-2" to="/spots" >Create a listing
+          </Link> */}
         </div>
         <div className="manage-spots-container">
             {ownerSpots.map(spot => (
@@ -42,6 +42,9 @@ const ManageSpots = () => {
 
     ): (
       <main className="manage-card">
+        <div className="manage-upper">
+          <h2>Manage Your Spots</h2>
+        </div>
         <Link className="create-button-2" to="/spots">Create a New Spot</Link>
 
       </main>

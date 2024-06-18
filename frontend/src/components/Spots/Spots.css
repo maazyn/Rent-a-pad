@@ -104,7 +104,6 @@
 
 #details-images {
   display: flex;
-  /* left: 100px; */
   flex-direction: row;
   gap: 5px;
   list-style: none;
@@ -112,11 +111,28 @@
   border-radius: 24px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
   padding: 0px;
-  /* height: auto; */
   height: 550px;
   overflow-y: hidden;
   overflow-x: scroll;
 }
+
+/* .rest-images-container {
+  display: grid;
+  grid-template-areas:
+  r r
+  r r;
+  flex-direction: row;
+  gap: 5px;
+  list-style: none;
+  background-color: #fff;
+  border-radius: 24px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  padding: 0px;
+  height: 550px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+} */
+
 
 #details-default-main-image, #details-rest-images{
   display: flex;

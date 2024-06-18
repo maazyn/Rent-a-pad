@@ -19,9 +19,10 @@ const ReviewCard = ({id, review, User, createdAt }) => {
     useEffect(() => {
     }, [id, reviews])
 
-    // useEffect(() => {
-        //     sessionUser && sessionUser.id === User.id? setShowDeleteButton(true): setShowDeleteButton(false);
-        // }, [User])
+
+    if (sessionUser && !reviews) {
+        return <h2>Be the first to post a review!</h2>;
+    }
 
    return (
     <>

@@ -14,6 +14,7 @@ const SpotDetails = () => {
     const {spotId} = useParams();
     const theSpot = useSelector((state) => state.spots.spot);
     const allReviews = useSelector((state) => state.reviews.list);
+    const sessionUser = useSelector((state) => state.session.user);
 
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const SpotDetails = () => {
     }, [dispatch, spotId]) //having allReviews here caused endless loop
 
 
-    function handleUploadImage() {
+    function handleReserve() {
         alert("Feature coming soon!")
     }
 
@@ -35,6 +36,8 @@ const SpotDetails = () => {
     if (!theSpot) {
         return <div>Loading...</div>;
     }
+    const isOwner = sessionUser && sessionUser.id === theSpot.User.id;
+    const noReviews = allReviews.length === 0;
 
     return (
         <div className="details-card">
@@ -67,8 +70,8 @@ const SpotDetails = () => {
                 <div id="details-right">
                     <p id="details-right-price">${theSpot.price} night</p>
                     <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)}</p>
-                    <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : `${theSpot.numReviews} reviews`}</p>
-                    <button id="details-right-reserve-button" onClick={handleUploadImage}>Reserve</button>
+                    <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : (theSpot.numReviews === 1? `${theSpot.numReviews} review`: `${theSpot.numReviews} reviews`)}</p>
+                    <button id="details-right-reserve-button" onClick={handleReserve}>Reserve</button>
                     {/* <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink> */}
                 </div>
             </div>
@@ -84,6 +87,9 @@ const SpotDetails = () => {
                     </div>
                 </div>
                 <div className="reviews-card">
+                    {noReviews && sessionUser && !isOwner && (
+                        <p>Be the first to write a review!</p>
+                    )}
                     {allReviews.map((review) => (
                         <div className="review-container" key={review.id}>
                             <ReviewCard {...review}  />

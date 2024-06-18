@@ -7,11 +7,13 @@ import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import OpenModalMenuItem from "../OpenModalMenuItem";
 import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
+import { useNavigate } from "react-router-dom";
 
 const ProfileButton = ({ user, isLoaded }) => {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const navigate = useNavigate();
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
     setShowMenu(!showMenu);
@@ -33,6 +35,7 @@ const ProfileButton = ({ user, isLoaded }) => {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate("/");
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : "-hidden");
