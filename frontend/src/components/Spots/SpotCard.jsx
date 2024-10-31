@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import DeleteSpotModal from './DeleteSpotModal';
 import { Tooltip } from 'react-tooltip'
-import { FaStar } from "react-icons/fa6";
+import { IoMdStar } from "react-icons/io";
 import "./Spots.css"
 
 
@@ -17,11 +17,13 @@ const SpotCard = ({ id, previewImage, name, city, state, avgRating, price, showM
                 <img className="sc-image" src={previewImage} />
                 <div className="sc-preview-details">
                     <div className="sc-location-and-price">
-                        <h3 className="sc-location"> {city}, {state}</h3>
-                        <p className="sc-price">${price} per night</p>
+                        <p className="sc-name"> {name}</p>
+                        <p className="sc-location">{city}, {state}</p>
+                        <p className="sc-price text-black flex gap-[3px] font-medium">${price} <p className='flex text-[#343434] font-light'> /night</p></p>
                     </div>
                     <div className="sc-rating">
-                        <FaStar/><p className="spot-rating">  {avgRating === 0? "New": avgRating.toFixed(1)}</p>
+                        <IoMdStar/><p className="spot-rating">  {avgRating === 0? "New": avgRating.toFixed(1)}</p>
+                        {/* {count(avgRating) === 0? "New" : `(${count(avgRating)})`} */}
                     </div>
                 </div>
             </NavLink>

@@ -72,7 +72,7 @@ h1 {
 }
 
 p {
-  color: red;
+  /* color: red; */
 }
 
 li {
@@ -88,9 +88,9 @@ li {
 
 } */
 
-a:hover {
+/* a:hover {
   color: red;
-}
+} */
 
 input {
   /* border-bottom: 5px solid #000000; */

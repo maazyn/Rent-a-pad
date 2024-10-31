@@ -84,10 +84,12 @@ const SpotDetails = () => {
                     <p id="details-left-desc">{theSpot.description}</p>
                 </div>
                 <div id="details-right">
-                    <div id="details-right-top" className="flex gap-2 w-full justify-center">
+                    <div id="details-right-top" className="flex gap-2 w-full justify-center pb-[5px]">
                         <p id="details-right-price">${theSpot.price}/night</p>
-                        <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)}</p>
-                        <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : null}</p>
+                        <div className="flex gap-[5px] items-center">
+                            <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)}</p>
+                            <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : `(${theSpot.numReviews})`}</p>
+                        </div>
                     </div>
                     <button id="details-right-reserve-button" onClick={handleReserve}>Reserve</button>
                     {/* <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink> */}

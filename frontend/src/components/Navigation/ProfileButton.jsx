@@ -44,7 +44,7 @@ const ProfileButton = ({ user, isLoaded }) => {
 
   return (
     <>
-      <button id="profile-button" className="flex flex-row relative w-[80px] rounded-full justify-center items-center" onClick={toggleMenu}>
+      <button id="profile-button" className="flex flex-row relative w-[80px] rounded-full justify-center items-center box-border" onClick={toggleMenu}>
         <div><RiMenuLine/></div>
         <RiAccountBoxFill />
       </button>

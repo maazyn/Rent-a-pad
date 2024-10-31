@@ -28,10 +28,13 @@
     color: rgb(168, 165, 165);
 }
 
+.delete-review-button-container {
+    padding-top: 5px;
+}
 
 .delete-review-button-container button {
     background-color: red;
-
+    /* justify-content: center; */
     border: 1px solid red;
     border-radius: 0px;
     font-size: 14px;
@@ -40,7 +43,7 @@
     color: white;
     width: 50px;
     height: 26px;
-    padding: 5px 0 5px 0;
+    padding: 1px 0 0px 0;
     /* margin-bottom: 10px; */
     border: 1px solid black;
     text-align: center;

@@ -88,10 +88,10 @@
 .rating-star input:checked {
     color: orange;
 }
-
+/* 
 .rating-star:hover {
     color: orange;
-}
+} */
 
 .rating-input {
     display: none;
