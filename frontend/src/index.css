@@ -1,6 +1,9 @@
 /* TODO: Add sitewide styles */
 
 @import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Italiana&family=Pirata+One&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html, body, input, textarea, button, select, a {
   font-family: "Italiana", sans-serif;

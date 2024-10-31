@@ -18,15 +18,14 @@
     font-size: 16px;
     border: 1px solid black;
     border-radius: 0px;
-    font-size: 18px;
+    font-size: 15px;
     box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
     background-color: rgb(255, 210, 63);
     color: rgb(0, 0, 0);
     width: 30%;
-    min-width: 130px;
-    max-width: 200px;
+    min-width: 120px;
+    max-width: 170px;
     height: 30px;
-    padding: 5px 0 5px 0;
     margin-bottom: 10px;
     justify-self: center;
     align-content: center;

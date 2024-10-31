@@ -1,4 +1,6 @@
 import { RiAccountBoxFill } from "react-icons/ri";
+import { RiMenuLine } from "react-icons/ri";
+
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
@@ -42,7 +44,8 @@ const ProfileButton = ({ user, isLoaded }) => {
 
   return (
     <>
-      <button id="profile-button" onClick={toggleMenu}>
+      <button id="profile-button" className="flex flex-row relative w-[80px] hover:shadow-xl rounded-full mr-0 sm:ml-4 md:mr-8 lg:mr-20 justify-center items-center" onClick={toggleMenu}>
+        <div><RiMenuLine/></div>
         <RiAccountBoxFill />
       </button>
       <ul className={ulClassName} ref={ulRef}>

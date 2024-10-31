@@ -7,6 +7,7 @@ import { getAllReviews } from '../../store/reviews';
 import ReviewButton from "../Navigation/ReviewButton";
 
 import { FaStar } from "react-icons/fa6";
+import EmblaCarouselReact from "embla-carousel-react";
 import "./Spots.css"
 
 const SpotDetails = () => {
@@ -30,6 +31,10 @@ const SpotDetails = () => {
         alert("Feature coming soon!")
     }
 
+    const [emblaRef, emblaApi] = EmblaCarouselReact({
+        loop: false,
+        align: "start",
+    })
 
     // console.log(theSpot);
 
@@ -42,10 +47,21 @@ const SpotDetails = () => {
     return (
         <div className="details-card">
             <div id="details-upper">
-                <h2>{theSpot.name}</h2>
+                <h2 className="mt-0 text-2xl">{theSpot.name}</h2>
                 <p>{theSpot.city}, {theSpot.state}, {theSpot.country}</p>
             </div>
-            <li id="details-images">
+
+            {/* Image Carousel */}
+            <div className="overflow-hidden w-full rounded-2xl shadow-lg" ref={emblaRef}>
+                <div className="flex">
+                    {theSpot.SpotImages.map((image, index) => (
+                        <div key={index} className="min-w-full">
+                            <img src={image.url} alt={`Spot Image ${index + 1}`} className="object-cover w-full h-96" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            {/* <li id="details-images">
                 <ul id="details-default-main-image">
                 {theSpot.SpotImages.map((image, i) => {
                     if (image.preview === true) {
@@ -61,16 +77,18 @@ const SpotDetails = () => {
                         }
                     })}
                 </ul>
-            </li>
+            </li> */}
             <div className="details">
                 <div id="details-left">
-                    <p id="">Hosted by {theSpot.User.firstName}</p>
+                    <p className="text-lg text-black font-extrabold pt-[3px] pb-[1px]">Hosted by {theSpot.User.firstName}</p>
                     <p id="details-left-desc">{theSpot.description}</p>
                 </div>
                 <div id="details-right">
-                    <p id="details-right-price">${theSpot.price} night</p>
-                    <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)}</p>
-                    <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : (theSpot.numReviews === 1? `${theSpot.numReviews} review`: `${theSpot.numReviews} reviews`)}</p>
+                    <div id="details-right-top" className="flex gap-2 w-full justify-center">
+                        <p id="details-right-price">${theSpot.price}/night</p>
+                        <p id="details-right-rating"><FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)}</p>
+                        <p id="details-right-review-number">{theSpot.numReviews === 0? "New" : null}</p>
+                    </div>
                     <button id="details-right-reserve-button" onClick={handleReserve}>Reserve</button>
                     {/* <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink> */}
                 </div>
