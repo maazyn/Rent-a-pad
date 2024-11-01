@@ -5,6 +5,9 @@ import ReviewCard from '../Reviews/ReviewCard';
 import { getSpot } from '../../store/spots';
 import { getAllReviews } from '../../store/reviews';
 import ReviewButton from "../Navigation/ReviewButton";
+import FooterNav from "../../FooterNav/FooterNav";
+
+
 
 import { FaStar } from "react-icons/fa6";
 import EmblaCarouselReact from "embla-carousel-react";
@@ -45,6 +48,7 @@ const SpotDetails = () => {
     const noReviews = allReviews.length === 0;
 
     return (
+        <>
         <div className="details-card">
             <div id="details-upper">
                 <h2 className="mt-0 text-2xl">{theSpot.name}</h2>
@@ -118,6 +122,8 @@ const SpotDetails = () => {
                 </div>
             </div>
         </div>
+        <FooterNav/>
+        </>
     )
 }
 export default SpotDetails;
