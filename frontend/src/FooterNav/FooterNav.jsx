@@ -12,25 +12,25 @@ function FooterNav() {
 
   return (
     <div className="footer">
-      <div className="footerItems text-sm font-extralight">
+      <div className="footerItems text-sm font-extralight w-[90%]">
 
         <div className="footLeft pb-5">
-          <p className="pb-3 text-black font-extrabold">Support</p>
+          <p className="pb-3 text-black font-semibold">Support</p>
           <a href="#">Help Center</a>
           <a href="#">FAQ</a>
           <a href="#">Accessibility</a>
         </div>
 
-        <div className="footRight py-5 font-extrabold border-t-[1.5px]">
-          <p className="pb-3 text-black">Hosting</p>
+        <div className="footRight py-5 border-t-[1.5px]">
+          <p className="pb-3 text-black font-semibold">Hosting</p>
           <a href="#">Become a Host</a>
           <a href="#">Community</a>
           <a href="#">Terms & Conditions</a>
           {/* <p>Developed by Maazin Sherif</p> */}
         </div>
 
-        <div className="footRight py-5 font-extrabold border-t-[1.5px]">
-          <p className="pb-3 text-black font-extrabold">Rent-A-Pad</p>
+        <div className="footRight py-5 border-t-[1.5px]">
+          <p className="pb-3 text-black font-semibold">Rent-A-Pad</p>
           <a href="#">About</a>
           <a href="#">Contact</a>
           {/* <p>Developed by Maazin Sherif</p> */}

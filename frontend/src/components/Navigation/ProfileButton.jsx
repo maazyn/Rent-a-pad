@@ -43,13 +43,14 @@ const ProfileButton = ({ user, isLoaded }) => {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : "-hidden");
 
   return (
-    <>
+    <div className="relative">
       <button id="profile-button" className="flex flex-row relative w-[80px] rounded-full justify-center items-center box-border" onClick={toggleMenu}>
         <div><RiMenuLine/></div>
         <RiAccountBoxFill />
       </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
+
+      <ul className={`${ulClassName} absolute right-0 top-full mt-2 bg-white shadow-lg rounded-lg overflow-y-auto z-10 px-4`} ref={ulRef}>
+      {user ? (
           <div className="account-menu">
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
@@ -83,7 +84,7 @@ const ProfileButton = ({ user, isLoaded }) => {
           </div>
         )}
     </ul>
-    </>
+  </div>
   );
 };
 

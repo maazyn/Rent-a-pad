@@ -29,7 +29,7 @@
 }
 
 .delete-review-button-container {
-    padding-top: 5px;
+    padding-top: 8px;
 }
 
 .delete-review-button-container button {
@@ -43,7 +43,8 @@
     color: white;
     width: 50px;
     height: 26px;
-    padding: 1px 0 0px 0;
+    line-height: 26px;
+    /* padding: 1px 0 0px 0; */
     /* margin-bottom: 10px; */
     border: 1px solid black;
     text-align: center;

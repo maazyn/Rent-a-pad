@@ -19,21 +19,20 @@ const Navigation = ({ isLoaded }) => {
 // </div>
     return (
         <nav className="nav-bar bg-white drop-shadow-sm shadow-black border-b-[0.5px]">
-            <div className="nav-bar-group w-[90vw] max-w-[1130px]">
+            <div className="nav-bar-group w-[90vw] max-w-[1030px]">
                 <NavLink to="/">
                     <img className="nav-logo" src="/images/logo-aa-proj.PNG" alt="Logo" />
                 </NavLink>
-                <div className="nav-bar-home">
-                    <div className="create-listing hidden sm:block">
+                <div className="nav-bar-link">
+                    <div className="create-listing hidden md:block">
                         {sessionUser && (
                             <NavLink to="/spots">Create a listing</NavLink>
                         )}
                     </div>
                     {isLoaded && (
-                        <div className="flex items-center justify-center">
-                            {/* <h2 className="hidden lg:block text-sm sm:text-base">Hello</h2>, */}
-                            <ProfileButton user={sessionUser}/>
-                        </div>
+                        <ProfileButton user={sessionUser}/>
+                        // <div className="flex items-center justify-center">
+                        // </div>
                     )}
                 </div>
             </div>

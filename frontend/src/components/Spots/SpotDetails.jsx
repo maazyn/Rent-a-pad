@@ -20,6 +20,7 @@ const SpotDetails = () => {
     const allReviews = useSelector((state) => state.reviews.list);
     const sessionUser = useSelector((state) => state.session.user);
 
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
     useEffect(() => {
     }, [allReviews, spotId, theSpot]);
@@ -47,6 +48,10 @@ const SpotDetails = () => {
     const isOwner = sessionUser && sessionUser.id === theSpot.User.id;
     const noReviews = allReviews.length === 0;
 
+    const handleThumbnailClick = (index) => {
+        setSelectedImageIndex(index);
+    };
+
     return (
         <>
         <div className="details-card">
@@ -56,7 +61,7 @@ const SpotDetails = () => {
             </div>
 
             {/* Image Carousel */}
-            <div className="overflow-hidden w-full rounded-2xl shadow-lg" ref={emblaRef}>
+            {/* <div className="overflow-hidden w-full rounded-2xl shadow-lg" ref={emblaRef}>
                 <div className="flex">
                     {theSpot.SpotImages.map((image, index) => (
                         <div key={index} className="min-w-full">
@@ -64,24 +69,53 @@ const SpotDetails = () => {
                         </div>
                     ))}
                 </div>
+            </div> */}
+
+            {/* Main image */}
+            <div className="flex flex-col lg:flex-row gap-2 w-full h-[65vh] min-h-[500px] overflow-hidden ">
+                <div className="w-[100%] h-[100%] lg:w-[92%] overflow-hidden rounded-2xl">
+                    <img
+                        src={theSpot.SpotImages[selectedImageIndex]?.url}
+                        alt={`Main Spot Image`}
+                        className="object-cover w-full h-full"
+                    />
+                </div>
+                {/* Vertical thumbnails for large screens */}
+                <div className="hidden lg:flex flex-col gap-2 h-full w-[9%] p-[2px] overflow-y-auto">
+                    {theSpot.SpotImages.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image.url}
+                            alt={`Thumbnail ${index + 1}`}
+                            onClick={() => handleThumbnailClick(index)}
+                            className={`object-cover w-full h-auto aspect-square flex-shrink-0 border-2 border-white rounded-lg align-top hover:scale-[1.05] box-border cursor-pointer ${
+                                selectedImageIndex === index
+                                    ? "border-blue-500 "
+                                    : null
+                            }`}
+                        />
+                    ))}
+                </div>
+                {/* Horizontal thumbnails for smaller screens */}
+                <div className="flex gap-2 overflow-x-auto p-[2px] lg:hidden min-h-[90px]">
+                    {theSpot.SpotImages.map((image, index) => (
+                        <img
+                            key={index}
+                            src={image.url}
+                            alt={`Thumbnail ${index + 1}`}
+                            onClick={() => handleThumbnailClick(index)}
+                            className={`object-cover w-20 h-20 flex-shrink-0 border-2 border-white rounded-lg justify-start hover:scale-[1.05] box-border cursor-pointer ${
+                                selectedImageIndex === index
+                                    ? "border-blue-500"
+                                    : null
+                            }`}
+                        />
+                    ))}
+                </div>
             </div>
-            {/* <li id="details-images">
-                <ul id="details-default-main-image">
-                {theSpot.SpotImages.map((image, i) => {
-                    if (image.preview === true) {
-                        // {console.log(image.url)}
-                        return <img key={i} src={image.url} />
-                    } else return null
-                })}
-                </ul>
-                <ul id="details-rest-images">
-                    {theSpot.SpotImages.map((image, id) => {
-                        if (image.preview === false) {
-                            return <img key={id} src={image.url} />
-                        }
-                    })}
-                </ul>
-            </li> */}
+
+
+
             <div className="details">
                 <div id="details-left">
                     <p className="text-lg text-black font-extrabold pt-[3px] pb-[1px]">Hosted by {theSpot.User.firstName}</p>
@@ -99,9 +133,10 @@ const SpotDetails = () => {
                     {/* <NavLink to={`spots/${theSpot.id}/bookings`} id="details-right-reserve-button" >Reserve</NavLink> */}
                 </div>
             </div>
+
             <div id="details-lower">
-                <div className="details-lower-ratings-reviews-container">
-                    <h2 id="details-lower-ratings-reviews">
+                <div className="details-lower-ratings-reviews-container w-full ">
+                    <h2 id="details-lower-ratings-reviews" className="items-center text-xl w-full justify-center ">
                         <FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)} {theSpot.numReviews === 0? "New" : theSpot.numReviews === 1? `• ${theSpot.numReviews} review`: `• ${theSpot.numReviews} reviews`}
                     </h2>
                     <div>

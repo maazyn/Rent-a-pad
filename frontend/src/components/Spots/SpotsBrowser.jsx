@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpots } from '../../store/spots';
 import SpotCard from './SpotCard';
 import "./Spots.css"
+import FooterNav from "../../FooterNav/FooterNav";
 
 
 const SpotsBrowser = () => {
@@ -14,14 +15,15 @@ const SpotsBrowser = () => {
   // console.log("FLAG:", allSpots);
 
   return (
-    <main>
+    <>
       <div className="spots-container" >
           {allSpots.map(spot => (
             <SpotCard key={spot.id} {...spot} />
           ))}
 
       </div>
-    </main>
+      <FooterNav/>
+    </>
   )
 }
 
