@@ -136,7 +136,7 @@ const SpotDetails = () => {
 
             <div id="details-lower">
                 <div className="details-lower-ratings-reviews-container w-full ">
-                    <h2 id="details-lower-ratings-reviews" className="items-center text-xl w-full justify-center ">
+                    <h2 id="details-lower-ratings-reviews" className="items-center text-xl w-full justify-left ">
                         <FaStar/> {theSpot.avgStarRating === 0? "" :theSpot.avgStarRating?.toFixed(1)} {theSpot.numReviews === 0? "New" : theSpot.numReviews === 1? `• ${theSpot.numReviews} review`: `• ${theSpot.numReviews} reviews`}
                     </h2>
                     <div>

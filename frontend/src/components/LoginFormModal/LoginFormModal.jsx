@@ -19,21 +19,32 @@ const LoginFormModal = () => {
             .then(closeModal).catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
-              setErrors(data.errors);
+                setErrors(data.errors);
             }});
     };
 
+    // const demoLogin = async (e) => {
+    //     e.preventDefault();
+    //     setCredential("Demo-lition");
+    //     setPassword("password");
+    //     dispatch(sessionActions.login({ credential, password }))
+    //         .then(closeModal).catch(async (res) => {
+    //         const data = await res.json();
+    //         if (data && data.errors) {
+    //           setErrors(data.errors);
+    //         }});
+    // };
+
     const demoLogin = async (e) => {
         e.preventDefault();
-        setCredential("Demo-lition");
-        setPassword("password");
-        return await dispatch(sessionActions.login({ credential, password }))
-            .then(closeModal).catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) {
-              setErrors(data.errors);
-            }});
-    };
+        setErrors({})
+        dispatch(sessionActions.login({ credential: "Demo-lition", password: "password" }))
+            .then(closeModal)
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data?.errors) setErrors(data.errors)
+            })
+    }
 
 
     return (
