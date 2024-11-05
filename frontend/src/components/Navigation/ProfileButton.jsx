@@ -56,7 +56,12 @@ const ProfileButton = ({ user, isLoaded }) => {
     <>
     {user ? (
       <div className="relative">
-        <button id="profile-button" className="flex flex-row relative w-[85px] rounded-full justify-center items-center box-border" onClick={toggleMenu}>
+        <button
+          id="profile-button"
+          className={`flex flex-row relative w-[85px] rounded-full justify-center items-center box-border ${
+          showMenu ? "shadow-[0px_3px_3px_rgb(202,202,202)]": ""
+          } hover:shadow-[0px_3px_3px_rgb(202,202,202)] duration-200`}
+          onClick={toggleMenu}>
           <div><RiMenuLine/></div>
           <RiAccountBoxFill />
         </button>

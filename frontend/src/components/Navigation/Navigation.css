@@ -137,8 +137,8 @@ body {
     /* background: none; */
     /* color: rgb(201, 22, 22); */
     /* box-shadow: 2px 2px 5px rgb(226, 64, 64), -2px 2px 5px rgb(67, 95, 235), 2px -2px 5px rgb(67, 95, 235), -2px -2px 8px rgb(241, 39, 39) ; */
-    box-shadow: 0 3px 3px rgb(202, 202, 202);
-    transition: 200ms;
+    /* box-shadow: 0 3px 3px rgb(202, 202, 202); */
+    transition: 250ms;
 }
 
 #profile-button svg {
@@ -206,6 +206,7 @@ body {
     /* padding: 10px 0 10px 0; */
 
 }
+
 .session-menu li{
     font-family:system-ui, -appl    e-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
@@ -238,4 +239,7 @@ body {
     /* margin-right: 20px; */
     border: 1px solid rgb(220, 220, 220);
     cursor:default;
+}
+#profile-button-no-session:hover {
+    box-shadow: 0 3px 3px rgb(202, 202, 202);
 }
