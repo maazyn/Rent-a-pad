@@ -28,7 +28,7 @@ const updateOne = (review) => ({
   payload: review,
 });
 
-const removeOne = (review) => ({
+const removeOne = (reviewId) => ({
   type: REMOVE_REVIEW
 });
 
@@ -140,13 +140,15 @@ const reviewsReducer = (state = initialState, action) =>{
         list: [...state.list, action.payload]
       }
     }
-    case REMOVE_REVIEW:
-      return {
-        ...state,
-        list: state.list.filter((review) =>
-          review !== action.payload
-        )
-      }
+    case REMOVE_REVIEW: {
+        // ...state,
+        // list: state.list.filter((review) =>
+        //   review !== action.payload
+        // )
+        const newState = { ...state };
+        delete newState[action.reviewId];
+        return newState;
+    }
     // case UPDATE_REVIEW: {
       // console.log(spotId)
     //   if (!state[action.pokemon.id]) {

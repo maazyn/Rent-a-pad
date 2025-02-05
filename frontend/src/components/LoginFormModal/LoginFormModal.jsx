@@ -49,7 +49,7 @@ const LoginFormModal = () => {
 
     return (
         <>
-        <h1 className="form-heading">Log In</h1>
+        <h1 className="form-heading">Welcome back!</h1>
         <div className="form-parent-container">
             <form onSubmit={handleSubmit}>
                 <input
@@ -67,8 +67,10 @@ const LoginFormModal = () => {
                     required
                     />
                 {errors.credential && <p>{errors.credential}</p>}
-                <button disabled={credential.length < 4 || password.length < 6} className="enter-button" type="submit">Enter</button>
-                <button className="enter-demo-button" onClick={demoLogin} type="submit">Demo-User</button>
+                <div className='login-buttons-container'>
+                    <button disabled={credential.length < 4 || password.length < 6} className="enter-button" type="submit">Log in</button>
+                    <button className="enter-demo-button" onClick={demoLogin} type="submit">Demo-User</button>
+                </div>
             </form>
         </div>
         </>

@@ -2,3 +2,7 @@
 p {
     color: red;
 }
+
+.signup-button-container {
+    margin: 20px 0 10px 0;
+}

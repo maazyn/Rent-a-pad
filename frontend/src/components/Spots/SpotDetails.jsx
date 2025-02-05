@@ -17,13 +17,18 @@ const SpotDetails = () => {
     const dispatch = useDispatch();
     const {spotId} = useParams();
     const theSpot = useSelector((state) => state.spots.spot);
-    const allReviews = useSelector((state) => state.reviews.list);
+    let allReviews = useSelector((state) => state.reviews.list);
     const sessionUser = useSelector((state) => state.session.user);
+    // const spotReviews =
+    // reviews = Object.values(reviews)
+
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
+    console.log("TEST:", allReviews);
+
     useEffect(() => {
-    }, [allReviews, spotId, theSpot]);
+    }, [allReviews, theSpot,]);
 
     useEffect(() => {
         dispatch(getSpot(spotId));

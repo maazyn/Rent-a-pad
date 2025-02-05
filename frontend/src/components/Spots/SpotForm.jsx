@@ -97,7 +97,7 @@ const SpotForm = () => {
   return (
     <main>
       <form className="form-container" onSubmit={submitHandler}>
-        <h1>Create a new listing</h1>
+        <h1 className='create-header'>Create a new listing</h1>
         <h2>Where's your place located?</h2>
         <label>Guests will only get your exact address once they booked a reservation</label>
 
@@ -168,23 +168,23 @@ const SpotForm = () => {
         </section>
 
         <section className="form-part-two">
-          <h2>Describe your place to guests</h2>
+          <h2 >Describe your place to guests.</h2>
           <label>Mention the best features of your space,
               any special amenities lke fast wifi or parking,
               and what you love about the neighborhood
           </label>
-          <input
+          <textarea
               type="text"
               required
               value={description}
               placeholder='Please write at least 30 characters'
               onChange={updateDescription}
-          />
+          ></textarea>
           {errors.description && <p>{errors.description}</p>}
         </section>
 
         <section className="form-part-three">
-          <h2>Create a title for your spot</h2>
+          <h2>Create a title for your spot.</h2>
           <label>Catch guests' attention with a spot title that
             highlights what makes your place special,
           </label>
@@ -200,24 +200,26 @@ const SpotForm = () => {
 
         <section className="form-part-four">
           <div>
-            <h2>Set a base price for your spot</h2>
+            <h2>Set a base price for your spot.</h2>
             <label>Competitive pricing can help your listing stand
               out and rank higher in search results
             </label>
-            <FaDollarSign />
-            <input
-              type="number"
-              required
-              value={price}
-              placeholder='Price per night'
-              onChange={updatePrice}
-            />
+            <div className="price-input">
+              <FaDollarSign className="dollar-icon" />
+              <input
+                type="number"
+                required
+                value={price}
+                placeholder="Price per night"
+                onChange={updatePrice}
+              />
+            </div>
           {errors.price && <p>{errors.price}</p>}
           </div>
         </section>
 
         <section className="form-part-five">
-          <h2>Liven up your spot with photos</h2>
+          <h2>Liven up your spot with photos.</h2>
           <label>Submit a link to at least one photo to publish your spot
           </label>
           <input

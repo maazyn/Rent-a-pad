@@ -159,22 +159,22 @@ const EditSpotForm = () => {
         </section>
 
         <section className="form-part-two">
-          <h2>Describe your place to guests</h2>
+          <h2>Describe your place to guests.</h2>
           <label>Mention the best features of your space,
               any special amenities lke fast wifi or parking,
               and what you love about the neighborhood
           </label>
-          <input
+          <textarea
               type="text"
               required
               value={description || currentSpot?.description}
               placeholder='Please write at least 30 characters'
               onChange={updateDescription}
-          />
+          ></textarea>
         </section>
 
         <section className="form-part-three">
-          <h2>Create a title for your spot</h2>
+          <h2>Create a title for your spot.</h2>
           <label>Catch guests' attention with a spot title that
             highlights what makes your place special,
           </label>
@@ -189,23 +189,25 @@ const EditSpotForm = () => {
 
         <section className="form-part-four">
           <div>
-            <h2>Set a base price for your spot</h2>
+            <h2>Set a base price for your spot.</h2>
             <label>Competitive pricing can help your listing stand
               out and rank higher in search results
             </label>
-            <FaDollarSign />
-            <input
-              type="number"
-              required
-              value={price || currentSpot?.price}
-              placeholder='Price per night'
-              onChange={updatePrice}
-            />
+            <div className="price-input">
+              <FaDollarSign className="dollar-icon" />
+              <input
+                type="number"
+                required
+                value={price}
+                placeholder="Price per night"
+                onChange={updatePrice}
+              />
+            </div>
           </div>
         </section>
 
         <section className="form-part-five">
-          <h2>Liven up your spot with photos</h2>
+          <h2>Manage photos.</h2>
           <label>Submit a link to at least one photo to publish your spot
           </label>
           <input

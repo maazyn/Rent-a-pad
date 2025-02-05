@@ -131,7 +131,7 @@
   flex-direction: row;
   width: auto;
   justify-content: space-between;
-  margin-top: 2px;
+  margin-top: 1.5px;
 
 }
 
@@ -263,7 +263,7 @@
     background-color: #fff;
     overflow: hidden;
     height: 300px;
-    padding: 12px 0 5px 0px;
+    padding: 12px 25px 5px 0px;
 }
 
 #details-left-desc {
@@ -453,7 +453,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
+  margin: auto;
+  /* justify-content: center; */
+  padding-bottom: 600px;
 }
 
 .create-button-2:hover {
@@ -466,92 +468,82 @@
 }
 
 .manage-upper {
-  height: 150px;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.8em;
+  font-weight: 500;
+  text-align: center;
+  height: 140px;
   width: 100%;
-  padding: 10px;
+  /* padding-left: 50px; */
 
 }
 
 .manage-buttons-container {
   display: flex;
   flex-direction: row;
-  gap: 12px;
-  width: 300px;
-  justify-items: start;
+  gap: 5px;
+  width: 100%;
+  justify-content: center;
+  padding: 0px 0 5px 0;
+  margin: auto;
 }
-
-.manage-button-update {
-  display: block;
-  font-size: 15px;
-  /* font-weight: 900; */
-  border: 1px solid black ;
-  border-radius: 0px;
-  box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
-  background-color: rgb(222, 222, 222);
-  color: black;
-  width: 30% ;
-  margin: 0 0 5px 5px;
-  padding: 5px;
-  padding: 0;
-  /* margin-bottom: 10px; */
-  height: 25px;
-  justify-self: center;
-  align-content: center;
-  /* transition: transform 3s; */
-  text-align: center;
-  cursor: pointer;
-}
-
-
 
 .manage-button-delete {
-  width: 30%;
-  color: black;
-  cursor:pointer;
-  margin-bottom: 7px;
-  font-size: 14px;
-  display: block;
-  height: 25px;
-  line-height: 25px;
-}
-
-
-.manage-button-delete button  {
-  display: block;
-  font-size: 15px;
-  /* font-weight: 900; */
-  border: 1px solid black ;
+  border: none ;
+  box-sizing: border-box;
   border-radius: 0px;
-  box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
-  background-color: rgb(222, 222, 222);
-  color: black;
-  width: 100% ;
-  margin: 0 0 5px 5px;
-  padding: 5px;
-  padding: 0;
-  /* margin-bottom: 10px; */
-  height: 25px;
+  background: transparent;
+  /* background-color: rgba(255, 255, 255, 0); */
+  width: 45% ;
+  height: 100%;
   justify-self: center;
   align-content: center;
-  /* transition: transform 3s; */
   text-align: center;
   cursor: pointer;
-
+  transition: 0ms;
 }
-
-
-.manage-button-delete button:hover, .manage-button-update:hover {
-  background-color: rgb(222, 222, 222);
+.manage-button-update, .manage-button-delete button {
+  display: block;
+  font-size: 14px;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 200;
+  border: 0.5px solid rgb(0, 0, 0) ;
+  box-sizing: border-box;
+  border-radius: 2px;
+  /* box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1); */
+  background-color: rgb(255, 255, 255);
   color: black;
+  width: 45% ;
+  margin: 0 0 10px;
+  padding: 0;
+  height: 100%;
+  justify-self: center;
+  align-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: 0ms;
 }
-.manage-button-delete button:active, .manage-button-update:active {
-  box-shadow: none;
 
+.manage-button-delete button  {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+  transition: 0ms;
 }
 
-.manage-button-update {
-  height: 23px;
-  width: 90px;
+
+.manage-button-update:hover {
+  /* box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1); */
+  background-color: rgb(140, 140, 140);
+  color: white;
+  font-weight: 400;
+}
+.manage-button-delete button:hover{
+  /* box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1); */
+  background-color: rgb(255, 58, 58);
+  color: white;
+  font-weight: 400;
+
 }
 
 
@@ -570,50 +562,45 @@
 .yes-no-buttons-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.yes-button {
+/* .yes-button {
   width: 50%;
   height: 30px;
+  font-weight: 400;
   border-radius: 0px;
   background-color: rgb(210, 18, 18);
   color: white;
   box-shadow: 2px 2px 1px 0px rgb(255, 255, 255);
   border: 0.5px solid white;
 
-}
+} */
 
-.no-button {
-  width: 50%;
-  height: 30px;
-  border-radius: 0px;
-  background-color: rgb(125, 123, 123);
-  box-shadow: 2px 2px 1px 0px rgb(255, 255, 255);
+.yes-button, .no-button {
+  width: 80%;
+  height: 28px;
+  font-weight: 450;
+  border-radius: 2px;
+  background-color: rgb(255, 255, 255);
+  /* box-shadow: 2px 2px 1px 0px rgb(255, 255, 255); */
   border: 0.5px solid white;
-  color: white;
-
-
-}
-
-
-.yes-button:active {
-
-  box-shadow: none;
-}
-
-.no-button:active {
-  box-shadow: none;
+  color: rgb(0, 0, 0);
+  transition: 0ms;
 
 }
+
 
 .yes-button:hover {
   background-color: rgb(210, 18, 18);
+  color: white;
 }
 
 .no-button:hover {
-  background-color: rgb(125, 123, 123);
+  background-color: rgb(140, 140, 140);
+  color: white;
 }
+
 
 /* .tooltip {
 

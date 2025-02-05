@@ -10,11 +10,11 @@ const ReviewCard = ({id, review, User, createdAt }) => {
     const reviews = useSelector((state) => state.reviews.list);
     const [showDeleteButton, setShowDeleteButton] = useState(false);
 
-    console.log("FIRST:", id, review, User, createdAt );
+    // console.log("FIRST:", id, review, User, createdAt );
 
     useEffect(() => {
         sessionUser && sessionUser.id === User?.id ? setShowDeleteButton(true) : setShowDeleteButton(false);
-    }, [sessionUser, User]);
+    }, [sessionUser, User, id]);
 
     useEffect(() => {
     }, [id, reviews])
