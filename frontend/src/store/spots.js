@@ -132,7 +132,7 @@ export const createSpotImage = (spotId, payload) => async (dispatch) => {
 
   if (response.ok) {
     const newSpotImage = await response.json();
-    dispatch(addOneImage(spotId, newSpotImage));
+    dispatch(addOneImage(newSpotImage));
     return response;
   };
 };
@@ -165,6 +165,7 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 	});
   if (response.ok) {
     dispatch(removeOne(spotId));
+    dispatch(getOwnerSpots());
   } else {
     console.error("Failed to delete")
   }
@@ -212,7 +213,7 @@ const spotsReducer = (state = initialState, action) =>{
         ...state,
         spot: {
           ...state.spot,
-          SpotImages: [...state.spot.SpotImages, image],
+          SpotImages: [...(state.spot?.SpotImages || []), action.payload],
         },
       };
     }
@@ -226,9 +227,8 @@ const spotsReducer = (state = initialState, action) =>{
     case REMOVE_SPOT:
       return {
         ...state,
-        list: [state.list.filter((spotId) =>
-          spotId !== action.payload.id
-        )]
+        list: state.list.filter((spot) =>
+          spot.id !== action.payload)
         // const newState = { ...state };
         // delete newState[action.itemId];
         // return newState;

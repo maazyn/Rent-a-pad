@@ -29,7 +29,8 @@ const updateOne = (review) => ({
 });
 
 const removeOne = (reviewId) => ({
-  type: REMOVE_REVIEW
+  type: REMOVE_REVIEW,
+  payload: reviewId,
 });
 
 
@@ -71,7 +72,8 @@ export const createReview = (spotId, payload) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     // console.log("Data:", data.reviews)
-    dispatch(addOne(spotId, data));
+    dispatch(addOne(data));
+    dispatch(getAllReviews(spotId));
     return data;
   } else {
     console.error("Something went wrong")
@@ -128,10 +130,6 @@ const reviewsReducer = (state = initialState, action) =>{
   // console.log("Reducer action received:", action);
   switch(action.type) {
     case LOAD: {
-      const reviews = {};
-      action.payload.forEach((review) => {
-        reviews[review.id] = review;
-      })
       return { ...state, list: action.payload};
     }
     case ADD_REVIEW: {
@@ -141,13 +139,14 @@ const reviewsReducer = (state = initialState, action) =>{
       }
     }
     case REMOVE_REVIEW: {
-        // ...state,
-        // list: state.list.filter((review) =>
-        //   review !== action.payload
-        // )
-        const newState = { ...state };
-        delete newState[action.reviewId];
-        return newState;
+      return {
+        ...state,
+        list: state.list.filter((review) =>
+            review.id !== action.payload)
+      };
+        // const newState = { ...state };
+        // delete newState[action.reviewId];
+        // return newState;
     }
     // case UPDATE_REVIEW: {
       // console.log(spotId)

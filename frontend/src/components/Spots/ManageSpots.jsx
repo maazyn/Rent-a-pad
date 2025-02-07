@@ -13,8 +13,8 @@ const ManageSpots = () => {
   const user = useSelector((state) => state.session.user);
 
 
-  useEffect(() => {
-  }, [ownerSpots]);
+  // useEffect(() => {
+  // }, [ownerSpots]);
 
   useEffect(() => {
     if (user) {

@@ -23,7 +23,7 @@ const SpotCard = ({ id, previewImage, name, city, state, avgRating, price, showM
                             <p className="sc-price text-black flex gap-[3px] font-medium">${price} <p className='flex text-[#343434] font-light'> /night</p></p>
                         </div>
                         <div className="sc-rating">
-                            <IoMdStar/><p className="spot-rating">  {avgRating === 0? "New": avgRating.toFixed(1)}</p>
+                            <IoMdStar/><p className="spot-rating">  {avgRating === 0? "New": avgRating?.toFixed(1)}</p>
                             {/* {count(avgRating) === 0? "New" : `(${count(avgRating)})`} */}
                         </div>
                     </div>

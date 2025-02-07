@@ -16,6 +16,10 @@ const ReviewCard = ({id, review, User, createdAt }) => {
         sessionUser && sessionUser.id === User?.id ? setShowDeleteButton(true) : setShowDeleteButton(false);
     }, [sessionUser, User, id]);
 
+    if (!review || !User || !createdAt) {
+        return <div>Loading...</div>;
+    }
+
     useEffect(() => {
     }, [id, reviews])
 
@@ -23,6 +27,7 @@ const ReviewCard = ({id, review, User, createdAt }) => {
     if (sessionUser && !reviews) {
         return <h2>Be the first to post a review!</h2>;
     }
+    console.log("createdAt:", createdAt);
 
    return (
     <>
