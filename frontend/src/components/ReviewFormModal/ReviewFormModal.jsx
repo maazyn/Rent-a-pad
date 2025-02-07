@@ -18,17 +18,29 @@ const ReviewFormModal = ({ spotId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors({});
-        // console.log(reviewData);
+
+        // client-side validation
+        const newErrors = {};
+        if (review.length < 2) newErrors.review = "Review must be at least 2 characters.";
+        if (stars == 0) newErrors.stars = "Please select a star rating.";
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        setErrors({}); // clear prev errors
+
         return dispatch(reviewActions.createReview(spotId, { review, stars }))
-          .then(closeModal)
-          .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) {
-              setErrors(data.errors);
-            }
-        });
+            .then(closeModal)
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) {
+                    setErrors(data.errors);
+                }
+            });
     };
+
 
 
     return (
@@ -43,7 +55,7 @@ const ReviewFormModal = ({ spotId }) => {
                     onChange={(e) => setReview(e.target.value)}
                     required
                     />
-                {errors.review && <p>{errors.review}</p>}
+                {errors.review && <p >{errors.review}</p>}
 
                 <div className="rating-container">
                     {starValues.map((star) => (
@@ -63,7 +75,7 @@ const ReviewFormModal = ({ spotId }) => {
                     ))}
                     {errors.stars && <p>{errors.stars}</p>}
                 </div>
-                <button className="submit-button" type="submit" disabled={review.length < 10 || stars === 0}>Submit Your Review</button>
+                <button className="submit-button" type="submit" >Submit Your Review</button>
             </form>
         </div>
         </>

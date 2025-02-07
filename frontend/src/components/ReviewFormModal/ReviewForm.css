@@ -57,11 +57,11 @@
 }
 
 .submit-button:hover {
-  box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
-  background-color: rgb(140, 140, 140);
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 1);
+    background-color: rgb(140, 140, 140);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .rating-container  {
@@ -97,4 +97,8 @@
 
 .rating-input {
     display: none;
+}
+
+.error-message {
+    color: black;
 }

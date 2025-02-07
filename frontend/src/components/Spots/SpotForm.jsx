@@ -76,6 +76,8 @@ const SpotForm = () => {
 
     try {
       const newSpot = await dispatch(createSpot(payload));
+      console.log("New Spot Response:", newSpot);
+
       if (newSpot) {
         await Promise.all(
           imageUrls.map((url, i) =>

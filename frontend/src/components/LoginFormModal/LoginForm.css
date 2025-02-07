@@ -6,8 +6,14 @@
 }
 .form-heading {
   padding-top: 15px;
+  /* margin-left: auto; */
   font-weight: bold;
-
+  gap: 7px;
+  justify-self: center;
+  align-self: center;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px 0 10px 0;
 }
 
 
@@ -18,15 +24,16 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 80%;
   overflow: hidden;
 }
 
 form input {
   /* box-shadow: 0px 0px  5px rgb(255, 255, 255); */
   /* background-color: blue; */
-  margin-bottom: 4px;
+  /* margin-bottom: 4px; */
   margin: 4px auto 4px auto;
+  width: 100%;
   /* margin: auto; */
 }
 
@@ -50,6 +57,7 @@ form input {
   display: flex;
   flex-direction: row;
   width: 100%;
+  max-width: 400px;
   gap: 7px;
   margin: 20px 0 10px 0;
 }
