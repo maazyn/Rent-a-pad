@@ -549,7 +549,6 @@
 
 
 
-
 /* Modal */
 
 #delete-subheading {
@@ -559,7 +558,7 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  
+
 }
 
 
@@ -611,3 +610,68 @@
 /* .tooltip {
 
 } */
+
+.additional-img-header-container {
+  display: flex;
+  flex-direction: row;
+  height: 36px;
+  align-content: center;
+  justify-content: center;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+#additional-img-header {
+  font-size: 10px;
+  height: 90%;
+  width: 170px;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+
+#additional-img-header button {
+  text-decoration: underline;
+  font-size: 15px;
+  font-weight: bolder;
+  height: 30px;
+  width: 170px;
+  border: 1px solid white;
+  border-radius: 50px;
+}
+
+#additional-img-header button:hover {
+  background-color: #e0e0e0;
+  transition: 0ms;
+  width: 170px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.image-input-container {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  gap: 5px;
+  padding-right: 5px;
+  justify-items: center;
+
+}
+
+.clear-button, .remove-button {
+height: 34px;
+width: 50px;
+align-self: center;
+justify-items: center;
+text-align: center;
+padding: 0 5px;
+/* border-bottom: 2px solid rgb(138, 138, 138, 0); */
+
+box-sizing: border-box;
+
+}
+.clear-button:hover, .remove-button:hover {
+  background-color: rgb(235, 234, 234);
+  /* border-bottom: 2px solid rgb(138, 138, 138, 0.3); */
+}

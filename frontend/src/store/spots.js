@@ -6,7 +6,7 @@ const ADD_SPOT = 'spots/ADD_SPOT';
 const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
-// const ADD_SPOTIMAGE = 'spots/ADD_SPOTIMAGE'
+const REMOVE_SPOT_IMAGE = 'spots/REMOVE_SPOT_IMAGE'
 
 //*ACTIONS
 const load = (list) => ({
@@ -40,6 +40,10 @@ const removeOne = (spot) => ({
   payload: spot,
 });
 
+const removeSpotImage = (imageId) => ({
+  type: REMOVE_SPOT_IMAGE,
+  payload: imageId,
+});
 
 //*THUNKS
 export const getAllSpots = () => async (dispatch) => {
@@ -172,6 +176,20 @@ export const deleteSpot = (spotId) => async (dispatch) => {
 	return response;
 };
 
+export const deleteSpotImages = (imageId) => async (dispatch) => {
+  console.log("Deleting image with ID:", imageId);
+  const response = await csrfFetch(`/api/spot-images/${imageId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(removeSpotImage(imageId));
+  } else {
+    console.error("Failed to delete image.");
+  }
+	return response;
+};
+
 
 // const sortList = (list) => {
 //     return list
@@ -229,17 +247,18 @@ const spotsReducer = (state = initialState, action) =>{
         ...state,
         list: state.list.filter((spot) =>
           spot.id !== action.payload)
-        // const newState = { ...state };
-        // delete newState[action.itemId];
-        // return newState;
-        // ...state,
-        // [action.spotId]: {
-        //   ...state[action.spotId],
-        //   list: state[action.spotId].list.filter(
-        //     (spotId) => spotId !== action.spotId
-          // ),
-        // },
       };
+    case REMOVE_SPOT_IMAGE: {
+      return {
+        ...state,
+        spot: {
+          ...state.spot,
+          SpotImages: state.spot.SpotImages.filter(
+            (image) => !action.payload.includes(image.id)
+          ),
+        },
+      };
+    }
     default:
       return state;
   }

@@ -20,28 +20,55 @@ router.get("/", async (req, res) => {
 
 });
 
+// Updates a spot image
+// router.post("/:spotId/images", requireAuth, async (req, res) => {
+//   const { spotId } = req.params;
+//   const { previewImage } = req.body;
+
+//   try {
+//     const spot = await Spot.findByPk(spotId, {
+//         include: SpotImage,
+//     });
+
+//     if (!spot) {
+//         return res.status(404).json({ message: 'Spot not found.' });
+//     }
+
+//     if (previewImage === "") {
+//         // checks if previewImage is an empty string and deletes old preview image
+//         const oldPreviewImage = spot.SpotImages.find(image => image.preview);
+
+//         if (oldPreviewImage) {
+//             await oldPreviewImage.destroy();
+//         }
+//     }
+
+//     res.status(200).json({ message: 'Image updated successfully.' });
+//   } catch (error) {
+//     console.error('Error updating image:', error);
+//     res.status(500).json({ message: 'Internal server error.' });
+//   }
+// });
 
 
-
-//Delete an existing image for a Spot.
+//authz works
+//Deletes an existing spot image.
 router.delete("/:imageId", requireAuth, async (req, res) => {
-    const { user } = req;
-    const { imageId } = req.params;
-    const spotImage = await SpotImage.findByPk(imageId);
-    if ( !spotImage) {
-        return res.status(404).json({ message: "Spot Image couldn't be found" });
-    }
-    const spot = await Spot.findOne({
-      where: {id: spotImage.spotId}
-    })
-    if ( spot.ownerId === user.id ) {
-      await spotImage.destroy()
-      return res.status(200).json({ message: "Successfully deleted" });
-    } else {
-      return res.status(403).json({ message: "Forbidden" });
-    }
-});
+  // const { user } = req;
+  const { imageId } = req.params;
 
+  try {
+    const image = await SpotImage.findByPk(imageId);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found.' });
+    }
+    await image.destroy();
+    res.status(200).json({ message: 'Image deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
 
 
 

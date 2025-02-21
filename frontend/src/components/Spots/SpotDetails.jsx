@@ -50,7 +50,7 @@ const SpotDetails = () => {
     if (!theSpot) {
         return <div>Loading...</div>;
     }
-    const isOwner = sessionUser && sessionUser.id === theSpot.User.id;
+    const isOwner = sessionUser && sessionUser.id === theSpot?.User.id;
     const noReviews = allReviews.length === 0;
 
     const handleThumbnailClick = (index) => {
