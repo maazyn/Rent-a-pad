@@ -21,34 +21,43 @@ router.get("/", async (req, res) => {
 });
 
 // Updates a spot image
-// router.post("/:spotId/images", requireAuth, async (req, res) => {
-//   const { spotId } = req.params;
-//   const { previewImage } = req.body;
+router.put("/:imageId", requireAuth, async (req, res) => {
+  const { imageId } = req.params;
+  const { spotId, url, preview } = req.body;
 
-//   try {
-//     const spot = await Spot.findByPk(spotId, {
-//         include: SpotImage,
-//     });
 
-//     if (!spot) {
-//         return res.status(404).json({ message: 'Spot not found.' });
-//     }
+  try {
+    const spotImage = await SpotImage.findByPk(imageId);
+    if (!spotImage) {
+      return res.status(404).json({ message: "Spot Image couldn't be found" });
+    }
 
-//     if (previewImage === "") {
-//         // checks if previewImage is an empty string and deletes old preview image
-//         const oldPreviewImage = spot.SpotImages.find(image => image.preview);
+    const spot = await Spot.findByPk(spotId, {
+        include: SpotImage,
+    });
+    if (!spot) {
+        return res.status(404).json({ message: 'Spot not found.' });
+    }
 
-//         if (oldPreviewImage) {
-//             await oldPreviewImage.destroy();
-//         }
-//     }
+    if (url !== undefined) spotImage.url = url;
+    if (preview !== undefined) spotImage.preview = preview;
 
-//     res.status(200).json({ message: 'Image updated successfully.' });
-//   } catch (error) {
-//     console.error('Error updating image:', error);
-//     res.status(500).json({ message: 'Internal server error.' });
-//   }
-// });
+    await spotImage.save();
+    // if (previewImage === "") {
+    //     // checks if previewImage is an empty string and deletes old preview image
+    //     const oldPreviewImage = spot.SpotImages.find(image => image.preview);
+
+    //     if (oldPreviewImage) {
+    //         await oldPreviewImage.destroy();
+    //     }
+    // }
+
+    res.status(200).json({ message: 'Image updated successfully.' });
+  } catch (error) {
+    console.error('Error updating image:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
 
 
 //authz works

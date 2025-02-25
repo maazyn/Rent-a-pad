@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
-import { editSpot, getSpot, createSpotImage, deleteSpotImages } from '../../store/spots';
+import { editSpot, getSpot, createSpotImage, deleteSpotImages, editSpotImage } from '../../store/spots';
 import "./Forms.css"
 import { FaDollarSign } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
@@ -12,25 +12,86 @@ const EditSpotForm = () => {
   const dispatch = useDispatch();
   const {spotId } = useParams();
   const navigate = useNavigate();
-  const [currentSpot, setCurrentSpot] = useState();
-  const allImages = currentSpot?.SpotImages;
-  const previewImgObj = allImages?.filter((img) => img.preview == true);
-  console.log("All Images: ", allImages);
-  console.log("Prev Img Obj: ", previewImgObj);
 
-  const [address, setAddress] = useState(currentSpot?.address || "");
-  const [city, setCity] = useState(currentSpot?.city || "");
-  const [state, setState] = useState(currentSpot?.state || "");
-  const [country, setCountry] = useState(currentSpot?.country || "");
-  const [lat, setLat] = useState(currentSpot?.lat || 0);
-  const [lng, setLng] = useState(currentSpot?.lng || 0);
-  const [name, setName] = useState(currentSpot?.name || "");
-  const [description, setDescription] = useState(currentSpot?.description || "");
-  const [price, setPrice] = useState(currentSpot?.price || 0);
-  const [previewImage, setPreviewImage] = useState(previewImgObj?.url || "");
+
+  // const [currentSpot, setCurrentSpot] = useState();
+  // const allImages = currentSpot?.SpotImages;
+  // const previewImgObj = allImages?.filter((img) => img.preview == true)[0];
+  // console.log("All Images: ", allImages);
+  // console.log("Prev Img Obj: ", previewImgObj);
+
+  const [currentSpot, setCurrentSpot] = useState(null);
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(0);
+  const [previewImage, setPreviewImage] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
-  const [oldPreviewImageId, setOldPreviewImageId] = useState(null);
   const [errors, setErrors] = useState({});
+
+  // const [address, setAddress] = useState(currentSpot?.address || "");
+  // const [city, setCity] = useState(currentSpot?.city || "");
+  // const [state, setState] = useState(currentSpot?.state || "");
+  // const [country, setCountry] = useState(currentSpot?.country || "");
+  // const [lat, setLat] = useState(currentSpot?.lat || 0);
+  // const [lng, setLng] = useState(currentSpot?.lng || 0);
+  // const [name, setName] = useState(currentSpot?.name || "");
+  // const [description, setDescription] = useState(currentSpot?.description || "");
+  // const [price, setPrice] = useState(currentSpot?.price || 0);
+  // const [previewImage, setPreviewImage] = useState(previewImgObj?.url || "");
+  // const [imageUrls, setImageUrls] = useState([]);
+  // const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const fetchSpot = async () => {
+      const theSpot = await dispatch(getSpot(spotId));
+      if (theSpot?.Spot) {
+        const spotData = theSpot.Spot;
+        setCurrentSpot(spotData);
+        setAddress(spotData.address);
+        setCity(spotData.city);
+        setState(spotData.state);
+        setCountry(spotData.country);
+        setLat(spotData.lat);
+        setLng(spotData.lng);
+        setName(spotData.name);
+        setDescription(spotData.description);
+        setPrice(spotData.price);
+
+        const spotImages = spotData.SpotImages || [];
+        const previewImgObj = spotImages.find(img => img.preview === true);
+        const nonPreviewImages = spotImages.filter(img => !img.preview);
+        setPreviewImage(previewImgObj?.url || "");
+        setImageUrls(nonPreviewImages);
+
+        console.log("Fetched Spot Images: ", spotImages);
+        console.log("Computed Preview URL: ", previewImgObj?.url);
+        console.log("Computed Non-Preview Images: ", nonPreviewImages);
+
+        // setCurrentSpot(theSpot.Spot);
+        // setAddress(theSpot.Spot.address);
+        // setCity(theSpot.Spot.city);
+        // setState(theSpot.Spot.state);
+        // setCountry(theSpot.Spot.country);
+        // setLat(theSpot.Spot.lat);
+        // setLng(theSpot.Spot.lng);
+        // setName(theSpot.Spot.name);
+        // setDescription(theSpot.Spot.description);
+        // setPrice(theSpot.Spot.price);
+        // setPreviewImage(previewImgObj?.url || "");
+        // setImageUrls(allImages?.filter(img => img.preview == false) || []);
+        // console.log("CHECK ALL: ", theSpot.Spot.SpotImages);
+        // console.log("CHECK PREVIEW: ", previewImage);
+        // console.log("CHECK REST: ", imageUrls);
+      }
+    };
+    fetchSpot();
+  }, [dispatch, spotId]);
 
   const updateAddress = (e) => setAddress(e.target.value);
   const updateCity = (e) => setCity(e.target.value);
@@ -42,29 +103,6 @@ const EditSpotForm = () => {
   const updateDescription = (e) => setDescription(e.target.value);
   const updatePrice = (e) => setPrice(e.target.value);
 
-  useEffect(() => {
-    const fetchSpot = async () => {
-      const theSpot = await dispatch(getSpot(spotId));
-      if (theSpot?.Spot) {
-        setCurrentSpot(theSpot.Spot);
-        setAddress(theSpot.Spot.address);
-        setCity(theSpot.Spot.city);
-        setState(theSpot.Spot.state);
-        setCountry(theSpot.Spot.country);
-        setLat(theSpot.Spot.lat);
-        setLng(theSpot.Spot.lng);
-        setName(theSpot.Spot.name);
-        setDescription(theSpot.Spot.description);
-        setPrice(theSpot.Spot.price);
-        setPreviewImage(previewImage || "");
-        setImageUrls(allImages?.filter(img => img.preview == false).url || []);
-        console.log("CHECK ALL: ", theSpot.Spot.SpotImages);
-        console.log("CHECK PREVIEW: ", previewImage);
-        console.log("CHECK REST: ", imageUrls);
-      }
-    };
-    fetchSpot();
-  }, [dispatch, spotId]);
 
 
   // useEffect(() => {
@@ -81,36 +119,46 @@ const EditSpotForm = () => {
 
   const handleClearPreview = (e) => {
     e.preventDefault();
-    setOldPreviewImageId(previewImgObj.id);
+    // setOldPreviewImageId(previewImgObj.id);
     setPreviewImage("");
-    console.log("CLEAR TEST: ", previewImgObj);
+    // console.log("CLEAR TEST: ", previewImgObj);
 
   };
 
   const addImageField = () => {
-    setImageUrls((prev) => [...prev, ""]);
+    setImageUrls((prev) => [...prev, { url: "" }]);
   };
 
   const removeImageField = async (index) => {
-    if (index < imageUrls.length) {
+    if (index < imageUrls.length && imageUrls[index]) {
       console.log(index, imageUrls)
       const imageToDelete = imageUrls[index];
-      if (imageToDelete.url !== previewImage) {
-        await dispatch(deleteSpotImages([imageToDelete.id]));
-        setCurrentSpot((prev) => ({
-          ...prev,
-          SpotImages: prev.SpotImages.filter(img => img.id !== imageToDelete.id),
-        }));
+      console.log("TEST: ", imageToDelete)
+      if (imageToDelete.id) {
+        try {
+          await dispatch(deleteSpotImages([imageToDelete.id]));
+          setCurrentSpot((prev) => ({
+            ...prev,
+            SpotImages: prev.SpotImages.filter(img => img.id !== imageToDelete.id),
+          }));
+          setImageUrls((prev) => prev.filter((_, i) => i !== index));
+        } catch (error) {
+          console.error("Error deleting image", error);
+          setImageUrls((prev) => prev.filter((_, i) => i !== index));
+        }
+      } else {
+        // const newImageIndex = index - currentSpot?.SpotImages.length;
+        // setImageUrls((prev) => prev.filter((_, i) => i !== newImageIndex));
+        setImageUrls((prev) => prev.filter((_, i) => i !== index));
       }
     } else {
-      const newImageIndex = index - currentSpot?.SpotImages.length;
-      setImageUrls((prev) => prev.filter((_, i) => i !== newImageIndex));
+      setImageUrls((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   const updateImageUrl = (index, value) => {
     const updatedImages = [...imageUrls];
-    updatedImages[index] = value;
+    updatedImages[index] = { ...updatedImages[index], url: value };
     setImageUrls(updatedImages);
   };
 
@@ -125,34 +173,47 @@ const EditSpotForm = () => {
       return;
     }
     const payload = {
-      address: address !== "" ? address : currentSpot.address,
-      city: city !== "" ? city : currentSpot.city,
-      state: state !== "" ? state : currentSpot.state,
-      country: country !== "" ? country : currentSpot.country,
-      lat: lat !== "" ? lat : currentSpot.lat,
-      lng: lng !== "" ? lng : currentSpot.lng,
-      name: name !== "" ? name : currentSpot.name,
-      description: description !== "" ? description : currentSpot.description,
-      price: price !== "" ? price : currentSpot.price,
+      address: address || currentSpot.address,
+      city: city || currentSpot.city,
+      state: state || currentSpot.state,
+      country: country || currentSpot.country,
+      lat: lat || currentSpot.lat,
+      lng: lng || currentSpot.lng,
+      name: name || currentSpot.name,
+      description: description || currentSpot.description,
+      price: price || currentSpot.price,
+
+      // address: address !== "" ? address : currentSpot.address,
+      // city: city !== "" ? city : currentSpot.city,
+      // state: state !== "" ? state : currentSpot.state,
+      // country: country !== "" ? country : currentSpot.country,
+      // lat: lat !== "" ? lat : currentSpot.lat,
+      // lng: lng !== "" ? lng : currentSpot.lng,
+      // name: name !== "" ? name : currentSpot.name,
+      // description: description !== "" ? description : currentSpot.description,
+      // price: price !== "" ? price : currentSpot.price,
     };
 
-
-    let updatedSpot = await dispatch(editSpot(currentSpot.id, payload));
+    const updatedSpot = await dispatch(editSpot(currentSpot.id, payload));
     if (updatedSpot) {
       // update preview image if changed
       // const currentPreview = currentSpot?.SpotImages?.find(img => img.preview)?.url;
-      if (previewImage) {
+      const existingPreviewImage = currentSpot?.SpotImages?.find(img => img.preview === true);
+      if (existingPreviewImage && previewImage) {
+        await dispatch(editSpotImage(existingPreviewImage?.id, { spotId: currentSpot.id, url: previewImage, preview: true }));
+      } else if (previewImage) {
         await dispatch(createSpotImage(currentSpot.id, { url: previewImage, preview: true }));
-        if (oldPreviewImageId) {
-          await dispatch(deleteSpotImages([oldPreviewImageId]));
-          setOldPreviewImageId(null);
-        }
       }
       // new images
       const existingImageUrls = currentSpot?.SpotImages?.map(img => img.url) || [];
-      const newImages = imageUrls.filter(url => !existingImageUrls.includes(url));
+      const newImages = imageUrls.filter(imgObj => !existingImageUrls.includes(imgObj.url));
+      // const newImages = imageUrls.filter(url => !existingImageUrls.includes(url));
 
-      await Promise.all(newImages.map(url => dispatch(createSpotImage(currentSpot.id, { url, preview: false }))));
+      await Promise.all(
+        newImages.map(imgObj =>
+          dispatch(createSpotImage(currentSpot.id, { url: imgObj.url, preview: false }))
+        )
+      );
       navigate(`/spots/${currentSpot.id}`);
     }
   };
@@ -277,13 +338,13 @@ const EditSpotForm = () => {
             <input
               type="text"
               required
-              value={previewImage || (currentSpot?.SpotImages?.[0]?.url ?? '')}
+              value={previewImage}
               placeholder="Enter preview image URL"
               onChange={(e) => setPreviewImage(e.target.value)}
               />
             <button className="clear-button" onClick={handleClearPreview}>Clear</button>
           </div>
-          {currentSpot?.SpotImages?.slice(1).map((image, index) => (
+          {/* {currentSpot?.SpotImages?.slice(1).map((image, index) => (
             <div key={index} className="image-input-container">
               <input
                 type="text"
@@ -299,14 +360,14 @@ const EditSpotForm = () => {
                 <FaTimes />
               </button>
             </div>
-          ))}
+          ))} */}
 
-          {imageUrls.map((url, index) => (
+          {imageUrls.map((imgObj, index) => (
             <div key={index} className="image-input-container">
               <input
                 type="text"
                 placeholder="Enter image URL"
-                value={url}
+                value={imgObj.url}
                 onChange={(e) => updateImageUrl(index, e.target.value)}
               />
               <button

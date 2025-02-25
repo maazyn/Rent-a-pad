@@ -7,6 +7,7 @@ const UPDATE_SPOT = 'spots/UPDATE_SPOT';
 const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
 const REMOVE_SPOT_IMAGE = 'spots/REMOVE_SPOT_IMAGE'
+const UPDATE_SPOT_IMAGE = 'spots/UPDATE_SPOT_IMAGE';
 
 //*ACTIONS
 const load = (list) => ({
@@ -33,6 +34,11 @@ const addOneImage = (spotImage) => ({
 const updateOne = (spot) => ({
   type: UPDATE_SPOT,
   payload: spot,
+});
+
+const updateOneImage = (spotImage) => ({
+  type: UPDATE_SPOT_IMAGE,
+  payload: spotImage,
 });
 
 const removeOne = (spot) => ({
@@ -162,6 +168,21 @@ export const editSpot = (spotId, payload) => async (dispatch) => {
   }
 };
 
+export const editSpotImage = (imageId, payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spot-images/${imageId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (response.ok) {
+    const updatedImage = await response.json();
+    dispatch(updateOneImage(updatedImage));
+    return updatedImage;
+  }
+};
 
 export const deleteSpot = (spotId) => async (dispatch) => {
 	const response = await csrfFetch(`/api/spots/${spotId}`, {
@@ -241,6 +262,20 @@ const spotsReducer = (state = initialState, action) =>{
         list: state.list.map((spot) =>
           spot.id === action.payload.id ? action.payload : spot
       )}
+    }
+    case UPDATE_SPOT_IMAGE: { 
+      if(state.spot && state.spot.SpotImages) {
+        return {
+          ...state,
+          spot: {
+            ...state.spot,
+            SpotImages: state.spot.SpotImages.map((image) =>
+              image.id === action.payload.id ? action.payload : image
+            ),
+          },
+        };
+      }
+      return state;
     }
     case REMOVE_SPOT:
       return {
