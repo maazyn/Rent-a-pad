@@ -17,10 +17,11 @@ const SpotsBrowser = () => {
   return (
     <>
       <div className="spots-container" >
+        <div className="inner-spots-container" >
           {allSpots.map(spot => (
             <SpotCard key={spot.id} {...spot} />
           ))}
-
+        </div>
       </div>
       <FooterNav/>
     </>

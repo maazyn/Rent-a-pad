@@ -32,11 +32,13 @@ const ManageSpots = () => {
           {/* <Link className="create-button-2" to="/spots" >Create a listing
           </Link> */}
         </div>
-        <div className="manage-spots-container">
+        <div className="spots-container">
+          <div className='inner-spots-container '>
             {ownerSpots.map(spot => (
               // console.log(spot),
               <SpotCard key={spot.id} {...spot} showManageButtons={true} />
             ))}
+          </div>
         </div>
       </main>
 

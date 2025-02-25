@@ -9,6 +9,7 @@ import FooterNav from "../../FooterNav/FooterNav";
 
 
 
+
 import { FaStar } from "react-icons/fa6";
 import EmblaCarouselReact from "embla-carousel-react";
 import "./Spots.css"
@@ -19,13 +20,24 @@ const SpotDetails = () => {
     const theSpot = useSelector((state) => state.spots.spot);
     let allReviews = useSelector((state) => state.reviews.list);
     const sessionUser = useSelector((state) => state.session.user);
-    // const spotReviews =
-    // reviews = Object.values(reviews)
+    // const allImages = theSpot?.SpotImages;
+
+    const [sortedImages, setSortedImages] = useState([]);
+
+    useEffect(() => {
+        if (theSpot?.SpotImages) {
+            const sorted = [...theSpot.SpotImages].sort((a, b) => (a.preview ? -1 : 1));
+            setSortedImages(sorted);
+        }
+    }, [theSpot]);
+
+
+    // console.log("All Images: ", sortedImages);
 
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-    console.log("TEST:", allReviews);
+    // console.log("TEST:", allReviews);
 
     useEffect(() => {
     }, [allReviews, theSpot,]);
@@ -56,6 +68,7 @@ const SpotDetails = () => {
     const handleThumbnailClick = (index) => {
         setSelectedImageIndex(index);
     };
+    if (!sortedImages.length) return <div>Loading images...</div>;
 
     return (
         <>
@@ -80,14 +93,14 @@ const SpotDetails = () => {
             <div className="flex flex-col lg:flex-row gap-2 w-full h-[65vh] min-h-[500px] overflow-hidden ">
                 <div className="w-[100%] h-[100%] lg:w-[92%] overflow-hidden rounded-2xl">
                     <img
-                        src={theSpot.SpotImages[selectedImageIndex]?.url}
+                        src={sortedImages[selectedImageIndex]?.url}
                         alt={`Main Spot Image`}
                         className="object-cover w-full h-full"
                     />
                 </div>
                 {/* Vertical thumbnails for large screens */}
                 <div className="hidden lg:flex flex-col gap-2 h-full w-[9%] p-[2px] overflow-y-auto">
-                    {theSpot.SpotImages.map((image, index) => (
+                    {sortedImages.map((image, index) => (
                         <img
                             key={index}
                             src={image.url}
@@ -103,7 +116,7 @@ const SpotDetails = () => {
                 </div>
                 {/* Horizontal thumbnails for smaller screens */}
                 <div className="flex gap-2 overflow-x-auto p-[2px] lg:hidden min-h-[90px]">
-                    {theSpot.SpotImages.map((image, index) => (
+                    {sortedImages.map((image, index) => (
                         <img
                             key={index}
                             src={image.url}

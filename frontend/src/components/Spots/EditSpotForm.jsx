@@ -69,9 +69,9 @@ const EditSpotForm = () => {
         setPreviewImage(previewImgObj?.url || "");
         setImageUrls(nonPreviewImages);
 
-        console.log("Fetched Spot Images: ", spotImages);
-        console.log("Computed Preview URL: ", previewImgObj?.url);
-        console.log("Computed Non-Preview Images: ", nonPreviewImages);
+        // console.log("Fetched Spot Images: ", spotImages);
+        // console.log("Computed Preview URL: ", previewImgObj?.url);
+        // console.log("Computed Non-Preview Images: ", nonPreviewImages);
 
         // setCurrentSpot(theSpot.Spot);
         // setAddress(theSpot.Spot.address);
@@ -131,9 +131,9 @@ const EditSpotForm = () => {
 
   const removeImageField = async (index) => {
     if (index < imageUrls.length && imageUrls[index]) {
-      console.log(index, imageUrls)
+      // console.log(index, imageUrls)
       const imageToDelete = imageUrls[index];
-      console.log("TEST: ", imageToDelete)
+      // console.log("TEST: ", imageToDelete)
       if (imageToDelete.id) {
         try {
           await dispatch(deleteSpotImages([imageToDelete.id]));

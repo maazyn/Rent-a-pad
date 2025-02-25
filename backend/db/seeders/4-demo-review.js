@@ -41,15 +41,35 @@ module.exports = {
         review: "I found the apartment clean and stylish, and the host was great!",
         stars: 5,
       },
+      {
+        userId: 3,
+        spotId: 6,
+        review: "Lovely",
+        stars: 5,
+      },
+      {
+        userId: 2,
+        spotId: 6,
+        review: "A bit small for my needs but exceptionally clean and host is friendly",
+        stars: 4,
+      },
+      {
+        userId: 3,
+        spotId: 8,
+        review: "It's true! Great for writing.",
+        stars: 5,
+      },
     ], { validate: true })
   },
 
   async down (queryInterface, Sequelize) {
     options.tableName = "Reviews";
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
+    await queryInterface.bulkDelete(options, {
       userId: { [Op.in]: [1, 2, 3]},
-      spotId: { [Op.in]: [1, 2]},
+      spotId: { [Op.in]: [1, 2, 6, 8]},
     }, {})
+    await queryInterface.sequelize.query("DELETE FROM sqlite_sequence WHERE name='Reviews';");
+
   }
 };

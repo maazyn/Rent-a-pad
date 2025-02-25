@@ -26,11 +26,13 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     options.tableName = "ReviewImages";
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete(options, {
+    await queryInterface.bulkDelete(options, {
       url: { [Op.in]: [
         "https://img.freepik.com/premium-photo/room-with-desk-computer-it_860952-541.jpg",
         "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs3/262693459/original/eb262517cd75cfc8f305dd2bb4b20537b23b5852/create-anime-style-background-for-game-visual-novel-and-interior-design.jpg"
       ]},
     }, {})
+    await queryInterface.sequelize.query("DELETE FROM sqlite_sequence WHERE name='ReviewImages';");
+
   }
 };

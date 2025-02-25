@@ -27,7 +27,7 @@ const ReviewCard = ({id, review, User, createdAt }) => {
     if (sessionUser && !reviews) {
         return <h2>Be the first to post a review!</h2>;
     }
-    console.log("createdAt:", createdAt);
+    // console.log("createdAt:", createdAt);
 
    return (
     <>

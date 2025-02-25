@@ -1,13 +1,15 @@
 .spots-container {
-  display: flex;
-  flex-wrap:wrap;
-  width: 90%;
-  margin: auto;
-  gap: 10px;
-  /* justify-content: left; */
-  padding-top: 30px;
-  max-width: 1030px;
+  width: 100%;
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 30px 30px 0 30px;
+}
 
+.inner-spots-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  gap: 11px;
+  justify-content: center;
 }
 
 /* .spotImages-container {
@@ -472,7 +474,7 @@
   font-size: 1.8em;
   font-weight: 500;
   text-align: center;
-  height: 140px;
+  height: 100px;
   width: 100%;
   /* padding-left: 50px; */
 
