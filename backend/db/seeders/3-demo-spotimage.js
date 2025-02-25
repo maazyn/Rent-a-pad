@@ -123,7 +123,7 @@ module.exports = {
       },
       {
         spotId: 8,
-        url: "https://www.canopyandstars.co.uk/var/self_catering_site/storage/images/canopy-and-stars/france/languedoc-roussillon/aude/les-seilhols/the-writer-s-cabin/the-writer-s-cabin-gallery/18318391_10155499952882952_266370739_o/185282943-2-eng-GB/18318391_10155499952882952_266370739_o_cs_large_gallery_preview.jpg",
+        url: "https://cdn.thespaces.com/wp-content/uploads/2020/01/2326-Dorothy-Street-La-Crescenta-CA-91214-3.jpg",
         preview: false,
       },
 
@@ -157,7 +157,7 @@ module.exports = {
         "https://images.adsttc.com/media/images/5e2f/77a1/3312/fdac/0700/0038/newsletter/KIE_AD-RiverHouse-mainhouse-07-Bedroom_A.jpg?1580169046",
         "https://jamaicacottageshop.com/wp-content/uploads/2024/07/12x14-writers-haven-moss-Poets-Seat-2.jpg",
         "https://timberhomesllc.com/wp-content/uploads/2021/06/Cabin-in-the-Woods-with-built-in-bookshelves.jpeg",
-        "https://www.canopyandstars.co.uk/var/self_catering_site/storage/images/canopy-and-stars/france/languedoc-roussillon/aude/les-seilhols/the-writer-s-cabin/the-writer-s-cabin-gallery/18318391_10155499952882952_266370739_o/185282943-2-eng-GB/18318391_10155499952882952_266370739_o_cs_large_gallery_preview.jpg"
+        "https://cdn.thespaces.com/wp-content/uploads/2020/01/2326-Dorothy-Street-La-Crescenta-CA-91214-3.jpg"
       ]},
     }, {})
     await queryInterface.sequelize.query("DELETE FROM sqlite_sequence WHERE name='SpotImages';");
